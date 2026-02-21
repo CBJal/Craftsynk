@@ -237,8 +237,26 @@
             </button>
 </div>
 </nav>
-<section class="relative min-h-screen flex flex-col items-center justify-center pb-32 hero-gradient pt-44">
-<div class="max-w-4xl text-center z-10">
+
+<section class="relative min-h-screen flex flex-col items-center justify-center pb-32 pt-44 bg-cover bg-center bg-no-repeat"
+         style="background-image: url('images/hero-fallback.png');">
+
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline
+         class="hidden md:block absolute inset-0 w-full h-full object-cover -z-10">
+    <source src="images/hero.mp4" type="video/mp4">
+  </video>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/60 -z-10"></div>
+
+  <!-- Content -->
+  <div class="max-w-4xl text-center z-10">
+
+      <!-- Your existing hero content here -->
+
+  </div>
+
 <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass mb-10 border border-white/10 hover:border-primary/30 transition-colors">
 <span class="relative flex h-2 w-2">
 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
