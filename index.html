@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -186,33 +187,10 @@
         }
         .service-card:hover .service-icon {
             color: #000000; text-shadow: none;
-        }#mobile-menu {
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-            opacity: 0;
-            visibility: hidden;
         }
-        #mobile-menu.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        #mobile-menu .menu-item {
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-        #mobile-menu.active .menu-item {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        #mobile-menu.active .menu-item:nth-child(1) { transition-delay: 0.1s; }
-        #mobile-menu.active .menu-item:nth-child(2) { transition-delay: 0.2s; }
-        #mobile-menu.active .menu-item:nth-child(3) { transition-delay: 0.3s; }
-        #mobile-menu.active .menu-item:nth-child(4) { transition-delay: 0.4s; }
-        #mobile-menu.active .menu-item:nth-child(5) { transition-delay: 0.5s; }
-        #mobile-menu.active .menu-btn { transition-delay: 0.6s; transform: translateY(0); opacity: 1; }
     </style>
 </head>
-<body class="bg-background-dark text-white font-display selection:bg-primary selection:text-black px-[20px] md:px-[35px] overflow-x-hidden">
+<body class="bg-background-dark text-white font-display selection:bg-primary selection:text-black px-[35px] overflow-x-hidden">
 <div class="cursor-glow hidden md:block" id="cursor-glow"></div>
 <script>
         document.addEventListener('mousemove', (e) => {
@@ -236,60 +214,24 @@
         trackMouse(document.querySelectorAll('.service-card'));
         trackMouse(document.querySelectorAll('.bento-card'));
     </script>
-<nav class="fixed top-6 left-0 right-0 z-50 px-[20px] md:px-[35px]">
-<div class="max-w-7xl mx-auto glass-nav rounded-full px-5 md:px-8 py-3 flex items-center justify-between relative">
-<div class="flex items-center gap-2 group cursor-pointer hover:opacity-80 transition-opacity z-50 relative">
-<img alt="CraftSynk Logo" class="h-6 md:h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx9-mHB3m0VukBT8IntEaKX2nsHO83nqNoEJPbLRMeewL3P4NbcpstgtUrKAa5Envg8TziUWEWOLMA8zHJ0r70Ww9q8Cu9jWM6oY8eI9XQOLoWadCattdMYABUlYmz3HPm65lAhjyi0o39cCJsNh-utdS3pf2LsWOFEsr4CTRhH7_Jzrc_kentk-C_OqM5W8VK46vu-KOJDf2o8vMEtpdmrvGjvtZ_VcUq721TgFjxPus-1m68pjQvcJbSJjCwHeGWC-9kVV8yQMo"/>
+<nav class="fixed top-6 left-0 right-0 z-50 px-[35px]">
+<div class="max-w-7xl mx-auto glass-nav rounded-full px-8 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2 group cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="CraftSynk Logo" class="w-auto h-7" src="{{DATA:IMAGE:IMAGE_20}}"/>
 </div>
-<div class="hidden lg:flex items-center gap-10">
+<div class="hidden md:flex items-center gap-10">
 <a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#">Home</a>
 <a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#services">Services</a>
 <a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#work">Work</a>
 <a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#logo-lab">Logo Lab</a>
 <a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#about">About</a>
 </div>
-<div class="hidden md:flex lg:hidden items-center gap-6">
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[10px] font-bold" href="#">Home</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[10px] font-bold" href="#services">Services</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[10px] font-bold" href="#work">Work</a>
-</div>
-<button class="hidden md:block glass-btn-solid text-[10px] font-black px-4 md:px-5 py-2 rounded-full transition-all active:scale-95 whitespace-nowrap">
-    Start Project
-</button>
-<button class="md:hidden z-50 relative w-10 h-10 flex items-center justify-center text-white ml-auto" id="hamburger-btn" onclick="toggleMenu()">
-<span class="material-symbols-outlined text-3xl">menu</span>
-</button>
+<button class="glass-btn-solid text-[10px] font-black px-5 py-2 rounded-full transition-all active:scale-95">
+                Start Project
+            </button>
 </div>
 </nav>
-<div class="fixed inset-0 z-40 bg-black/90 glass backdrop-blur-3xl flex flex-col justify-center items-center" id="mobile-menu">
-<div class="flex flex-col items-center gap-8 text-center">
-<a class="menu-item text-3xl font-bold uppercase tracking-tight text-white hover:text-primary transition-colors" href="#" onclick="toggleMenu()">Home</a>
-<a class="menu-item text-3xl font-bold uppercase tracking-tight text-white hover:text-primary transition-colors" href="#services" onclick="toggleMenu()">Services</a>
-<a class="menu-item text-3xl font-bold uppercase tracking-tight text-white hover:text-primary transition-colors" href="#work" onclick="toggleMenu()">Work</a>
-<a class="menu-item text-3xl font-bold uppercase tracking-tight text-white hover:text-primary transition-colors" href="#logo-lab" onclick="toggleMenu()">Logo Lab</a>
-<a class="menu-item text-3xl font-bold uppercase tracking-tight text-white hover:text-primary transition-colors" href="#about" onclick="toggleMenu()">About</a>
-<div class="menu-btn mt-8 opacity-0 translate-y-[20px] transition-all duration-500">
-<button class="glass-btn-solid text-sm font-black px-8 py-4 rounded-full w-full" onclick="toggleMenu()">
-                    Start Project
-                </button>
-</div>
-</div>
-</div>
-<script>
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const btnIcon = document.querySelector('#hamburger-btn span');
-            menu.classList.toggle('active');
-            if (menu.classList.contains('active')) {
-                btnIcon.textContent = 'close';
-                document.body.style.overflow = 'hidden';
-            } else {
-                btnIcon.textContent = 'menu';
-                document.body.style.overflow = 'auto';
-            }
-        }
-    </script>
-<section class="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-32 hero-gradient">
+<section class="relative min-h-screen flex flex-col items-center justify-center pb-32 hero-gradient pt-44">
 <div class="max-w-4xl text-center z-10">
 <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass mb-10 border border-white/10 hover:border-primary/30 transition-colors">
 <span class="relative flex h-2 w-2">
@@ -466,7 +408,7 @@
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
 <div class="flex items-center gap-3">
 <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-<span class="text-xs font-bold tracking-tight uppercase text-white/80">CraftSynk © 2024</span>
+<span class="text-xs font-bold tracking-tight uppercase text-white/80">CraftSynk © 2026</span>
 </div>
 <p class="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] hidden md:block">Crafted with passion in the digital ether</p>
 <div class="flex gap-8">
