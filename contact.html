@@ -214,8 +214,41 @@
 </button>
 </div>
 </form>
-</div><div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 hidden" id="success-message"><div class="flex justify-center"><span class="material-symbols-outlined text-primary text-6xl">check_circle</span></div><h2 class="text-3xl font-bold">Thank You!</h2><p class="text-slate-400">Your inquiry has been sent successfully. We'll get back to you within 1-2 business days.</p><button class="bg-primary hover:bg-white text-black px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all" onclick="window.location.reload()">Send Another</button></div><iframe id="hidden_iframe" name="hidden_iframe" onload="if(window.submitted){document.getElementById('contact-form').parentElement.classList.add('hidden'); document.getElementById('success-message').classList.remove('hidden');}" style="display:none;"></iframe>
-<!-- Secondary Info -->
+</div>
+
+<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 hidden text-center space-y-6" id="success-message">
+
+  <div class="flex justify-center">
+    <span class="material-symbols-outlined text-primary text-6xl">
+      check_circle
+    </span>
+  </div>
+
+  <h2 class="text-3xl font-bold">
+    Thank You!
+  </h2>
+
+  <p class="text-slate-400 max-w-xl mx-auto">
+    Your inquiry has been sent successfully. We'll get back to you within 1–2 business days.
+  </p>
+
+  <div class="flex justify-center">
+    <button 
+      class="bg-primary hover:bg-white text-black px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
+      onclick="window.location.reload()">
+      Send Another
+    </button>
+  </div>
+
+</div>
+
+<iframe id="hidden_iframe" name="hidden_iframe"
+onload="if(window.submitted){
+document.getElementById('contact-form').parentElement.classList.add('hidden');
+document.getElementById('success-message').classList.remove('hidden');
+}"
+style="display:none;"></iframe>
+        <!-- Secondary Info -->
 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
 <div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 info-card-glow transition-all duration-300" style="border: 1px solid rgba(255,255,255,0.08);">
 <span class="material-symbols-outlined text-primary mb-4 text-3xl">mail</span>
