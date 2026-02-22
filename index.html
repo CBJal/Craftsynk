@@ -224,24 +224,23 @@
         trackMouse(document.querySelectorAll('.service-card'));
         trackMouse(document.querySelectorAll('.bento-card'));
     </script>
-<nav class="fixed top-6 left-0 right-0 z-50 px-[35px]">
-<div class="max-w-7xl mx-auto glass-nav rounded-full px-8 py-3 flex items-center justify-between">
-<div class="flex items-center gap-2 group cursor-pointer hover:opacity-80 transition-opacity">
-<img alt="CraftSynk Logo" class="h-10 w-auto object-contain transition-all duration-500 ease-in-out hover:drop-shadow-[0_0_15px_#D7FF23]" src="images/logo.png"/>
-</div>
-<div class="hidden md:flex items-center gap-10">
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#">Home</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#services">Services</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#work">Work</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#logo-lab">Logo Lab</a>
-<a class="text-white/60 hover:text-primary transition-all hover:scale-105 uppercase tracking-widest text-[11px] font-bold" href="#about">About</a>
-</div>
-<a href="contact.html"
-   class="glass-btn-solid text-[10px] font-black px-5 py-2 rounded-full transition-all active:scale-95 inline-block">
-    Start Project
+        
+<nav class="nav-glass rounded-full px-8 py-3 flex items-center justify-between"><!-- Logo -->
+<a class="flex items-center gap-2 group" href="index.html">
+<img src="images/logo.png" alt="CraftSynk Logo" class="h-10 w-auto object-contain hover:drop-shadow-[0_0_15px_#D7FF23] transition-all duration-300" src="{{DATA:IMAGE:IMAGE_15}}"/>
 </a>
+<!-- Desktop Nav -->
+<div class="hidden lg:flex items-center gap-1">
+<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Services</a>
+<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Work</a>
+<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Logo Lab</a>
+<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">About</a>
 </div>
-</nav>
+<!-- CTA -->
+<button class="bg-primary hover:bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 transform hover:scale-105">
+            Start Project
+        </button></nav>
 <section class="relative min-h-screen flex flex-col items-center justify-center pb-32 hero-gradient pt-44">
 <div class="max-w-4xl text-center z-10">
 <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full glass mb-10 border border-white/10 hover:border-primary/30 transition-colors">
