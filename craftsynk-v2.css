@@ -133,7 +133,15 @@ body:hover #cursor-glow { opacity: 1; }
   box-shadow: var(--glass-shadow);
   transition: background var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
 }
-.nav-logo img { height: 28px; }
+/* Logo: larger, adapts to light/dark mode */
+.nav-logo img {
+  height: 36px;
+  width: auto;
+  transition: filter var(--t-med) var(--ease);
+}
+/* In light mode, darken the logo for contrast */
+body.light .nav-logo img { filter: brightness(0); }
+body.light footer img[alt="CraftSynk"] { filter: brightness(0); }
 .nav-center { display: flex; gap: 2px; }
 .nav-link {
   padding: 8px 16px; border-radius: var(--r-pill);
