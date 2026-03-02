@@ -40,12 +40,16 @@
     .photo-placeholder p { font-size:13px; color:var(--text-3); }
     .photo-card-tag {
       position: absolute; bottom: 20px; left: 20px; right: 20px;
-      background: rgba(9,9,9,0.7); backdrop-filter: blur(12px);
+      background: var(--glass-nav); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border); border-radius: var(--r-md);
       padding: 14px 18px;
+      transition: background var(--t-med) var(--ease), border-color var(--t-med) var(--ease),
+                  box-shadow var(--t-med) var(--ease);
+      box-shadow: var(--glass-shadow);
     }
-    .photo-card-tag h4 { font-size: 15px; margin-bottom: 2px; }
-    .photo-card-tag p { font-size: 12px; color: var(--text-2); }
+    .photo-card-tag h4 { font-size: 15px; margin-bottom: 2px; color: var(--text); transition: color var(--t-med) var(--ease); }
+    .photo-card-tag p { font-size: 12px; color: var(--text-2); transition: color var(--t-med) var(--ease); }
 
     /* ---- STATS ROW ---- */
     .stats-row {
@@ -91,20 +95,57 @@
       transition: transform var(--t-med) var(--ease), background var(--t-med) var(--ease);
     }
     .principle:hover { transform: translateY(-4px); background: var(--glass-hover); }
-    .principle-num { font-size: 11px; font-weight:700; letter-spacing:0.1em; color:var(--lime); margin-bottom:14px; transition: color var(--t-fast), text-shadow var(--t-fast); }
-    .principle:hover .principle-num { text-shadow: 0 0 12px var(--lime-glow); }
+    .principle-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; border-radius: var(--r-md);
+      background: var(--lime-dim); border: 1px solid var(--lime-border);
+      font-family: var(--font-display); font-size: 15px; font-weight: 800;
+      letter-spacing: -0.02em; color: var(--lime); margin-bottom: 18px;
+      transition: all var(--t-med) var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .principle-num::after {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(184,247,58,0.25), transparent);
+      transition: none; animation: btn-shine 4s ease-in-out infinite;
+    }
+    .principle:hover .principle-num {
+      background: var(--lime); color: #0a0a0a; border-color: var(--lime);
+      box-shadow: 0 0 24px var(--lime-glow);
+      transform: scale(1.08);
+    }
     .principle h4 { font-size: 16px; margin-bottom: 8px; }
     .principle p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
 
     /* Process */
     .process-list { display:flex; flex-direction:column; }
     .process-item {
-      display: grid; grid-template-columns: 60px 1fr auto;
-      gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--glass-border);
+      display: grid; grid-template-columns: 48px 1fr auto;
+      gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--glass-border);
       align-items: center; transition: all var(--t-fast) var(--ease);
     }
-    .process-item:hover .pi-num { color: var(--lime); text-shadow: 0 0 12px var(--lime-glow); }
-    .pi-num { font-size: 13px; font-weight:700; letter-spacing:0.08em; color:var(--text-3); transition: color var(--t-fast), text-shadow var(--t-fast); }
+    .pi-num {
+      display: flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--glass-card); border: 1px solid var(--glass-border);
+      font-family: var(--font-display); font-size: 16px; font-weight: 800;
+      letter-spacing: -0.02em; color: var(--text-3);
+      transition: all var(--t-med) var(--ease);
+      flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .pi-num::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 0%, var(--lime-glow) 50%, transparent 100%);
+      opacity: 0; transition: opacity var(--t-med) var(--ease);
+    }
+    .process-item:hover .pi-num {
+      color: var(--lime); border-color: var(--lime-border);
+      background: var(--lime-dim);
+      box-shadow: 0 0 20px var(--lime-glow);
+      transform: scale(1.1);
+    }
+    .process-item:hover .pi-num::after { opacity: 0.3; }
     .pi-title { font-size: 17px; font-family: var(--font-display); font-weight: 600; margin-bottom: 4px; }
     .pi-desc { font-size: 13px; color: var(--text-2); }
     .pi-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); }
