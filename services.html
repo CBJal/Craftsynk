@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — CraftSynk</title>
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <style>
+    .services-hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 80px; position:relative; z-index:1;
+    }
+    .services-hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .services-hero h1 em { font-style:normal; color:var(--lime); }
+    .services-hero p { font-size:17px; color:var(--text-2); line-height:1.7; margin-top:20px; max-width:440px; }
+
+    /* What you get card */
+    .what-card {
+      padding:36px; border-radius:var(--r-xl);
+    }
+    .what-card h4 { font-size:14px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--lime); margin-bottom:24px; }
+    .what-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
+    .what-item {
+      display:flex; align-items:flex-start; gap:12px;
+      font-size:15px; color:var(--text-2); line-height:1.5;
+    }
+    .what-item::before { content:'✓'; color:var(--lime); font-weight:700; flex-shrink:0; margin-top:1px; }
+
+    /* Services accordion */
+    .services-section { position:relative; z-index:1; padding-bottom:120px; }
+    .services-header { margin-bottom:48px; }
+    .accordion { display:flex; flex-direction:column; gap:8px; }
+    .accord-item {
+      border-radius:var(--r-xl); overflow:hidden;
+      background:var(--glass-card); backdrop-filter:blur(20px);
+      border:1px solid var(--glass-border);
+      transition:border-color var(--t-med) var(--ease), background var(--t-med) var(--ease);
+    }
+    .accord-item.open { border-color:rgba(184,247,58,0.25); background:var(--glass-hover); }
+    .accord-trigger {
+      width:100%; display:flex; align-items:center; justify-content:space-between;
+      padding:28px 32px; cursor:pointer; background:transparent; border:none;
+      text-align:left; gap:24px;
+    }
+    .accord-left { display:flex; align-items:center; gap:20px; }
+    .accord-icon {
+      width:48px; height:48px; border-radius:var(--r-md); flex-shrink:0;
+      background:var(--lime-dim); border:1px solid var(--lime-border);
+      display:flex; align-items:center; justify-content:center; font-size:22px;
+      transition: all var(--t-fast) var(--ease);
+    }
+    .accord-icon:hover {
+      background: var(--lime-glow);
+      border-color: var(--lime);
+      text-shadow: 0 0 12px var(--lime-glow);
+      box-shadow: 0 0 16px var(--lime-glow);
+    }
+    .accord-item.open .accord-icon { background:var(--lime); }
+    .accord-title { font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--text); }
+    .accord-sub { font-size:13px; color:var(--text-2); margin-top:4px; }
+    .accord-arrow {
+      font-size:20px; color:var(--text-3); transition:transform var(--t-med) var(--ease);
+      flex-shrink:0;
+    }
+    .accord-item.open .accord-arrow { transform:rotate(45deg); color:var(--lime); }
+    .accord-body {
+      max-height:0; overflow:hidden;
+      transition:max-height var(--t-slow) var(--ease), padding var(--t-med) var(--ease);
+    }
+    .accord-item.open .accord-body { max-height:600px; }
+    .accord-content {
+      padding:0 32px 36px;
+      display:grid; grid-template-columns:1fr 1fr; gap:40px;
+    }
+    .accord-desc p { font-size:15px; color:var(--text-2); line-height:1.75; margin-bottom:16px; }
+    .accord-desc p:last-child { margin-bottom:0; }
+    .accord-includes h5 {
+      font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+      color:var(--text-3); margin-bottom:14px; font-family:var(--font-body);
+    }
+    .includes-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
+    .includes-list li {
+      display:flex; gap:10px; font-size:14px; color:var(--text-2); align-items:flex-start;
+    }
+    .includes-list li::before { content:'→'; color:var(--lime); flex-shrink:0; }
+
+    /* Pricing cards */
+    .pricing-section { position:relative; z-index:1; padding:0 0 120px; }
+    .pricing-header { margin-bottom:48px; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .price-card {
+      padding:40px 32px; border-radius:var(--r-xl);
+      background:var(--glass-card); backdrop-filter:blur(20px);
+      border:1px solid var(--glass-border);
+      position:relative; overflow:hidden;
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+    .price-card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 24px 60px rgba(0,0,0,0.3);
+      border-color: var(--lime-border);
+    }
+    .price-card.featured {
+      background:var(--lime); border-color:var(--lime);
+    }
+    .price-card.featured * { color:#0a0a0a !important; }
+    .price-card.featured .price-btn { background:#0a0a0a; color:var(--lime) !important; }
+    .price-tier { font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); margin-bottom:16px; }
+    .price-card.featured .price-tier { color:rgba(0,0,0,0.5); }
+    .price-name { font-family:var(--font-display); font-size:26px; font-weight:700; margin-bottom:8px; }
+    .price-desc { font-size:14px; color:var(--text-2); margin-bottom:32px; line-height:1.5; }
+    .price-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:36px; }
+    .price-features li { font-size:14px; color:var(--text-2); display:flex; gap:8px; }
+    .price-features li::before { content:'✓'; color:var(--lime); font-weight:700; flex-shrink:0; }
+    .price-card.featured .price-features li::before { color:#0a0a0a; }
+    .price-btn {
+      display:block; width:100%; text-align:center;
+      padding:14px; border-radius:var(--r-pill);
+      background:var(--glass-bg); border:1px solid var(--glass-border);
+      font-size:14px; font-weight:600; color:var(--text);
+      transition:all var(--t-fast) var(--ease); cursor:pointer;
+    }
+    .price-btn:hover { background:var(--glass-hover); }
+
+    @media (max-width:960px) {
+      .services-hero-grid { grid-template-columns:1fr; }
+      .pricing-grid { grid-template-columns:1fr; }
+      .accord-content { grid-template-columns:1fr; gap:24px; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo"><img src="images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link active">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="services-hero">
+    <div class="page-wrap">
+      <div class="services-hero-grid">
+        <div>
+          <div class="label reveal">Capabilities</div>
+          <h1 class="reveal" style="transition-delay:0.06s">What Craftsynk<br><em>builds.</em></h1>
+          <p class="reveal" style="transition-delay:0.12s">Every service is part of a complete system. We don't do logo-only. We build identity systems that scale with your business.</p>
+        </div>
+        <div class="what-card glass reveal" style="transition-delay:0.2s">
+          <h4>Every project includes</h4>
+          <ul class="what-list">
+            <li>Strategic brand brief and discovery</li>
+            <li>Multiple concept directions with rationale</li>
+            <li>Logo in all variations (light, dark, B&W, icon)</li>
+            <li>Complete color and typography system</li>
+            <li>Brand guidelines document</li>
+            <li>Organized, named file delivery in all formats</li>
+            <li>Export-ready assets for print and digital</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORDION SERVICES -->
+  <section class="services-section">
+    <div class="page-wrap">
+      <div class="services-header reveal">
+        <div class="label">Services</div>
+        <h2>The full offering.</h2>
+      </div>
+      <div class="accordion" id="accordion">
+
+        <!-- Brand Identity -->
+        <div class="accord-item reveal" id="identity">
+          <button class="accord-trigger" onclick="toggleAccord(this)">
+            <div class="accord-left">
+              <div class="accord-icon">◈</div>
+              <div>
+                <div class="accord-title">Brand Identity Systems</div>
+                <div class="accord-sub">The complete package — from strategy to full visual system</div>
+              </div>
+            </div>
+            <span class="accord-arrow">+</span>
+          </button>
+          <div class="accord-body">
+            <div class="accord-content">
+              <div class="accord-desc">
+                <p>A brand identity system is not a logo. It is a structured set of visual decisions that define how your brand communicates across every platform, medium, and touchpoint — consistently and confidently.</p>
+                <p>This is the flagship service. It includes everything: strategy, mark design, typography, color, usage rules, and a complete asset library. When it's done, you have a system — not just files.</p>
+              </div>
+              <div class="accord-includes">
+                <h5>What's included</h5>
+                <ul class="includes-list">
+                  <li>Brand strategy and positioning brief</li>
+                  <li>Primary logo design (3+ concepts)</li>
+                  <li>All logo variations and lockups</li>
+                  <li>Color palette (primary, secondary, neutrals)</li>
+                  <li>Typography system with hierarchy rules</li>
+                  <li>Brand guidelines document (PDF)</li>
+                  <li>Pattern or texture system (if applicable)</li>
+                  <li>Application mockups (stationery, signage, digital)</li>
+                  <li>All source files and export formats</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo Design -->
+        <div class="accord-item reveal" id="logo">
+          <button class="accord-trigger" onclick="toggleAccord(this)">
+            <div class="accord-left">
+              <div class="accord-icon">◎</div>
+              <div>
+                <div class="accord-title">Logo Design</div>
+                <div class="accord-sub">Precision-crafted marks built for longevity</div>
+              </div>
+            </div>
+            <span class="accord-arrow">+</span>
+          </button>
+          <div class="accord-body">
+            <div class="accord-content">
+              <div class="accord-desc">
+                <p>The logo is not the brand — but it is the most important single element of the visual identity. It must work at 16px and 16 feet. It must function in black and white and in color. It must communicate the right things.</p>
+                <p>This service focuses on precision mark and wordmark creation, grounded in a strategic brief and refined through structured iteration.</p>
+              </div>
+              <div class="accord-includes">
+                <h5>What's included</h5>
+                <ul class="includes-list">
+                  <li>Strategy brief and competitive research</li>
+                  <li>2–3 initial logo concepts</li>
+                  <li>Refinement rounds</li>
+                  <li>Primary, horizontal, and stacked lockups</li>
+                  <li>Light, dark, and monochrome versions</li>
+                  <li>Icon-only version</li>
+                  <li>AI, SVG, PNG, PDF file delivery</li>
+                  <li>Basic usage notes document</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brand Guidelines -->
+        <div class="accord-item reveal" id="guidelines">
+          <button class="accord-trigger" onclick="toggleAccord(this)">
+            <div class="accord-left">
+              <div class="accord-icon">▣</div>
+              <div>
+                <div class="accord-title">Brand Guidelines</div>
+                <div class="accord-sub">Complete documentation for teams, agencies, and partners</div>
+              </div>
+            </div>
+            <span class="accord-arrow">+</span>
+          </button>
+          <div class="accord-body">
+            <div class="accord-content">
+              <div class="accord-desc">
+                <p>A brand system is only as strong as the documentation that governs it. Brand guidelines define how every element is to be used — and how it must never be used. They protect brand equity as the company scales.</p>
+                <p>This service creates a professional brand standards document — suitable for handing to a marketing team, creative agency, developer, or printer.</p>
+              </div>
+              <div class="accord-includes">
+                <h5>What's included</h5>
+                <ul class="includes-list">
+                  <li>Logo usage rules and clear space</li>
+                  <li>Color specifications (RGB, CMYK, HEX, Pantone)</li>
+                  <li>Typography system and hierarchy rules</li>
+                  <li>Do's and don'ts (prohibited uses)</li>
+                  <li>Application examples (digital and print)</li>
+                  <li>Photography and imagery direction</li>
+                  <li>Voice and tone guidelines (optional)</li>
+                  <li>Delivered as a polished PDF document</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Systems -->
+        <div class="accord-item reveal" id="visual">
+          <button class="accord-trigger" onclick="toggleAccord(this)">
+            <div class="accord-left">
+              <div class="accord-icon">◷</div>
+              <div>
+                <div class="accord-title">Visual Systems & Corporate Assets</div>
+                <div class="accord-sub">Every physical and digital touchpoint, designed for consistency</div>
+              </div>
+            </div>
+            <span class="accord-arrow">+</span>
+          </button>
+          <div class="accord-body">
+            <div class="accord-content">
+              <div class="accord-desc">
+                <p>A brand that exists only as a logo file is incomplete. Every touchpoint — the business card, the email signature, the presentation template, the social media profile — communicates the brand. It should do so with the same precision as the logo itself.</p>
+              </div>
+              <div class="accord-includes">
+                <h5>Asset types available</h5>
+                <ul class="includes-list">
+                  <li>Business cards and stationery suite</li>
+                  <li>Letterhead and envelope templates</li>
+                  <li>Presentation / pitch deck template</li>
+                  <li>Email signature design</li>
+                  <li>Social media profile and cover templates</li>
+                  <li>Branded document templates</li>
+                  <li>Packaging design (print-ready)</li>
+                  <li>Signage and environmental graphics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section">
+    <div class="page-wrap">
+      <div class="pricing-header reveal">
+        <div class="label">Investment</div>
+        <h2>Project tiers.</h2>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <div class="price-tier">Starter</div>
+          <div class="price-name">Logo Design</div>
+          <div class="price-desc">A precision logo with all variations and source files. Best for early-stage brands.</div>
+          <ul class="price-features">
+            <li>3 logo concepts</li>
+            <li>All logo variations</li>
+            <li>Light, dark, mono versions</li>
+            <li>AI, SVG, PNG, PDF</li>
+            <li>Basic usage notes</li>
+          </ul>
+          <a href="contact.html" class="price-btn">Start →</a>
+        </div>
+        <div class="price-card featured reveal" style="transition-delay:0.1s">
+          <div class="price-tier">Recommended</div>
+          <div class="price-name">Brand Identity</div>
+          <div class="price-desc">Complete identity system from strategy to full visual system and guidelines. Most popular.</div>
+          <ul class="price-features">
+            <li>Everything in Starter</li>
+            <li>Brand strategy brief</li>
+            <li>Color and type system</li>
+            <li>Brand guidelines PDF</li>
+            <li>Application mockups</li>
+            <li>Stationery design</li>
+          </ul>
+          <a href="contact.html" class="price-btn">Start →</a>
+        </div>
+        <div class="price-card reveal" style="transition-delay:0.2s">
+          <div class="price-tier">Premium</div>
+          <div class="price-name">Studio Package</div>
+          <div class="price-desc">Full identity system plus complete asset library, all touchpoints, and extended guidelines.</div>
+          <ul class="price-features">
+            <li>Everything in Brand Identity</li>
+            <li>Full corporate asset suite</li>
+            <li>Presentation template</li>
+            <li>Social media kit</li>
+            <li>Extended guidelines document</li>
+            <li>Brand audit of existing assets</li>
+          </ul>
+          <a href="contact.html" class="price-btn">Enquire →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Behance"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="#" class="social-btn" title="Dribbble"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="#" class="social-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" class="social-btn" title="Fiverr"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>
+    initPage('services.html');
+
+    function toggleAccord(trigger) {
+      const item = trigger.closest('.accord-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.accord-item').forEach(i => i.classList.remove('open'));
+      // Open this one if it was closed
+      if(!isOpen) item.classList.add('open');
+    }
+
+    // Auto-open if hash
+    if(window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if(target && target.classList.contains('accord-item')) {
+        target.classList.add('open');
+        setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'center'}), 300);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,434 +1,665 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start a Project — CraftSynk</title>
+  <meta name="description" content="Start a brand identity project with Craftsynk. Tell us about your brand and we'll be in touch." />
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <style>
+    /* ---- CONTACT PAGE ---- */
+    .contact-hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 120px;
+      position: relative; z-index: 1;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CraftSynk | Strategic Brand Identity for Ambitious Businesses</title>
+    /* LEFT — INFO PANEL */
+    .contact-info { position: sticky; top: 100px; }
+    .contact-info h1 { font-size: clamp(36px, 4vw, 56px); margin-bottom: 24px; line-height: 1.1; }
+    .contact-info h1 em { font-style: normal; color: var(--lime); }
+    .contact-info > p {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .info-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-top: 1px solid var(--glass-border);
+    }
+    .info-item:last-child { border-bottom: 1px solid var(--glass-border); }
+    .info-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--glass-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all var(--t-fast) var(--ease);
+    }
+    .info-item:hover .info-icon {
+      background: var(--lime-dim);
+      border-color: var(--lime-border);
+      color: var(--lime);
+      box-shadow: 0 0 16px var(--lime-glow);
+    }
+    .info-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .info-desc {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 10px 18px;
+      background: var(--lime-dim);
+      border: 1px solid var(--lime-border);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      color: var(--lime);
+      font-weight: 500;
+    }
+    .avail-pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#d7ff24",
-                        "background-light": "#f8f8f5",
-                        "background-dark": "#000000",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
-                        "full": "9999px"
-                    },
-                },
-            },
-        }
-    </script>
-<style>
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #000000;
-            overflow-x: hidden;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .input-focus-glow:focus {
-            box-shadow: 0 0 15px rgba(215, 255, 36, 0.2);
-            border-color: #d7ff24;
-        }
-        .nav-glass {
-            background: rgba(15, 15, 15, 0.6);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        }
-        .dropdown-menu {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .group:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #444;
-        }
-    
-        .custom-select-container {
-            position: relative;
-        }
-        .custom-select-trigger {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            background: transparent;
-            border-bottom: 2px solid #1e293b;
-            color: white;
-            padding: 0.75rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .custom-select-trigger:hover, .custom-select-trigger:focus {
-            border-color: #d7ff24;
-            box-shadow: 0 0 15px rgba(215, 255, 36, 0.2);
-        }
-        .info-card-glow:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 40px rgba(215, 255, 36, 0.15);
-            border: 1px solid rgba(215, 255, 36, 0.3) !important;
-        }
-        .btn-neon-glow:hover {
-            box-shadow: 0 0 30px #D7FF23;
-        }
-        .input-liquid-focus:focus {
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom-color: #d7ff24;
-        }
-    </style>
+    /* RIGHT — FORM CARD */
+    .contact-form-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-xl);
+      padding: 48px;
+      box-shadow: var(--glass-shadow);
+      transition: background var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+
+    /* Form sections */
+    .form-section {
+      margin-bottom: 40px;
+    }
+    .form-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 28px;
+      font-family: var(--font-body);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      margin-bottom: 10px;
+    }
+    .field label .req { color: var(--lime); margin-left: 2px; }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+      appearance: none;
+      backdrop-filter: blur(8px);
+    }
+    .field input::placeholder,
+    .field textarea::placeholder { color: var(--text-3); }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--lime-border);
+      background: var(--glass-hover);
+      box-shadow: 0 0 20px rgba(184,247,58,0.06);
+    }
+    .field textarea { resize: vertical; min-height: 120px; }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+    .field select option {
+      background: var(--bg-2);
+      color: var(--text);
+    }
+
+    /* Service chips */
+    .service-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      padding: 9px 18px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      color: var(--text-2);
+      cursor: pointer;
+      background: transparent;
+      font-family: var(--font-body);
+      transition: all var(--t-fast) var(--ease);
+    }
+    .chip:hover { border-color: var(--lime-border); color: var(--text); }
+    .chip.active {
+      background: var(--lime-dim);
+      border-color: var(--lime-border);
+      color: var(--lime);
+      box-shadow: 0 0 12px rgba(184,247,58,0.08);
+    }
+
+    /* Budget chips */
+    .budget-chips {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .budget-chip {
+      padding: 12px 10px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-md);
+      font-size: 13px;
+      color: var(--text-2);
+      cursor: pointer;
+      background: transparent;
+      font-family: var(--font-body);
+      text-align: center;
+      transition: all var(--t-fast) var(--ease);
+    }
+    .budget-chip:hover { border-color: var(--lime-border); color: var(--text); }
+    .budget-chip.active {
+      background: var(--lime-dim);
+      border-color: var(--lime-border);
+      color: var(--lime);
+      box-shadow: 0 0 12px rgba(184,247,58,0.08);
+    }
+
+    /* Submit area */
+    .form-submit {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--glass-border);
+      margin-top: 8px;
+    }
+    .submit-note {
+      font-size: 13px;
+      color: var(--text-3);
+      line-height: 1.5;
+      max-width: 260px;
+    }
+    .submit-btn {
+      padding: 16px 36px;
+      background: var(--lime);
+      color: #0a0a0a;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+      transition: all var(--t-fast) var(--ease);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      animation: btn-shine 3s ease-in-out infinite;
+    }
+    @keyframes btn-shine {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px var(--lime-glow);
+    }
+
+    /* Field validation error state */
+    .field-error input,
+    .field-error textarea {
+      border-color: #ff4d4d;
+      box-shadow: 0 0 12px rgba(255,77,77,0.1);
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 80px 48px;
+      background: var(--glass-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--glass-shadow);
+    }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: var(--lime-dim);
+      border: 1px solid var(--lime-border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 24px;
+      color: var(--lime);
+    }
+    .form-success h3 {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .form-success p {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 400px;
+      margin: 0 auto 32px;
+    }
+    .success-btns {
+      display: flex; gap: 12px; justify-content: center;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 960px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .contact-info { position: static; }
+      .form-row { grid-template-columns: 1fr; }
+      .budget-chips { grid-template-columns: repeat(2, 1fr); }
+      .contact-form-card { padding: 32px 24px; }
+      .form-submit { flex-direction: column; align-items: flex-start; }
+      .submit-btn { width: 100%; text-align: center; }
+      .success-btns { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .contact-hero { padding-top: calc(var(--nav-h) + 48px); padding-bottom: 80px; }
+      .contact-form-card { padding: 24px 18px; }
+      .budget-chips { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
-<body class="bg-background-dark text-slate-100 selection:bg-primary selection:text-black"><div class="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300 opacity-0" id="cursor-glow" style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(215, 255, 35, 0.08), transparent 40%);"></div>
-<div class="relative min-h-screen flex flex-col px-[35px]">
-<!-- Background Gradient Glows -->
-<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full"></div>
-<div class="fixed bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-primary/5 blur-[100px] rounded-full"></div>
-<!-- Header / Navigation -->
-<header class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-70px)] max-w-7xl">
-<nav class="nav-glass rounded-full px-8 py-3 flex items-center justify-between"><!-- Logo -->
-<a class="flex items-center gap-2 group" href="index.html">
-<img src="images/logo.png" alt="CraftSynk Logo" class="h-10 w-auto object-contain hover:drop-shadow-[0_0_15px_#D7FF23] transition-all duration-300"/>
-</a>
-<!-- Desktop Nav -->
-<div class="hidden lg:flex items-center gap-1">
-<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Services</a>
-<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Work</a>
-<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">Logo Lab</a>
-<a class="px-5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-primary transition-colors" href="#">About</a>
-</div>
-<!-- CTA -->
-<button class="bg-primary hover:bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 transform hover:scale-105">
-            Start Project
-        </button></nav>
-</header>
-<!-- Main Content Section -->
-<main class="relative z-10 flex-grow flex flex-col items-center justify-center px-6 py-12 md:py-60">
-<div class="max-w-4xl w-full animate-fade-in-up">
-<!-- Headline Area -->
-<div class="text-center mb-16 space-y-4">
-<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
-                        Start Your <span class="text-primary italic">Brand Project</span>
-</h1>
-<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
-                        If you are building something ambitious and value structured design, we would be glad to collaborate.
-                    </p>
-</div>
-<!-- Contact Form Card -->
-<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10">
-<form action="https://docs.google.com/forms/d/e/1FAIpQLSehnXcNSTwwoXJqnyOVWtQ14EKNAT_V6NoXquNtC3qOaBdtMg/formResponse" class="grid grid-cols-1 md:grid-cols-2 gap-8" id="contact-form" method="POST" onsubmit="window.submitted=true;" target="hidden_iframe">
-<!-- Left Column -->
-<div class="space-y-8">
-<div class="group">
-<label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 group-focus-within:text-primary transition-colors">Full Name</label>
-<input class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/20 text-white py-4 px-6 rounded-2xl text-lg transition-all placeholder:text-slate-600 outline-none" name="entry.2005620554" placeholder="John Doe" type="text" required/>
-</div>
-<div class="group">
-<label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 group-focus-within:text-primary transition-colors">Email Address</label>
-<input class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/20 text-white py-4 px-6 rounded-2xl text-lg transition-all placeholder:text-slate-600 outline-none" name="entry.1045781291" placeholder="hello@company.com" type="email" required/>
-</div>
-<div class="group">
-<label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 group-focus-within:text-primary transition-colors">Project Timeline</label>
-<div class="custom-select-container">
-<div class="custom-select-trigger flex items-center justify-between w-full bg-white/5 border border-white/10 hover:border-white/20 px-6 py-4 rounded-2xl cursor-pointer transition-all border-primary">
-<span class="text-lg" id="selected-timeline">Select a timeline</span>
-<span class="material-symbols-outlined text-primary">expand_more</span>
-</div>
-<input id="timeline-input" name="entry.568406845" type="hidden" value="" required/>
-<div class="dropdown-menu absolute left-0 right-0 top-full mt-2 z-20 bg-[#0f0f0f]/90 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl" style="opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.95);">
-<div class="flex flex-col">
-<div class="px-6 py-4 hover:bg-primary hover:text-black cursor-pointer transition-colors text-slate-300 font-medium">Less than 1 month</div>
-<div class="px-6 py-4 hover:bg-primary hover:text-black cursor-pointer transition-colors text-slate-300 font-medium">1-3 months</div>
-<div class="px-6 py-4 hover:bg-primary hover:text-black cursor-pointer transition-colors text-slate-300 font-medium">3-6 months</div>
-<div class="px-6 py-4 hover:bg-primary hover:text-black cursor-pointer transition-colors text-slate-300 font-medium">6+ months</div>
-</div>
-</div></div>
-</div>
-</div>
-<!-- Right Column -->
-<div class="space-y-8">
-<div class="group h-full flex flex-col">
-<label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 group-focus-within:text-primary transition-colors">Project Details &amp; Goals</label>
-<textarea class="flex-grow w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/20 text-white py-4 px-6 rounded-2xl text-lg transition-all placeholder:text-slate-600 resize-none outline-none" name="entry.1065046570" placeholder="Tell us about your ambition..." required rows="8"></textarea>
-</div>
-</div>
-<!-- Footer of Form -->
-<div class="md:col-span-2 pt-6 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-slate-800 mt-4">
-<div class="flex items-center gap-3 text-slate-400 text-sm">
-<span class="relative flex h-3 w-3">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-</span>
-                                We respond within 1–2 business days.
-                            </div>
-<button class="w-full md:w-auto min-w-[200px] bg-primary hover:bg-white text-black font-extrabold py-5 px-10 rounded-full flex items-center justify-center gap-2 group transition-all duration-300 btn-neon-glow uppercase hover:scale-105 active:scale-95" style="background-color: #d7ff24;" type="submit">
-                                Send Inquiry
-                                <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</button>
-</div>
-</form>
-</div>
+<body class="dark">
 
-<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 hidden text-center space-y-6" id="success-message">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
 
-  <div class="flex justify-center">
-    <span class="material-symbols-outlined text-primary text-6xl">
-      check_circle
-    </span>
-  </div>
-
-  <h2 class="text-3xl font-bold">
-    Thank You!
-  </h2>
-
-  <p class="text-slate-400 max-w-xl mx-auto">
-    Your inquiry has been sent successfully. We'll get back to you within 1–2 business days.
-  </p>
-
-  <div class="flex justify-center">
-    <button 
-      class="bg-primary hover:bg-white text-black px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
-      onclick="window.location.reload()">
-      Send Another
-    </button>
-  </div>
-
-</div>
-
-<iframe id="hidden_iframe" name="hidden_iframe"
-onload="if(window.submitted){
-document.getElementById('contact-form').parentElement.classList.add('hidden');
-document.getElementById('success-message').classList.remove('hidden');
-}"
-style="display:none;"></iframe>
-        <!-- Secondary Info -->
-<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 info-card-glow transition-all duration-300" style="border: 1px solid rgba(255,255,255,0.08);">
-<span class="material-symbols-outlined text-primary mb-4 text-3xl">mail</span>
-<h4 class="font-bold mb-1">Email directly</h4>
-<p class="text-slate-400 text-sm">hello@craftsynk.studio</p>
-</div>
-<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 info-card-glow transition-all duration-300" style="border: 1px solid rgba(255,255,255,0.08);">
-<span class="material-symbols-outlined text-primary mb-4 text-3xl">schedule</span>
-<h4 class="font-bold mb-1">Book a call</h4>
-<p class="text-slate-400 text-sm">Calendly.com/craftsynk</p>
-</div>
-<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl bg-white/5 border border-white/10 info-card-glow transition-all duration-300" style="border: 1px solid rgba(255,255,255,0.08);">
-<span class="material-symbols-outlined text-primary mb-4 text-3xl">location_on</span>
-<h4 class="font-bold mb-1">Office</h4>
-<p class="text-slate-400 text-sm">Odisha, Bhubneshwar</p>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="relative z-10 px-[35px] py-12 border-t border-white/5 mt-auto">
-<div class="max-w-7xl mx-auto relative flex items-center justify-between">
-
-    <!-- Left: Copyright -->
-    <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-      © CraftSynk • <span id="year"></span>
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo"><img src="images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link">About</a>
     </div>
-<!-- Social Links -->
-<div class="flex items-center justify-center gap-4"><!-- Fiverr -->
-<a href="https://fiverr.com/s/kLY5klw"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Fiverr"
-         class="group w-12 h-12 rounded-full glass flex items-center justify-center 
-                text-white/60 hover:text-[#1DBF73] hover:bg-white/10 
-                hover:border-[#1DBF73]/50 transition-all duration-300 ease-out border border-white/5">
-
-  <svg viewBox="0 0 512 512"
-       class="w-5 h-5 fill-current 
-              group-hover:drop-shadow-[0_0_10px_currentColor] transition-all">
-
-    <g transform="translate(0,512) scale(0.1,-0.1)">
-      <path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181
--732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0
--320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800
-805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0
-480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284
-36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164
--1 -329 -6 -368 -10z"/>
-      <path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350
-256 67 415 329 350 578 -67 259 -333 419 -584 351z"/>
-    </g>
-
-  </svg>
-
-</a>
-<!-- Behance -->
-<a href="https://www.behance.net/cbjal"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Behance"
-         class="group w-12 h-12 rounded-full glass flex items-center justify-center 
-                text-white/60 hover:text-[#1769FF] hover:bg-white/10 
-                hover:border-[#1769FF]/50 transition-all duration-300 ease-out border border-white/5">
-
-
-  <svg viewBox="0 0 24 24"
-       class="w-5 h-5 fill-current 
-              group-hover:drop-shadow-[0_0_10px_currentColor] transition-all">
-    <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/>
-  </svg>
-
-</a>
-<!-- Dribbble -->
-<a href="https://dribbble.com/CBJ001"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Dribbble"
-         class="group w-12 h-12 rounded-full glass flex items-center justify-center 
-                text-white/60 hover:text-[#EA4C89] hover:bg-white/10 
-                hover:border-[#EA4C89]/50 transition-all duration-300 ease-out border border-white/5">
-
-  <svg viewBox="0 0 24 24"
-       class="w-5 h-5 fill-current 
-              group-hover:drop-shadow-[0_0_10px_currentColor] transition-all">
-    <path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/>
-  </svg>
-
-</a>
-<!-- Instagram -->
-<a href="https://instagram.com/chandanbjal"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Instagram"
-         class="group w-12 h-12 rounded-full glass flex items-center justify-center 
-                text-white/60 hover:text-[#E4405F] hover:bg-white/10 
-                hover:border-[#E4405F]/50 transition-all duration-300 ease-out border border-white/5">
-
-
-  <svg viewBox="0 0 24 24"
-       class="w-5 h-5 fill-current 
-              group-hover:drop-shadow-[0_0_10px_currentColor] transition-all">
-    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-  </svg>
-
-</a>
-</div>
-<!-- Right: Legal -->
-    <div class="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-      <a class="hover:text-white transition-colors duration-300 ease-out" href="#">Privacy</a>
-      <a class="hover:text-white transition-colors duration-300 ease-out" href="#">Terms</a>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
     </div>
+  </nav>
 
-</div>
-<div class="text-center mt-8 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
-    Crafted with passion in the digital ether
-</div>
-</footer>
-        <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-</div>
-<script>
-    // Cursor Glow Effect
-    const glow = document.getElementById('cursor-glow');
-    window.addEventListener('mousemove', (e) => {
-        glow.style.setProperty('--x', e.clientX + 'px');
-        glow.style.setProperty('--y', e.clientY + 'px');
-        glow.style.opacity = '1';
+  <!-- CONTACT -->
+  <section class="contact-hero">
+    <div class="page-wrap">
+      <div class="contact-grid">
+
+        <!-- LEFT — INFO PANEL -->
+        <div class="contact-info">
+          <div class="label reveal">New Project</div>
+          <h1 class="reveal" style="transition-delay:0.06s">Let's build your <em>brand.</em></h1>
+          <p class="reveal" style="transition-delay:0.12s">Tell us about your project. We'll review your brief and get back within 48 hours to schedule a discovery call.</p>
+
+          <ul class="info-list">
+            <li class="info-item reveal" style="transition-delay:0.18s">
+              <div class="info-icon">&#9719;</div>
+              <div>
+                <div class="info-title">Response time</div>
+                <div class="info-desc">All inquiries answered within 48 hours. Serious projects only.</div>
+              </div>
+            </li>
+            <li class="info-item reveal" style="transition-delay:0.22s">
+              <div class="info-icon">&#9672;</div>
+              <div>
+                <div class="info-title">What you get</div>
+                <div class="info-desc">A complete identity system — not just a logo file. Organized, documented, ready to deploy.</div>
+              </div>
+            </li>
+            <li class="info-item reveal" style="transition-delay:0.26s">
+              <div class="info-icon">&#9678;</div>
+              <div>
+                <div class="info-title">Project types</div>
+                <div class="info-desc">New brand identity, rebrands, brand audits, and identity expansion for growing companies.</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="availability-badge reveal" style="transition-delay:0.3s">
+            <span class="avail-pulse"></span>
+            Accepting projects — Q3 2026
+          </div>
+        </div>
+
+        <!-- RIGHT — FORM -->
+        <div class="contact-form-card reveal" id="contactForm" style="transition-delay:0.14s">
+
+          <!-- Google Form Integration
+               Form URL: https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse
+               Entry IDs:
+               firstName: entry.XXXXXX
+               lastName: entry.XXXXXX
+               email: entry.XXXXXX
+               company: entry.XXXXXX
+               services: entry.XXXXXX
+               industry: entry.XXXXXX
+               projectBrief: entry.XXXXXX
+               budget: entry.XXXXXX
+               timeline: entry.XXXXXX
+               referral: entry.XXXXXX
+          -->
+
+          <!-- ABOUT YOU -->
+          <div class="form-section">
+            <div class="form-section-title">About you</div>
+            <div class="form-row">
+              <div class="field" id="fieldFirstName">
+                <label>First Name <span class="req">*</span></label>
+                <input type="text" id="firstName" placeholder="Alex" />
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" id="lastName" placeholder="Morgan" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field" id="fieldEmail">
+                <label>Email Address <span class="req">*</span></label>
+                <input type="email" id="email" placeholder="alex@company.com" />
+              </div>
+              <div class="field">
+                <label>Company / Brand Name</label>
+                <input type="text" id="company" placeholder="Acme Inc." />
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT DETAILS -->
+          <div class="form-section">
+            <div class="form-section-title">Project details</div>
+
+            <div class="field" style="margin-bottom:28px">
+              <label>What do you need?</label>
+              <div class="service-chips" id="serviceChips">
+                <button class="chip" data-val="brand-identity">Brand Identity</button>
+                <button class="chip" data-val="logo-design">Logo Design</button>
+                <button class="chip" data-val="brand-guidelines">Brand Guidelines</button>
+                <button class="chip" data-val="rebrand">Rebrand</button>
+                <button class="chip" data-val="corporate-assets">Corporate Assets</button>
+                <button class="chip" data-val="brand-audit">Brand Audit</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Industry</label>
+              <select id="contactIndustry">
+                <option value="">Select industry...</option>
+                <option>Technology / SaaS</option>
+                <option>Finance / Fintech</option>
+                <option>Health & Wellness</option>
+                <option>Fashion / Apparel</option>
+                <option>Food & Beverage</option>
+                <option>Real Estate</option>
+                <option>Creative Agency</option>
+                <option>Consulting / Professional Services</option>
+                <option>Retail / E-commerce</option>
+                <option>Hospitality / Travel</option>
+                <option>Education</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field" id="fieldBrief">
+              <label>Project Brief <span class="req">*</span></label>
+              <textarea id="projectBrief" placeholder="Tell us about your brand, your audience, your competitors, and what you're trying to achieve. The more context, the better."></textarea>
+            </div>
+          </div>
+
+          <!-- BUDGET & TIMELINE -->
+          <div class="form-section">
+            <div class="form-section-title">Budget & timeline</div>
+
+            <div class="field" style="margin-bottom:28px">
+              <label>Estimated Budget (USD)</label>
+              <div class="budget-chips" id="budgetChips">
+                <button class="budget-chip" data-val="under-500">Under $500</button>
+                <button class="budget-chip" data-val="500-1500">$500–$1,500</button>
+                <button class="budget-chip" data-val="1500-3000">$1,500–$3,000</button>
+                <button class="budget-chip" data-val="3000+">$3,000+</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Timeline</label>
+              <select id="timeline">
+                <option value="">How soon do you need this?</option>
+                <option>ASAP (rush)</option>
+                <option>Within 2 weeks</option>
+                <option>Within a month</option>
+                <option>1–3 months</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>How did you hear about Craftsynk?</label>
+              <select id="referral">
+                <option value="">Select...</option>
+                <option>Behance</option>
+                <option>Fiverr</option>
+                <option>Google Search</option>
+                <option>LinkedIn</option>
+                <option>Referral / Word of mouth</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="form-submit">
+            <p class="submit-note">Your brief is reviewed personally. No automated responses, no sales funnels.</p>
+            <button class="submit-btn" id="submitBtn">Send Brief &rarr;</button>
+          </div>
+
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">&#10022;</div>
+          <h3>Brief received.</h3>
+          <p>Thank you for reaching out. We've received your project brief and will be in touch within 48 hours.</p>
+          <div class="success-btns">
+            <a href="index.html" class="btn btn-primary">Back to Home</a>
+            <a href="work.html" class="btn btn-ghost">View Work</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Behance"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="#" class="social-btn" title="Dribbble"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="#" class="social-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" class="social-btn" title="Fiverr"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk &copy; 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>
+    initPage('contact.html');
+
+    // ---- CHIP TOGGLES (multi-select) ----
+    document.querySelectorAll('#serviceChips .chip').forEach(chip => {
+      chip.addEventListener('click', () => chip.classList.toggle('active'));
     });
 
-    // Custom Dropdown Logic
-    const selectTrigger = document.querySelector('.custom-select-trigger');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-    const selectedText = document.getElementById('selected-timeline');
-    const timelineInput = document.getElementById('timeline-input');
-    const options = dropdownMenu.querySelectorAll('.flex-col > div');
+    // ---- BUDGET CHIPS (single-select) ----
+    let selectedBudget = '';
+    document.querySelectorAll('#budgetChips .budget-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('#budgetChips .budget-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        selectedBudget = chip.dataset.val;
+      });
+    });
 
-    // Toggle dropdown
-    selectTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = dropdownMenu.style.visibility === 'visible';
-        if (isOpen) {
-            closeDropdown();
-        } else {
-            openDropdown();
+    // ---- PRE-FILL FROM LOGO LAB REDIRECT ----
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('brand')) document.getElementById('company').value = params.get('brand');
+    if (params.get('concept')) {
+      const brief = document.getElementById('projectBrief');
+      brief.value = 'I generated a concept called "' + params.get('concept') + '" in Logo Lab and would like to develop it into a full brand identity.';
+      // Auto-select Brand Identity + Logo Design chips
+      document.querySelectorAll('#serviceChips .chip').forEach(c => {
+        if (c.dataset.val === 'brand-identity' || c.dataset.val === 'logo-design') {
+          c.classList.add('active');
         }
-    });
-
-    function openDropdown() {
-        dropdownMenu.style.opacity = '1';
-        dropdownMenu.style.visibility = 'visible';
-        dropdownMenu.style.transform = 'translateY(0) scale(1)';
-        selectTrigger.querySelector('.material-symbols-outlined').textContent = 'expand_less';
+      });
     }
 
-    function closeDropdown() {
-        dropdownMenu.style.opacity = '0';
-        dropdownMenu.style.visibility = 'hidden';
-        dropdownMenu.style.transform = 'translateY(10px) scale(0.95)';
-        selectTrigger.querySelector('.material-symbols-outlined').textContent = 'expand_more';
+    // ---- FORM VALIDATION & SUBMIT ----
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(f => f.classList.remove('field-error'));
     }
 
-    // Option selection
-    options.forEach(option => {
-        option.addEventListener('click', () => {
-            const value = option.textContent;
-            selectedText.textContent = value;
-            timelineInput.value = value;
-            closeDropdown();
-        });
-    });
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      clearErrors();
 
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-        if (!selectTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            closeDropdown();
-        }
-    });
+      const fname = document.getElementById('firstName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const brief = document.getElementById('projectBrief').value.trim();
+      let hasError = false;
 
-    // Initial state set to hidden by default instead of rely on CSS hover only
-    closeDropdown();
-</script></body></html>
+      if (!fname) {
+        document.getElementById('fieldFirstName').classList.add('field-error');
+        hasError = true;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('fieldEmail').classList.add('field-error');
+        hasError = true;
+      }
+      if (!brief) {
+        document.getElementById('fieldBrief').classList.add('field-error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        // Scroll to first error
+        const firstError = document.querySelector('.field-error');
+        if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Collect selected services
+      const services = [];
+      document.querySelectorAll('#serviceChips .chip.active').forEach(c => services.push(c.dataset.val));
+
+      // In production, submit to Google Forms or your backend here
+      // Example Google Form submission:
+      // const formData = new FormData();
+      // formData.append('entry.XXXXXX', fname);
+      // formData.append('entry.XXXXXX', document.getElementById('lastName').value);
+      // formData.append('entry.XXXXXX', email);
+      // formData.append('entry.XXXXXX', document.getElementById('company').value);
+      // formData.append('entry.XXXXXX', services.join(', '));
+      // formData.append('entry.XXXXXX', document.getElementById('contactIndustry').value);
+      // formData.append('entry.XXXXXX', brief);
+      // formData.append('entry.XXXXXX', selectedBudget);
+      // formData.append('entry.XXXXXX', document.getElementById('timeline').value);
+      // formData.append('entry.XXXXXX', document.getElementById('referral').value);
+      // fetch('https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse', {
+      //   method: 'POST', body: formData, mode: 'no-cors'
+      // });
+
+      // Show success state
+      document.getElementById('contactForm').style.display = 'none';
+      const success = document.getElementById('formSuccess');
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>

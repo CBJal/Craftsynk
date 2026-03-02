@@ -1,4 +1,25 @@
+# Craftsynk — robots.txt
+# https://craftsynk.com
+
 User-agent: *
 Allow: /
+
+# Pages
+Allow: /index.html
+Allow: /about.html
+Allow: /services.html
+Allow: /work.html
+Allow: /blog.html
+Allow: /blog-post.html
+Allow: /contact.html
+
+# Assets
+Allow: /craftsynk-v2.css
+Allow: /craftsynk-v2.js
+Allow: /images/
+
+# Disallow internal/config files
+Disallow: /.claude/
+Disallow: /.DS_Store
 
 Sitemap: https://craftsynk.com/sitemap.xml

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — CraftSynk</title>
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <style>
+    /* ---- PAGE ---- */
+    .about-hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 80px;
+      position: relative; z-index: 1;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center;
+    }
+    .hero-text h1 { margin-bottom: 24px; }
+    .hero-text h1 em { font-style: normal; color: var(--lime); }
+    .hero-text p { font-size: 18px; color: var(--text-2); line-height: 1.7; max-width: 520px; }
+
+    /* Photo card */
+    .photo-card {
+      border-radius: var(--r-xl); overflow: hidden; position: relative;
+      aspect-ratio: 4/5;
+      transition: transform var(--t-med) var(--ease);
+    }
+    .photo-card:hover { transform: scale(1.02) rotate(1deg); }
+    .photo-card img {
+      width:100%; height:100%; object-fit:cover;
+    }
+    .photo-placeholder {
+      width:100%;height:100%;
+      background: linear-gradient(135deg, var(--bg-3) 0%, var(--bg-2) 100%);
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      gap: 12px;
+    }
+    .photo-placeholder span { font-family:var(--font-display); font-size:80px; font-weight:800; color:var(--lime-dim); opacity:0.4; }
+    .photo-placeholder p { font-size:13px; color:var(--text-3); }
+    .photo-card-tag {
+      position: absolute; bottom: 20px; left: 20px; right: 20px;
+      background: rgba(9,9,9,0.7); backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-md);
+      padding: 14px 18px;
+    }
+    .photo-card-tag h4 { font-size: 15px; margin-bottom: 2px; }
+    .photo-card-tag p { font-size: 12px; color: var(--text-2); }
+
+    /* ---- STATS ROW ---- */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+      padding: 56px 0; border-top: 1px solid var(--glass-border);
+    }
+    .stat-card {
+      padding: 32px 28px; border-radius: var(--r-xl);
+      backdrop-filter: blur(20px);
+      background: var(--glass-card); border: 1px solid var(--glass-border);
+      transition: transform var(--t-med) var(--ease);
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--lime-border); box-shadow: 0 0 24px rgba(184,247,58,0.08); }
+    .stat-card .sv { font-family: var(--font-display); font-size: 52px; font-weight: 800; letter-spacing:-0.04em; color: var(--lime); line-height:1; margin-bottom:8px; }
+    .stat-card .sl { font-size: 14px; color: var(--text-2); }
+
+    /* ---- ABOUT BODY ---- */
+    .about-body { padding: 0 0 80px; }
+    .about-grid { display: grid; grid-template-columns: 280px 1fr; gap: 80px; }
+    .about-nav { position: sticky; top: 100px; }
+    .about-nav h4 { font-size: 11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-3); margin-bottom:16px; font-family:var(--font-body); }
+    .about-nav ul { list-style:none; display:flex; flex-direction:column; gap:2px; }
+    .about-nav ul a {
+      display: block; padding: 9px 14px; border-radius: var(--r-md);
+      font-size: 14px; color: var(--text-2);
+      border-left: 2px solid transparent;
+      transition: all var(--t-fast) var(--ease);
+    }
+    .about-nav ul a:hover, .about-nav ul a.act { color: var(--lime); background: var(--lime-dim); border-left-color: var(--lime); }
+    .about-content { display: flex; flex-direction: column; gap: 80px; }
+
+    /* Section inside about */
+    .about-section h2 { margin-bottom: 20px; }
+    .about-section p { font-size: 17px; color: var(--text-2); line-height: 1.75; margin-bottom: 20px; max-width: 600px; }
+    .about-section p:last-child { margin-bottom: 0; }
+
+    /* Principles */
+    .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .principle {
+      padding: 28px 24px; border-radius: var(--r-lg);
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      transition: transform var(--t-med) var(--ease), background var(--t-med) var(--ease);
+    }
+    .principle:hover { transform: translateY(-4px); background: var(--glass-hover); }
+    .principle-num { font-size: 11px; font-weight:700; letter-spacing:0.1em; color:var(--lime); margin-bottom:14px; transition: color var(--t-fast), text-shadow var(--t-fast); }
+    .principle:hover .principle-num { text-shadow: 0 0 12px var(--lime-glow); }
+    .principle h4 { font-size: 16px; margin-bottom: 8px; }
+    .principle p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    /* Process */
+    .process-list { display:flex; flex-direction:column; }
+    .process-item {
+      display: grid; grid-template-columns: 60px 1fr auto;
+      gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--glass-border);
+      align-items: center; transition: all var(--t-fast) var(--ease);
+    }
+    .process-item:hover .pi-num { color: var(--lime); text-shadow: 0 0 12px var(--lime-glow); }
+    .pi-num { font-size: 13px; font-weight:700; letter-spacing:0.08em; color:var(--text-3); transition: color var(--t-fast), text-shadow var(--t-fast); }
+    .pi-title { font-size: 17px; font-family: var(--font-display); font-weight: 600; margin-bottom: 4px; }
+    .pi-desc { font-size: 13px; color: var(--text-2); }
+    .pi-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); }
+
+    /* CTA */
+    .about-cta {
+      padding: 60px; border-radius: var(--r-xl);
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); text-align: center;
+    }
+    .about-cta h2 { margin-bottom: 16px; }
+    .about-cta p { color: var(--text-2); margin-bottom: 32px; max-width: 400px; margin-left:auto; margin-right:auto; }
+    .about-cta-btns { display:flex; gap:12px; justify-content:center; }
+
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .photo-card { aspect-ratio: 16/9; max-height: 320px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-nav { display: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .process-item { grid-template-columns: 40px 1fr; }
+      .pi-tag { display: none; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo"><img src="images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link active">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="page-wrap">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="label reveal">About Craftsynk</div>
+          <h1 class="reveal" style="transition-delay:0.06s">Design as a<br><em>system.</em></h1>
+          <p class="reveal" style="transition-delay:0.12s">
+            Chandan B. Jal is a brand identity designer with 6+ years of experience and over 1000 completed projects. He specializes in building structured, scalable brand systems — not just logos.
+          </p>
+        </div>
+        <div class="photo-card glass reveal" style="transition-delay:0.2s">
+          <!-- Replace with actual headshot: <img src="images/chandan.jpg" alt="Chandan B. Jal" /> -->
+          <div class="photo-placeholder">
+            <span>C</span>
+            <p>[ Your photo here ]</p>
+          </div>
+          <div class="photo-card-tag">
+            <h4>Chandan B. Jal</h4>
+            <p>Brand Identity Designer · Craftsynk</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card reveal">
+          <div class="sv">1000+</div>
+          <div class="sl">Projects delivered across Fiverr and direct clients</div>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:0.08s">
+          <div class="sv">6+</div>
+          <div class="sl">Years building brand identity systems professionally</div>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:0.16s">
+          <div class="sv">100%</div>
+          <div class="sl">System-first approach — every project, every time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT BODY -->
+  <section class="about-body">
+    <div class="page-wrap">
+      <div class="about-grid">
+        <div class="about-nav">
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#philosophy" class="act">Philosophy</a></li>
+            <li><a href="#principles">Principles</a></li>
+            <li><a href="#process">Process</a></li>
+          </ul>
+        </div>
+        <div class="about-content">
+
+          <!-- PHILOSOPHY -->
+          <div class="about-section" id="philosophy">
+            <div class="label">Studio POV</div>
+            <h2>Why Craftsynk exists.</h2>
+            <p>
+              His approach combines analytical thinking with modern minimal design. Every identity is built with clarity, precision, and long-term usability in mind.
+            </p>
+            <p>
+              Chandan believes strong brands are created through systems — clear typography, controlled color architecture, and disciplined visual structure. A brand is not a logo. It is a set of decisions that compound over time.
+            </p>
+            <p>
+              Craftsynk represents his evolution from freelancer to studio-level brand strategist, focused on delivering high-end identity systems for ambitious businesses ready to invest in long-term brand equity.
+            </p>
+          </div>
+
+          <!-- PRINCIPLES -->
+          <div class="about-section" id="principles">
+            <div class="label">Operating principles</div>
+            <h2>What we stand for.</h2>
+            <div class="principles-grid">
+              <div class="principle reveal">
+                <div class="principle-num">01</div>
+                <h4>Structure before style.</h4>
+                <p>Aesthetics emerge from solving the right problems — not from applying surface-level trends.</p>
+              </div>
+              <div class="principle reveal" style="transition-delay:0.08s">
+                <div class="principle-num">02</div>
+                <h4>Systems, not deliverables.</h4>
+                <p>Every engagement results in a complete, organized, scalable identity system — not just a file.</p>
+              </div>
+              <div class="principle reveal" style="transition-delay:0.04s">
+                <div class="principle-num">03</div>
+                <h4>Precision in execution.</h4>
+                <p>Every file named. Every variation exported. Every spec documented. Operational discipline matters.</p>
+              </div>
+              <div class="principle reveal" style="transition-delay:0.12s">
+                <div class="principle-num">04</div>
+                <h4>Long-term thinking.</h4>
+                <p>The work is designed to remain coherent and competitive five years from now — not just five weeks after launch.</p>
+              </div>
+              <div class="principle reveal" style="transition-delay:0.08s">
+                <div class="principle-num">05</div>
+                <h4>Strategy drives creativity.</h4>
+                <p>Every concept begins with a clear understanding of the business, audience, and competitive landscape.</p>
+              </div>
+              <div class="principle reveal" style="transition-delay:0.16s">
+                <div class="principle-num">06</div>
+                <h4>Calm over chaos.</h4>
+                <p>The best identity work is confident and restrained. White space earns its cost.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROCESS -->
+          <div class="about-section" id="process">
+            <div class="label">Engagement structure</div>
+            <h2>How a project works.</h2>
+            <div class="process-list">
+              <div class="process-item reveal">
+                <div class="pi-num">01</div>
+                <div><div class="pi-title">Discovery & Brief</div><div class="pi-desc">Business goals, audience, competitors. Strategic foundation before any visual work.</div></div>
+                <div class="pi-tag">Strategy</div>
+              </div>
+              <div class="process-item reveal">
+                <div class="pi-num">02</div>
+                <div><div class="pi-title">Concept Development</div><div class="pi-desc">Multiple directions, each with a rationale. No arbitrary marks.</div></div>
+                <div class="pi-tag">Creative</div>
+              </div>
+              <div class="process-item reveal">
+                <div class="pi-num">03</div>
+                <div><div class="pi-title">Presentation & Refinement</div><div class="pi-desc">Structured feedback. Iterative refinement. Full context for every decision.</div></div>
+                <div class="pi-tag">Collaboration</div>
+              </div>
+              <div class="process-item reveal">
+                <div class="pi-num">04</div>
+                <div><div class="pi-title">Brand Guidebook</div><div class="pi-desc">Complete brand standards: color, type, spacing, usage rules, application examples.</div></div>
+                <div class="pi-tag">Documentation</div>
+              </div>
+              <div class="process-item reveal">
+                <div class="pi-num">05</div>
+                <div><div class="pi-title">Final Delivery</div><div class="pi-desc">All variations organized, properly named, every format. Ready to deploy.</div></div>
+                <div class="pi-tag">Delivery</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="about-cta reveal">
+            <div class="label" style="justify-content:center;margin-bottom:20px">Ready to build?</div>
+            <h2>Let's build something that lasts.</h2>
+            <p>Accepting new brand identity projects for Q3 2026. Reach out and let's talk about your brand.</p>
+            <div class="about-cta-btns">
+              <a href="contact.html" class="btn btn-primary">Start a Project</a>
+              <a href="work.html" class="btn btn-ghost">View Work</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Behance"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="#" class="social-btn" title="Dribbble"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="#" class="social-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" class="social-btn" title="Fiverr"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>initPage('about.html');</script>
+</body>
+</html>

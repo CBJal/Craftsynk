@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work — CraftSynk</title>
+  <meta name="description" content="Selected brand identity projects by Craftsynk — logos, brand systems, guidelines, and corporate assets." />
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <style>
+    .work-hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 60px; position: relative; z-index: 1;
+    }
+    .work-hero h1 em { font-style:normal; color:var(--lime); }
+    .work-hero p { font-size:18px; color:var(--text-2); max-width:520px; margin-top:20px; line-height:1.65; }
+
+    /* Filter tabs */
+    .filter-wrap { position:relative; z-index:1; padding-bottom:60px; }
+    .filter-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+    .filter-tab {
+      padding:9px 20px; border-radius:var(--r-pill);
+      font-size:13px; font-weight:500; color:var(--text-2);
+      background:var(--glass-bg); backdrop-filter:blur(16px);
+      border:1px solid var(--glass-border); cursor:pointer;
+      transition:all var(--t-fast) var(--ease);
+    }
+    .filter-tab:hover {
+      color: var(--lime);
+      text-shadow: 0 0 12px var(--lime-glow), 0 0 24px rgba(184,247,58,0.12);
+      background: transparent;
+      border-color: var(--lime-border);
+    }
+    .filter-tab.active {
+      background: var(--lime); color: #0a0a0a; border-color: var(--lime);
+      font-weight: 600;
+      text-shadow: none;
+    }
+
+    /* Bento portfolio */
+    .portfolio-section { position:relative; z-index:1; padding-bottom:120px; }
+    .portfolio-bento {
+      display:grid; grid-template-columns:repeat(12,1fr);
+      gap:14px;
+    }
+    .pb-card {
+      border-radius:var(--r-xl); overflow:hidden; position:relative; cursor:pointer;
+      background:var(--glass-card); backdrop-filter:blur(20px);
+      border:1px solid var(--glass-border);
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+    .pb-card:hover {
+      transform:translateY(-6px) scale(1.01);
+      box-shadow:0 24px 60px rgba(0,0,0,0.35);
+      border-color:rgba(184,247,58,0.25);
+    }
+    .pb-card .card-img {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform var(--t-slow) var(--ease);
+    }
+    .pb-card:hover .card-img { transform:scale(1.05); }
+    .pb-card .card-placeholder {
+      width:100%; height:100%; position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .pb-card .cph { font-family:var(--font-display); font-weight:800; opacity:0.1; letter-spacing:-0.04em; }
+
+    .pb-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding:28px; opacity:0; transition:opacity var(--t-med) var(--ease);
+    }
+    .pb-card:hover .pb-overlay { opacity:1; }
+    .pb-tag { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); margin-bottom:6px; }
+    .pb-title { font-family:var(--font-display); font-size:22px; font-weight:700; color:#fff; margin-bottom:8px; }
+    .pb-cta {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:8px 16px; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.2); border-radius:var(--r-pill);
+      font-size:12px; font-weight:600; color:#fff; width:fit-content;
+      transition:background var(--t-fast);
+    }
+    .pb-cta:hover { background:rgba(255,255,255,0.25); }
+
+    /* Layout sizes */
+    .pb-lg { grid-column:span 8; min-height:460px; }
+    .pb-sm { grid-column:span 4; min-height:460px; }
+    .pb-md { grid-column:span 6; min-height:340px; }
+    .pb-xs { grid-column:span 4; min-height:340px; }
+    .pb-tall { grid-column:span 4; min-height:340px; }
+
+    /* Filter hide */
+    .pb-card.hidden { display:none; }
+
+    /* Stats bar */
+    .stats-bar {
+      display:flex; gap:0; margin-bottom:56px;
+      border:1px solid var(--glass-border); border-radius:var(--r-xl); overflow:hidden;
+      background:var(--glass-bg); backdrop-filter:blur(16px);
+      transition: border-color var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+    }
+    .stats-bar:hover {
+      border-color: var(--lime-border);
+      box-shadow: 0 0 24px rgba(184,247,58,0.06);
+    }
+    .stats-bar-item {
+      flex:1; padding:24px 32px; text-align:center;
+      border-right:1px solid var(--glass-border);
+      transition: all var(--t-med) var(--ease);
+      cursor: default;
+    }
+    .stats-bar-item:last-child { border-right:none; }
+    .stats-bar-item:hover {
+      background: var(--glass-hover);
+      transform: scale(1.03);
+      box-shadow: inset 0 0 30px rgba(184,247,58,0.04);
+    }
+    .stats-bar-item:hover .sbi-val {
+      text-shadow: 0 0 20px var(--lime-glow), 0 0 40px rgba(184,247,58,0.15);
+    }
+    .sbi-val { font-family:var(--font-display); font-size:36px; font-weight:800; letter-spacing:-0.04em; color:var(--lime); }
+    .sbi-label { font-size:13px; color:var(--text-2); margin-top:4px; }
+
+    @media (max-width:960px) {
+      .pb-lg { grid-column:span 12; }
+      .pb-sm { grid-column:span 12; min-height:300px; }
+      .pb-md { grid-column:span 12; }
+      .pb-xs, .pb-tall { grid-column:span 6; }
+      .pb-overlay { opacity:1; }
+    }
+    @media (max-width:600px) {
+      .pb-xs, .pb-tall { grid-column:span 12; }
+      .portfolio-bento { grid-template-columns:1fr; }
+      .pb-lg,.pb-sm,.pb-md,.pb-xs,.pb-tall { grid-column:span 1; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo"><img src="images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link active">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="work-hero">
+    <div class="page-wrap">
+      <div class="label reveal">Selected work</div>
+      <h1 class="reveal" style="transition-delay:0.06s">Brand Identity<br><em>Projects.</em></h1>
+      <p class="reveal" style="transition-delay:0.12s">1000+ projects delivered. These are a selection — chosen to show range across industries, scales, and brand archetypes.</p>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-wrap">
+    <div class="page-wrap">
+      <div class="filter-tabs reveal">
+        <button class="filter-tab active" data-filter="all">All Work</button>
+        <button class="filter-tab" data-filter="identity">Brand Identity</button>
+        <button class="filter-tab" data-filter="logo">Logo Design</button>
+        <button class="filter-tab" data-filter="guidelines">Brand Guidelines</button>
+        <button class="filter-tab" data-filter="ui">UI / Digital</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div style="position:relative;z-index:1;">
+    <div class="page-wrap" style="padding-bottom:0">
+      <div class="stats-bar reveal">
+        <div class="stats-bar-item">
+          <div class="sbi-val">1000+</div>
+          <div class="sbi-label">Total projects</div>
+        </div>
+        <div class="stats-bar-item">
+          <div class="sbi-val">6+</div>
+          <div class="sbi-label">Years active</div>
+        </div>
+        <div class="stats-bar-item">
+          <div class="sbi-val">40+</div>
+          <div class="sbi-label">Industries served</div>
+        </div>
+        <div class="stats-bar-item">
+          <div class="sbi-val">5★</div>
+          <div class="sbi-label">Average rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO GRID -->
+  <section class="portfolio-section">
+    <div class="page-wrap">
+      <div class="portfolio-bento" id="portfolioGrid">
+
+        <!-- Fronxit — LARGE -->
+        <a href="https://www.behance.net/gallery/190207959/FRONXIT-BRAND-IDENTITY"
+           target="_blank" rel="noopener"
+           class="pb-card pb-lg reveal" data-category="identity">
+          <div class="card-placeholder"><span class="cph" style="font-size:120px">FRONXIT</span></div>
+          <img src="images/Fronxit Final ds_1.webp" class="card-img" alt="Fronxit" loading="lazy" />
+          <div class="pb-overlay">
+            <div class="pb-tag">Brand Identity</div>
+            <div class="pb-title">Fronxit</div>
+            <a href="https://www.behance.net/gallery/190207959/FRONXIT-BRAND-IDENTITY" target="_blank" rel="noopener" class="pb-cta">View on Behance ↗</a>
+          </div>
+        </a>
+
+        <!-- AdAstra — SMALL -->
+        <a href="https://www.behance.net/gallery/205709163/Brand-Identity-AdAstra-Aesthetics"
+           target="_blank" rel="noopener"
+           class="pb-card pb-sm reveal" style="transition-delay:0.1s" data-category="logo">
+          <div class="card-placeholder"><span class="cph" style="font-size:80px">AdAstra</span></div>
+          <img src="images/Ad_Astra_Aesthetics.webp" class="card-img" alt="AdAstra" loading="lazy" />
+          <div class="pb-overlay">
+            <div class="pb-tag">Logo Design</div>
+            <div class="pb-title">AdAstra Aesthetics</div>
+            <a href="https://www.behance.net/gallery/205709163/Brand-Identity-AdAstra-Aesthetics" target="_blank" rel="noopener" class="pb-cta">View ↗</a>
+          </div>
+        </a>
+
+        <!-- Motaville — MD -->
+        <a href="https://www.behance.net/gallery/191789555/Motaville-CBD-Online-Shop"
+           target="_blank" rel="noopener"
+           class="pb-card pb-md reveal" data-category="ui">
+          <div class="card-placeholder"><span class="cph" style="font-size:90px">Motaville</span></div>
+          <img src="images/Motaville.webp" class="card-img" alt="Motaville" loading="lazy" />
+          <div class="pb-overlay">
+            <div class="pb-tag">UI Design</div>
+            <div class="pb-title">Motaville CBD Shop</div>
+            <a href="https://www.behance.net/gallery/191789555/Motaville-CBD-Online-Shop" target="_blank" rel="noopener" class="pb-cta">View ↗</a>
+          </div>
+        </a>
+
+        <!-- Superempre — MD -->
+        <a href="https://www.behance.net/gallery/189848239/Logo-and-Brand-Identity-design-SUPEREMPRE"
+           target="_blank" rel="noopener"
+           class="pb-card pb-md reveal" style="transition-delay:0.08s" data-category="identity">
+          <div class="card-placeholder"><span class="cph" style="font-size:70px">SUPREM</span></div>
+          <img src="images/Superempre.webp" class="card-img" alt="Superempre" loading="lazy" />
+          <div class="pb-overlay">
+            <div class="pb-tag">Brand Identity</div>
+            <div class="pb-title">SUPEREMPRE</div>
+            <a href="https://www.behance.net/gallery/189848239/Logo-and-Brand-Identity-design-SUPEREMPRE" target="_blank" rel="noopener" class="pb-cta">View ↗</a>
+          </div>
+        </a>
+
+        <!-- Placeholder card 1 -->
+        <div class="pb-card pb-xs reveal" style="transition-delay:0.04s" data-category="logo">
+          <div class="card-placeholder" style="position:relative;height:100%;background:var(--bg-3);">
+            <div style="text-align:center">
+              <div style="font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)">Coming Soon</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:8px;">[ Add project ]</div>
+            </div>
+          </div>
+          <div class="pb-overlay" style="opacity:1;background:none;align-items:flex-start;">
+            <div class="pb-tag">Logo Design</div>
+            <div class="pb-title" style="font-size:18px">New Project</div>
+          </div>
+        </div>
+
+        <!-- Placeholder card 2 -->
+        <div class="pb-card pb-xs reveal" style="transition-delay:0.08s" data-category="guidelines">
+          <div class="card-placeholder" style="position:relative;height:100%;background:linear-gradient(135deg,var(--lime-dim),var(--bg-3));">
+            <span class="cph" style="font-size:60px;opacity:0.2">BG</span>
+          </div>
+          <div class="pb-overlay" style="opacity:1;background:none;align-items:flex-start;">
+            <div class="pb-tag">Brand Guidelines</div>
+            <div class="pb-title" style="font-size:18px">Client Project</div>
+          </div>
+        </div>
+
+        <!-- Placeholder card 3 -->
+        <div class="pb-card pb-tall reveal" style="transition-delay:0.12s" data-category="identity">
+          <div class="card-placeholder" style="position:relative;height:100%;background:var(--bg-2);">
+            <span class="cph" style="font-size:70px;opacity:0.12">ID</span>
+          </div>
+          <div class="pb-overlay" style="opacity:1;background:none;align-items:flex-start;">
+            <div class="pb-tag">Identity System</div>
+            <div class="pb-title" style="font-size:18px">In Progress</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Behance"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="#" class="social-btn" title="Dribbble"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="#" class="social-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" class="social-btn" title="Fiverr"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>
+    initPage('work.html');
+
+    // Filter tabs
+    const tabs = document.querySelectorAll('.filter-tab');
+    const cards = document.querySelectorAll('.pb-card');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+        cards.forEach(card => {
+          const cat = card.dataset.category;
+          if(filter === 'all' || cat === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
