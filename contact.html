@@ -607,7 +607,9 @@
       document.querySelectorAll('.field-error').forEach(f => f.classList.remove('field-error'));
     }
 
-    document.getElementById('submitBtn').addEventListener('click', function() {
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzdaloej';
+
+    document.getElementById('submitBtn').addEventListener('click', async function() {
       clearErrors();
 
       const fname = document.getElementById('firstName').value.trim();
@@ -629,38 +631,55 @@
       }
 
       if (hasError) {
-        // Scroll to first error
         const firstError = document.querySelector('.field-error');
         if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
 
-      // Collect selected services
       const services = [];
       document.querySelectorAll('#serviceChips .chip.active').forEach(c => services.push(c.dataset.val));
 
-      // In production, submit to Google Forms or your backend here
-      // Example Google Form submission:
-      // const formData = new FormData();
-      // formData.append('entry.XXXXXX', fname);
-      // formData.append('entry.XXXXXX', document.getElementById('lastName').value);
-      // formData.append('entry.XXXXXX', email);
-      // formData.append('entry.XXXXXX', document.getElementById('company').value);
-      // formData.append('entry.XXXXXX', services.join(', '));
-      // formData.append('entry.XXXXXX', document.getElementById('contactIndustry').value);
-      // formData.append('entry.XXXXXX', brief);
-      // formData.append('entry.XXXXXX', selectedBudget);
-      // formData.append('entry.XXXXXX', document.getElementById('timeline').value);
-      // formData.append('entry.XXXXXX', document.getElementById('referral').value);
-      // fetch('https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse', {
-      //   method: 'POST', body: formData, mode: 'no-cors'
-      // });
+      const btn = document.getElementById('submitBtn');
+      const btnOriginal = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
 
-      // Show success state
-      document.getElementById('contactForm').style.display = 'none';
-      const success = document.getElementById('formSuccess');
-      success.style.display = 'block';
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const payload = {
+        _subject: `New Project Inquiry — ${fname} (${email})`,
+        'First Name': fname,
+        'Last Name': document.getElementById('lastName').value.trim(),
+        'Email': email,
+        'Company / Brand': document.getElementById('company').value.trim(),
+        'Services Requested': services.join(', ') || 'Not specified',
+        'Industry': document.getElementById('contactIndustry').value,
+        'Project Brief': brief,
+        'Budget Range': selectedBudget || 'Not specified',
+        'Timeline': document.getElementById('timeline').value,
+        'How they found us': document.getElementById('referral').value
+      };
+
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          document.getElementById('contactForm').style.display = 'none';
+          const success = document.getElementById('formSuccess');
+          success.style.display = 'block';
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          btn.textContent = btnOriginal;
+          btn.disabled = false;
+          alert('Something went wrong. Please email us directly at hello@craftsynk.com');
+        }
+      } catch (err) {
+        btn.textContent = btnOriginal;
+        btn.disabled = false;
+        alert('Network error. Please email us directly at hello@craftsynk.com');
+      }
     });
   </script>
 </body>
