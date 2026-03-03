@@ -11,6 +11,7 @@
   --lime-dim:       rgba(184,247,58,0.10);
   --lime-glow:      rgba(184,247,58,0.22);
   --lime-border:    rgba(184,247,58,0.28);
+  --lime-text:      #b8f73a;
   --font-display:   'Syne', sans-serif;
   --font-body:      'DM Sans', sans-serif;
   --r-sm: 10px;  --r-md: 16px;  --r-lg: 24px;
@@ -48,6 +49,7 @@ body.light {
   --text: #111110; --text-2: rgba(17,17,16,0.58); --text-3: rgba(17,17,16,0.32);
   --text-inv: #f0ede8;
   --cursor-bg: rgba(184,247,58,0.28);
+  --lime-text:   #3a6e00;
 }
 
 /* ============ RESET ============ */
@@ -151,12 +153,12 @@ body.light footer img[alt="CraftSynk"] { filter: brightness(0); }
 }
 /* Nav links: glow text on hover instead of background tab */
 .nav-link:hover {
-  color: var(--lime);
+  color: var(--lime-text);
   text-shadow: 0 0 12px var(--lime-glow), 0 0 24px rgba(184,247,58,0.15);
   background: transparent;
 }
 .nav-link.active {
-  color: var(--lime);
+  color: var(--lime-text);
   text-shadow: 0 0 12px var(--lime-glow), 0 0 24px rgba(184,247,58,0.15);
   background: transparent;
 }
@@ -192,7 +194,7 @@ h4 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
 .label {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--lime); margin-bottom: 20px;
+  text-transform: uppercase; color: var(--lime-text); margin-bottom: 20px;
 }
 .label::before { content: ''; width: 18px; height: 1px; background: var(--lime); }
 
@@ -254,7 +256,7 @@ section { padding: 120px 0; }
   display: inline-flex; align-items: center; gap: 8px;
   padding: 7px 16px; background: var(--lime-dim);
   border: 1px solid var(--lime-border); border-radius: var(--r-pill);
-  font-size: 12px; font-weight: 600; color: var(--lime); letter-spacing: 0.04em;
+  font-size: 12px; font-weight: 600; color: var(--lime-text); letter-spacing: 0.04em;
 }
 .avail-dot {
   width: 7px; height: 7px; border-radius: 50%; background: var(--lime);
@@ -283,7 +285,7 @@ footer {
   transition: color var(--t-fast), text-shadow var(--t-fast);
 }
 .footer-col ul a:hover {
-  color: var(--lime);
+  color: var(--lime-text);
   text-shadow: 0 0 10px var(--lime-glow);
 }
 .footer-social { display: flex; gap: 10px; }
@@ -301,7 +303,7 @@ footer {
 }
 .social-btn:hover {
   background: var(--lime-dim); border-color: var(--lime-border);
-  color: var(--lime); transform: translateY(-3px);
+  color: var(--lime-text); transform: translateY(-3px);
   box-shadow: 0 0 20px var(--lime-glow), 0 8px 16px rgba(0,0,0,0.2);
 }
 .footer-bottom {
@@ -326,7 +328,7 @@ footer {
   transition: color var(--t-fast) var(--ease), text-shadow var(--t-fast) var(--ease);
 }
 .glow-text:hover {
-  color: var(--lime);
+  color: var(--lime-text);
   text-shadow: 0 0 12px var(--lime-glow), 0 0 28px rgba(184,247,58,0.12);
 }
 
@@ -336,7 +338,7 @@ footer {
               filter var(--t-fast) var(--ease);
 }
 .glow-icon:hover {
-  color: var(--lime);
+  color: var(--lime-text);
   text-shadow: 0 0 16px var(--lime-glow), 0 0 32px rgba(184,247,58,0.18);
   filter: drop-shadow(0 0 8px var(--lime-glow));
 }
@@ -376,6 +378,16 @@ footer {
   background: var(--glass-hover);
   box-shadow: 0 0 24px rgba(184,247,58,0.08);
 }
+
+/* ============ LIGHT MODE — LIME TEXT OVERRIDES ============ */
+/* Remove glow text-shadow on lime-coloured text in light mode */
+body.light .nav-link:hover,
+body.light .nav-link.active,
+body.light .label,
+body.light .glow-text:hover,
+body.light .glow-icon:hover,
+body.light .footer-col ul a:hover,
+body.light .social-btn:hover { text-shadow: none; }
 
 /* ============ MOBILE ============ */
 @media (max-width: 768px) {

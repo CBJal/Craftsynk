@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ░░ TEMPLATE — Replace title, description, og:image for each project ░░ -->
+  <title>Project Name — CraftSynk Case Study</title>
+  <meta name="description" content="A deep-dive into the brand identity system crafted for [Client Name] — strategy, mark, typography, and full visual system." />
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <style>
+    /* ── HERO ──────────────────────────────────────────── */
+    .proj-hero {
+      position: relative; overflow: hidden;
+      min-height: 90vh; display: flex; flex-direction: column;
+      justify-content: flex-end;
+    }
+    .proj-hero-media {
+      position: absolute; inset: 0; z-index: 0;
+      background: var(--bg-3);
+    }
+    .proj-hero-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 8s ease;
+    }
+    .proj-hero:hover .proj-hero-media img { transform: scale(1.04); }
+    .proj-hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.92) 0%,
+        rgba(0,0,0,0.55) 45%,
+        rgba(0,0,0,0.18) 100%
+      );
+    }
+    /* Light mode — softer overlay */
+    body.light .proj-hero-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.78) 0%,
+        rgba(0,0,0,0.4) 45%,
+        rgba(0,0,0,0.08) 100%
+      );
+    }
+    .proj-hero-content {
+      position: relative; z-index: 2;
+      padding: calc(var(--nav-h) + 80px) 0 72px;
+    }
+    .proj-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6);
+      margin-bottom: 40px; transition: color var(--t-fast) var(--ease),
+      gap var(--t-fast) var(--ease);
+    }
+    .proj-back:hover { color: #fff; gap: 12px; }
+    .proj-back svg { width: 16px; height: 16px; fill: currentColor; }
+    .proj-cats { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .proj-cat {
+      padding: 5px 14px; border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #0a0a0a;
+      background: var(--lime); border: none;
+    }
+    .proj-hero-content h1 {
+      color: #fff; max-width: 800px; margin-bottom: 20px;
+    }
+    .proj-hero-tagline {
+      font-size: 18px; color: rgba(255,255,255,0.65); max-width: 560px;
+      line-height: 1.65;
+    }
+    .proj-hero-meta {
+      display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap;
+    }
+    .phm-item { }
+    .phm-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
+    }
+    .phm-val {
+      font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.88);
+    }
+
+    /* ── OVERVIEW BAR ──────────────────────────────────── */
+    .proj-overview {
+      position: relative; z-index: 1; padding: 0;
+    }
+    .proj-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-xl);
+      overflow: hidden; margin-top: -40px;
+      position: relative; z-index: 3;
+      box-shadow: var(--glass-shadow);
+      transition: border-color var(--t-med) var(--ease);
+    }
+    .proj-stats:hover { border-color: var(--lime-border); }
+    .ps-item {
+      padding: 32px 28px; border-right: 1px solid var(--glass-border);
+      transition: background var(--t-fast) var(--ease);
+    }
+    .ps-item:last-child { border-right: none; }
+    .ps-item:hover { background: var(--glass-hover); }
+    .ps-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+    }
+    .ps-val {
+      font-family: var(--font-display); font-size: 16px; font-weight: 600;
+      color: var(--text); line-height: 1.3;
+    }
+
+    /* ── SECTION LAYOUT ────────────────────────────────── */
+    .proj-section { position: relative; z-index: 1; padding: 100px 0; }
+    .proj-section + .proj-section { padding-top: 0; }
+    .proj-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: start;
+    }
+    .proj-3col {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .proj-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--lime-text);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    }
+    .proj-label::before { content: ''; width: 18px; height: 1px; background: var(--lime); }
+    .proj-h2 {
+      font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 700; letter-spacing: -0.025em; color: var(--text);
+      line-height: 1.1; margin-bottom: 24px;
+    }
+    .proj-h2 em { font-style: normal; color: var(--lime-text); }
+    .proj-body {
+      font-size: 16px; line-height: 1.8; color: var(--text-2);
+    }
+    .proj-body p + p { margin-top: 16px; }
+
+    /* ── CHALLENGE CARD ────────────────────────────────── */
+    .challenge-card {
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-xl);
+      padding: 48px; position: relative; overflow: hidden;
+    }
+    .challenge-card::before {
+      content: '"';
+      position: absolute; top: 16px; left: 32px;
+      font-family: var(--font-display); font-size: 120px; line-height: 1;
+      color: var(--lime); opacity: 0.07; font-weight: 800; pointer-events: none;
+    }
+    .challenge-quote {
+      font-family: var(--font-display); font-size: clamp(18px, 2vw, 24px);
+      font-weight: 600; color: var(--text); line-height: 1.45;
+      position: relative; z-index: 1;
+    }
+
+    /* ── IMAGE BLOCKS ──────────────────────────────────── */
+    .proj-img-full {
+      width: 100%; aspect-ratio: 16/7; object-fit: cover;
+      border-radius: var(--r-xl); overflow: hidden;
+      background: var(--bg-3); display: block;
+    }
+    .proj-img-full img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: var(--r-xl);
+      transition: transform var(--t-slow) var(--ease);
+    }
+    .proj-img-full:hover img { transform: scale(1.02); }
+
+    .proj-img-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .proj-img-grid-3 {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px;
+    }
+    .proj-img-cell {
+      aspect-ratio: 4/3; border-radius: var(--r-lg); overflow: hidden;
+      background: var(--bg-3);
+    }
+    .proj-img-cell.tall { aspect-ratio: 3/4; }
+    .proj-img-cell img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform var(--t-slow) var(--ease);
+    }
+    .proj-img-cell:hover img { transform: scale(1.04); }
+
+    /* Placeholder (shown when no image is set) */
+    .proj-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+    }
+    .proj-placeholder span {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 48px; letter-spacing: -0.04em;
+      color: var(--lime); opacity: 0.12;
+    }
+
+    /* ── DELIVERABLES ──────────────────────────────────── */
+    .deliverable-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .deliverable-card {
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-lg);
+      padding: 28px 24px;
+      transition: border-color var(--t-med) var(--ease),
+                  transform var(--t-med) var(--ease),
+                  box-shadow var(--t-med) var(--ease);
+    }
+    .deliverable-card:hover {
+      border-color: var(--lime-border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2), 0 0 20px rgba(184,247,58,0.06);
+    }
+    .dc-icon {
+      font-size: 28px; margin-bottom: 14px; line-height: 1;
+      transition: text-shadow var(--t-fast) var(--ease);
+    }
+    .deliverable-card:hover .dc-icon {
+      text-shadow: 0 0 20px var(--lime-glow);
+    }
+    .dc-title {
+      font-family: var(--font-display); font-size: 15px; font-weight: 600;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .dc-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    /* ── RESULTS ───────────────────────────────────────── */
+    .results-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      margin-bottom: 56px;
+    }
+    .result-card {
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-lg);
+      padding: 32px 24px; text-align: center;
+      transition: border-color var(--t-med), transform var(--t-med) var(--ease),
+                  box-shadow var(--t-med) var(--ease);
+    }
+    .result-card:hover {
+      border-color: var(--lime-border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    }
+    .rc-val {
+      font-family: var(--font-display); font-size: 40px; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--lime-text); line-height: 1;
+      margin-bottom: 8px;
+      transition: text-shadow var(--t-fast) var(--ease);
+    }
+    .result-card:hover .rc-val {
+      text-shadow: 0 0 24px var(--lime-glow);
+    }
+    .rc-label { font-size: 13px; color: var(--text-2); line-height: 1.4; }
+
+    /* ── TESTIMONIAL ───────────────────────────────────── */
+    .testimonial-wrap {
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-xl);
+      padding: 56px 64px; position: relative; overflow: hidden;
+    }
+    .testimonial-wrap::before {
+      content: '◈';
+      position: absolute; top: -20px; right: 40px;
+      font-size: 160px; color: var(--lime); opacity: 0.04;
+      font-family: var(--font-display); pointer-events: none;
+    }
+    .testimonial-quote {
+      font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 600; color: var(--text); line-height: 1.5;
+      margin-bottom: 32px; max-width: 760px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .ta-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--lime-dim); border: 1px solid var(--lime-border);
+      overflow: hidden; flex-shrink: 0;
+    }
+    .ta-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .ta-name {
+      font-weight: 600; font-size: 15px; color: var(--text);
+    }
+    .ta-role { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+
+    /* ── NEXT PROJECT ──────────────────────────────────── */
+    .next-project {
+      position: relative; z-index: 1; padding: 0 0 120px;
+    }
+    .next-inner {
+      background: var(--glass-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-xl);
+      overflow: hidden; position: relative; cursor: pointer;
+      min-height: 280px; display: flex; align-items: flex-end;
+      transition: border-color var(--t-med) var(--ease),
+                  transform var(--t-med) var(--ease),
+                  box-shadow var(--t-med) var(--ease);
+      text-decoration: none; color: inherit;
+    }
+    .next-inner:hover {
+      border-color: var(--lime-border);
+      transform: translateY(-6px);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 40px rgba(184,247,58,0.06);
+    }
+    .next-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+    }
+    .next-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform var(--t-slow) var(--ease);
+      opacity: 0.4;
+    }
+    .next-inner:hover .next-bg img { transform: scale(1.06); }
+    .next-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+    }
+    .next-content {
+      position: relative; z-index: 2; padding: 48px;
+      width: 100%;
+    }
+    .next-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--lime-text); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .next-eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--lime); }
+    .next-title {
+      font-family: var(--font-display); font-size: clamp(24px, 3vw, 40px);
+      font-weight: 700; color: #fff; letter-spacing: -0.025em;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .next-arrow {
+      font-size: 28px; color: var(--lime);
+      transition: transform var(--t-fast) var(--ease);
+    }
+    .next-inner:hover .next-arrow { transform: translate(6px, -4px); }
+
+    /* ── DIVIDER ───────────────────────────────────────── */
+    .proj-divider {
+      height: 1px; background: var(--glass-border);
+      margin: 0; position: relative; z-index: 1;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .proj-2col { grid-template-columns: 1fr; gap: 40px; }
+      .proj-3col { grid-template-columns: 1fr; gap: 24px; }
+      .proj-stats { grid-template-columns: 1fr 1fr; }
+      .ps-item:nth-child(2) { border-right: none; }
+      .ps-item:nth-child(3) { border-top: 1px solid var(--glass-border); }
+      .deliverable-grid { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .testimonial-wrap { padding: 40px 32px; }
+      .proj-img-grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .proj-hero-meta { flex-direction: column; gap: 16px; }
+      .proj-stats { grid-template-columns: 1fr; }
+      .ps-item { border-right: none; border-bottom: 1px solid var(--glass-border); }
+      .ps-item:last-child { border-bottom: none; }
+      .deliverable-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .proj-img-grid { grid-template-columns: 1fr; }
+      .proj-img-grid-3 { grid-template-columns: 1fr; }
+      .next-content { padding: 32px 24px; }
+    }
+  </style>
+</head>
+
+<body class="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo">
+      <img src="images/logo.png" alt="CraftSynk" />
+    </a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link active">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+    </div>
+  </nav>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       HERO — Replace src with actual project image
+       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="proj-hero">
+    <div class="proj-hero-media">
+      <!-- Replace src with your hero image. Recommended: 1600×900px WebP -->
+      <img src="images/Fronxit Final ds_1.webp" alt="Project Hero Image" />
+    </div>
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-content">
+      <div class="page-wrap">
+
+        <a href="work.html" class="proj-back reveal">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Back to Work
+        </a>
+
+        <!-- ░ CATEGORIES — adjust as needed ░ -->
+        <div class="proj-cats reveal">
+          <span class="proj-cat">Brand Identity</span>
+          <span class="proj-cat">Logo Design</span>
+        </div>
+
+        <!-- ░ PROJECT NAME ░ -->
+        <h1 class="reveal" style="transition-delay:0.08s">Fronxit</h1>
+
+        <!-- ░ PROJECT TAGLINE ░ -->
+        <p class="proj-hero-tagline reveal" style="transition-delay:0.14s">
+          A bold, technical identity for a next-generation cybersecurity firm
+          built to communicate precision, authority, and digital intelligence.
+        </p>
+
+        <!-- ░ KEY META — visible on hero ░ -->
+        <div class="proj-hero-meta reveal" style="transition-delay:0.2s">
+          <div class="phm-item">
+            <div class="phm-label">Client</div>
+            <div class="phm-val">Fronxit</div>
+          </div>
+          <div class="phm-item">
+            <div class="phm-label">Year</div>
+            <div class="phm-val">2024</div>
+          </div>
+          <div class="phm-item">
+            <div class="phm-label">Industry</div>
+            <div class="phm-val">Cybersecurity</div>
+          </div>
+          <div class="phm-item">
+            <div class="phm-label">Timeline</div>
+            <div class="phm-val">3 Weeks</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW STATS BAR -->
+  <div class="proj-overview" style="position:relative;z-index:2;">
+    <div class="page-wrap">
+      <div class="proj-stats reveal">
+        <div class="ps-item">
+          <div class="ps-label">Client</div>
+          <div class="ps-val">Fronxit Inc.</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-label">Services</div>
+          <div class="ps-val">Brand Identity · Logo · Guidelines</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-label">Deliverables</div>
+          <div class="ps-val">Full brand system + 50+ asset files</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-label">View Live</div>
+          <div class="ps-val">
+            <a href="https://www.behance.net/gallery/190207959/FRONXIT-BRAND-IDENTITY"
+               target="_blank" rel="noopener"
+               style="color:var(--lime-text);text-decoration:underline;text-underline-offset:3px;">
+              Behance ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIEF / CHALLENGE ───────────────────────────────── -->
+  <section class="proj-section">
+    <div class="page-wrap">
+      <div class="proj-2col">
+
+        <div>
+          <div class="proj-label reveal">The Brief</div>
+          <h2 class="proj-h2 reveal" style="transition-delay:0.06s">
+            Build a brand that commands <em>authority</em>
+          </h2>
+          <!-- ░ BRIEF COPY — replace with actual project brief ░ -->
+          <div class="proj-body reveal" style="transition-delay:0.12s">
+            <p>Fronxit came to us with a clear directive: create a visual identity that communicates technical mastery, digital precision, and enterprise-grade trust — without falling into tired cybersecurity clichés of padlocks and shields.</p>
+            <p>The brand needed to scale from small-format digital icons to large-format physical installations while maintaining legibility and impact at every size.</p>
+          </div>
+        </div>
+
+        <!-- ░ CHALLENGE CARD — replace with your key challenge quote ░ -->
+        <div class="challenge-card reveal" style="transition-delay:0.08s">
+          <p class="challenge-quote">
+            "The industry defaults to the same visual language — we needed something that felt genuinely different while still reading as credible and authoritative."
+          </p>
+          <p style="margin-top:24px;font-size:13px;color:var(--text-3);">
+            — Design brief, Fronxit
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL-WIDTH IMAGE 1 -->
+  <div style="position:relative;z-index:1;">
+    <div class="page-wrap">
+      <!-- ░ MAIN PROJECT IMAGE — replace src ░ -->
+      <div class="proj-img-full reveal">
+        <img src="images/Fronxit Final ds_1.webp" alt="Fronxit brand overview" loading="lazy" />
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH / PROCESS ──────────────────────────────── -->
+  <section class="proj-section">
+    <div class="page-wrap">
+
+      <div style="max-width:640px;margin-bottom:64px;">
+        <div class="proj-label reveal">Approach</div>
+        <h2 class="proj-h2 reveal" style="transition-delay:0.06s">
+          Structure, then <em>expression</em>
+        </h2>
+        <!-- ░ APPROACH COPY ░ -->
+        <div class="proj-body reveal" style="transition-delay:0.12s">
+          <p>We began with a two-day brand strategy sprint — distilling positioning, competitive landscape, and visual references into a tight creative brief. The mark exploration was grounded in geometry: angular constructs that suggest both a network topology and a forward-facing shield form.</p>
+          <p>Typography was selected for extreme legibility at small sizes, with a custom wordmark modification to the primary typeface that created differentiation without sacrificing readability.</p>
+        </div>
+      </div>
+
+      <!-- ░ DELIVERABLE CARDS — update icons, titles, descriptions ░ -->
+      <div class="deliverable-grid">
+        <div class="deliverable-card reveal">
+          <div class="dc-icon">◈</div>
+          <div class="dc-title">Primary Mark</div>
+          <div class="dc-desc">Geometric logomark with angular network motif — works in full-colour, mono, and reversed.</div>
+        </div>
+        <div class="deliverable-card reveal" style="transition-delay:0.06s">
+          <div class="dc-icon">▤</div>
+          <div class="dc-title">Typography System</div>
+          <div class="dc-desc">Two-family hierarchy — display for headlines, mono-spaced for data and UI contexts.</div>
+        </div>
+        <div class="deliverable-card reveal" style="transition-delay:0.12s">
+          <div class="dc-icon">◑</div>
+          <div class="dc-title">Colour Architecture</div>
+          <div class="dc-desc">Dark-first palette with a high-contrast accent — optimised for digital and dark-mode interfaces.</div>
+        </div>
+        <div class="deliverable-card reveal" style="transition-delay:0.06s">
+          <div class="dc-icon">▣</div>
+          <div class="dc-title">Brand Guidelines</div>
+          <div class="dc-desc">48-page PDF — usage rules, prohibited uses, spacing systems, and co-branding protocols.</div>
+        </div>
+        <div class="deliverable-card reveal" style="transition-delay:0.12s">
+          <div class="dc-icon">◎</div>
+          <div class="dc-title">Icon & Sub-mark Set</div>
+          <div class="dc-desc">Favicon, app icon, social avatars, and a pattern system derived from the primary mark.</div>
+        </div>
+        <div class="deliverable-card reveal" style="transition-delay:0.18s">
+          <div class="dc-icon">⬡</div>
+          <div class="dc-title">Application Mockups</div>
+          <div class="dc-desc">Stationery, digital UI, presentation deck, and environmental signage examples.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IMAGE GRID ──────────────────────────────────────── -->
+  <div style="position:relative;z-index:1;padding-bottom:100px;">
+    <div class="page-wrap">
+      <div class="proj-img-grid-3 reveal">
+        <!-- ░ REPLACE src values with actual mockup images ░ -->
+        <div class="proj-img-cell" style="aspect-ratio:3/4;">
+          <div class="proj-placeholder"><span>F</span></div>
+        </div>
+        <div class="proj-img-cell">
+          <div class="proj-placeholder"><span>◈</span></div>
+        </div>
+        <div class="proj-img-cell">
+          <div class="proj-placeholder"><span>Aa</span></div>
+        </div>
+      </div>
+      <div class="proj-img-grid reveal" style="margin-top:16px;transition-delay:0.08s">
+        <div class="proj-img-cell">
+          <div class="proj-placeholder"><span>BG</span></div>
+        </div>
+        <div class="proj-img-cell">
+          <div class="proj-placeholder"><span>ID</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-divider"></div>
+
+  <!-- RESULTS ─────────────────────────────────────────── -->
+  <section class="proj-section">
+    <div class="page-wrap">
+
+      <div style="max-width:560px;margin-bottom:48px;">
+        <div class="proj-label reveal">The Outcome</div>
+        <h2 class="proj-h2 reveal" style="transition-delay:0.06s">
+          A system that <em>performs</em>
+        </h2>
+      </div>
+
+      <!-- ░ RESULTS — replace with actual metrics ░ -->
+      <div class="results-grid">
+        <div class="result-card reveal">
+          <div class="rc-val">3×</div>
+          <div class="rc-label">Increase in inbound enterprise inquiries post-launch</div>
+        </div>
+        <div class="result-card reveal" style="transition-delay:0.06s">
+          <div class="rc-val">48h</div>
+          <div class="rc-label">Brand rollout from delivery to live across all channels</div>
+        </div>
+        <div class="result-card reveal" style="transition-delay:0.12s">
+          <div class="rc-val">50+</div>
+          <div class="rc-label">Brand asset files delivered (AI, SVG, PNG, PDF)</div>
+        </div>
+        <div class="result-card reveal" style="transition-delay:0.18s">
+          <div class="rc-val">5★</div>
+          <div class="rc-label">Client satisfaction rating</div>
+        </div>
+      </div>
+
+      <!-- TESTIMONIAL -->
+      <div class="testimonial-wrap reveal" style="transition-delay:0.08s">
+        <!-- ░ REPLACE with actual testimonial ░ -->
+        <p class="testimonial-quote">
+          "Craftsynk delivered something we didn't think was possible in three weeks — a complete brand system that feels both timeless and unmistakably ours. The strategic depth behind every decision made the difference."
+        </p>
+        <div class="testimonial-author">
+          <div class="ta-avatar">
+            <!-- Optional: add client avatar image -->
+          </div>
+          <div>
+            <div class="ta-name">Fronxit Team</div>
+            <div class="ta-role">Fronxit Inc. — Cybersecurity</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA STRIP ───────────────────────────────────────── -->
+  <div style="position:relative;z-index:1;padding-bottom:80px;">
+    <div class="page-wrap">
+      <div style="
+        background:var(--glass-card);backdrop-filter:blur(20px);
+        border:1px solid var(--lime-border);border-radius:var(--r-xl);
+        padding:56px 64px;display:flex;align-items:center;
+        justify-content:space-between;gap:40px;flex-wrap:wrap;
+      " class="reveal">
+        <div>
+          <div class="proj-label">Ready to build yours?</div>
+          <h3 style="font-family:var(--font-display);font-size:clamp(22px,2.5vw,32px);color:var(--text);letter-spacing:-0.02em;line-height:1.2;">
+            Let's create a brand system<br>that works as hard as you do.
+          </h3>
+        </div>
+        <a href="contact.html" class="btn btn-primary" style="flex-shrink:0;white-space:nowrap;">
+          Start a Project →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT PROJECT ─────────────────────────────────────── -->
+  <div class="next-project">
+    <div class="page-wrap">
+      <div class="proj-label reveal" style="margin-bottom:20px;">Next Project</div>
+      <!-- ░ REPLACE href, image, and title ░ -->
+      <a href="https://www.behance.net/gallery/205709163/Brand-Identity-AdAstra-Aesthetics"
+         target="_blank" rel="noopener"
+         class="next-inner reveal" style="transition-delay:0.06s">
+        <div class="next-bg">
+          <img src="images/Ad_Astra_Aesthetics.webp" alt="AdAstra Aesthetics" />
+        </div>
+        <div class="next-overlay"></div>
+        <div class="next-content">
+          <div class="next-eyebrow">Logo Design</div>
+          <div class="next-title">
+            AdAstra Aesthetics
+            <span class="next-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="https://www.behance.net/cbjal" class="social-btn" title="Behance" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="https://dribbble.com/CBJ001" class="social-btn" title="Dribbble" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="https://www.instagram.com/chandanbjal/" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.fiverr.com/s/bd6P2Dm" class="social-btn" title="Fiverr" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+            <a href="https://www.linkedin.com/in/chandan-b-jal/" class="social-btn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>initPage('work.html');</script>
+
+</body>
+</html>

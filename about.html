@@ -17,7 +17,7 @@
       display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center;
     }
     .hero-text h1 { margin-bottom: 24px; }
-    .hero-text h1 em { font-style: normal; color: var(--lime); }
+    .hero-text h1 em { font-style: normal; color: var(--lime-text); }
     .hero-text p { font-size: 18px; color: var(--text-2); line-height: 1.7; max-width: 520px; }
 
     /* Photo card */
@@ -63,7 +63,7 @@
       transition: transform var(--t-med) var(--ease);
     }
     .stat-card:hover { transform: translateY(-4px); border-color: var(--lime-border); box-shadow: 0 0 24px rgba(184,247,58,0.08); }
-    .stat-card .sv { font-family: var(--font-display); font-size: 52px; font-weight: 800; letter-spacing:-0.04em; color: var(--lime); line-height:1; margin-bottom:8px; }
+    .stat-card .sv { font-family: var(--font-display); font-size: 52px; font-weight: 800; letter-spacing:-0.04em; color: var(--lime-text); line-height:1; margin-bottom:8px; }
     .stat-card .sl { font-size: 14px; color: var(--text-2); }
 
     /* ---- ABOUT BODY ---- */
@@ -78,7 +78,7 @@
       border-left: 2px solid transparent;
       transition: all var(--t-fast) var(--ease);
     }
-    .about-nav ul a:hover, .about-nav ul a.act { color: var(--lime); background: var(--lime-dim); border-left-color: var(--lime); }
+    .about-nav ul a:hover, .about-nav ul a.act { color: var(--lime-text); background: var(--lime-dim); border-left-color: var(--lime-text); }
     .about-content { display: flex; flex-direction: column; gap: 80px; }
 
     /* Section inside about */
@@ -100,7 +100,7 @@
       width: 42px; height: 42px; border-radius: var(--r-md);
       background: var(--lime-dim); border: 1px solid var(--lime-border);
       font-family: var(--font-display); font-size: 15px; font-weight: 800;
-      letter-spacing: -0.02em; color: var(--lime); margin-bottom: 18px;
+      letter-spacing: -0.02em; color: var(--lime-text); margin-bottom: 18px;
       transition: all var(--t-med) var(--ease);
       position: relative; overflow: hidden;
     }
@@ -140,7 +140,7 @@
       opacity: 0; transition: opacity var(--t-med) var(--ease);
     }
     .process-item:hover .pi-num {
-      color: var(--lime); border-color: var(--lime-border);
+      color: var(--lime-text); border-color: var(--lime-border);
       background: var(--lime-dim);
       box-shadow: 0 0 20px var(--lime-glow);
       transform: scale(1.1);
