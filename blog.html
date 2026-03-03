@@ -12,7 +12,7 @@
       padding-top: calc(var(--nav-h) + 80px);
       padding-bottom: 60px; position:relative; z-index:1;
     }
-    .blog-hero h1 em { font-style:normal; color:var(--lime); }
+    .blog-hero h1 em { font-style:normal; color:var(--lime-text); }
     .blog-hero p { font-size:17px; color:var(--text-2); max-width:480px; margin-top:16px; line-height:1.65; }
 
     /* ---- CATEGORY FILTER ---- */
@@ -64,7 +64,7 @@
     .post-meta { display:flex; gap:16px; align-items:center; margin-bottom:20px; flex-wrap:wrap; }
     .post-cat {
       font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--lime);
+      color:var(--lime-text);
     }
     .post-date { font-size:12px; color:var(--text-3); }
     .post-read { font-size:12px; color:var(--text-3); }
@@ -72,7 +72,7 @@
     .featured-content p { font-size:15px; color:var(--text-2); line-height:1.7; margin-bottom:28px; }
     .read-btn {
       display:inline-flex; align-items:center; gap:8px;
-      font-size:14px; font-weight:600; color:var(--lime);
+      font-size:14px; font-weight:600; color:var(--lime-text);
       width:fit-content; transition:gap var(--t-fast) var(--ease);
     }
     .read-btn:hover { gap:14px; }
@@ -106,7 +106,7 @@
     .post-meta-sm { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
     .pc-cat {
       font-size:11px; font-weight:700; letter-spacing:0.08em;
-      text-transform:uppercase; color:var(--lime);
+      text-transform:uppercase; color:var(--lime-text);
     }
     .pc-date { font-size:11px; color:var(--text-3); }
     .post-card h3 { font-size:18px; line-height:1.25; margin-bottom:10px; transition:color var(--t-fast) var(--ease), text-shadow var(--t-fast) var(--ease); }
@@ -116,12 +116,13 @@
       font-size:12px; color:var(--text-3);
     }
     .post-footer .read-time { display:flex; gap:6px; align-items:center; }
-    .post-footer .read-arrow { color:var(--lime); font-size:16px; transition:transform var(--t-fast); }
+    .post-footer .read-arrow { color:var(--lime-text); font-size:16px; transition:transform var(--t-fast); }
     .post-card:hover .read-arrow { transform:translate(4px,-4px); }
     .post-card:hover h3 {
       color: var(--lime-text);
       text-shadow: 0 0 10px rgba(184,247,58,0.15);
     }
+    body.light .post-card:hover h3 { text-shadow: none; }
 
     /* ---- HIDDEN POSTS ---- */
     .post-card.hidden, .featured-card.hidden { display:none; }
@@ -184,8 +185,27 @@
     <div class="nav-right">
       <button class="theme-toggle" id="themeToggle">🌙</button>
       <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="services.html" class="nav-mobile-link">Services</a>
+      <a href="work.html" class="nav-mobile-link">Work</a>
+      <a href="logo-lab.html" class="nav-mobile-link">Logo Lab</a>
+      <a href="blog.html" class="nav-mobile-link active">Blog</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <div class="blog-hero">

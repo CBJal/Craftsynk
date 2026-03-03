@@ -67,4 +67,17 @@ function initPage(currentPage) {
     }
     requestAnimationFrame(step);
   };
+
+  // ---- HAMBURGER ----
+  const burger   = document.getElementById('navBurger');
+  const mobile   = document.getElementById('navMobile');
+  const overlay  = document.getElementById('navOverlay');
+  const navClose = document.getElementById('navClose');
+  function openNav()  { mobile.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeNav() { mobile.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow=''; }
+  if(burger) {
+    burger.addEventListener('click', openNav);
+    navClose.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+  }
 }
