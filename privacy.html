@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — CraftSynk</title>
+  <meta name="description" content="How Craftsynk collects, uses, and protects your personal information." />
+  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    /* ---- LEGAL PAGE ---- */
+    .legal-hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 64px;
+      border-bottom: 1px solid var(--glass-border);
+      position: relative; z-index: 1;
+    }
+    .legal-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; background: var(--glass-card);
+      border: 1px solid var(--glass-border); border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 600; color: var(--text-2);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .legal-hero h1 {
+      font-size: clamp(36px, 5vw, 64px);
+      margin-bottom: 16px; line-height: 1.05;
+    }
+    .legal-hero h1 em { font-style: normal; color: var(--lime); }
+    .legal-meta {
+      font-size: 14px; color: var(--text-3);
+    }
+
+    /* Content layout */
+    .legal-body { padding: 80px 0 120px; }
+    .legal-wrap {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Sticky TOC */
+    .legal-toc {
+      position: sticky; top: 100px;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 16px; font-family: var(--font-body);
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .toc-list a {
+      display: block; padding: 8px 12px; font-size: 13px; color: var(--text-2);
+      border-radius: var(--r-md); border-left: 2px solid transparent;
+      transition: all var(--t-fast) var(--ease);
+    }
+    .toc-list a:hover { color: var(--text); border-left-color: var(--lime); background: var(--glass-card); }
+
+    /* Content */
+    .legal-content { max-width: 680px; }
+    .legal-section {
+      margin-bottom: 56px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .legal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .legal-section h2 {
+      font-size: 22px; margin-bottom: 20px; line-height: 1.2;
+    }
+    .legal-section h3 {
+      font-size: 16px; margin-bottom: 12px; margin-top: 28px; color: var(--text);
+    }
+    .legal-section p {
+      font-size: 15px; color: var(--text-2); line-height: 1.75; margin-bottom: 16px;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+    .legal-section ul {
+      list-style: none; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .legal-section ul li {
+      font-size: 15px; color: var(--text-2); line-height: 1.6;
+      padding-left: 18px; position: relative;
+    }
+    .legal-section ul li::before {
+      content: '—'; position: absolute; left: 0; color: var(--lime); font-weight: 700;
+    }
+    .legal-highlight {
+      background: var(--glass-card); border: 1px solid var(--glass-border);
+      border-radius: var(--r-md); padding: 20px 24px; margin: 24px 0;
+    }
+    .legal-highlight p { margin-bottom: 0; font-size: 14px; }
+    .contact-link {
+      color: var(--lime); border-bottom: 1px solid var(--lime-border);
+      transition: opacity var(--t-fast);
+    }
+    .contact-link:hover { opacity: 0.75; }
+
+    @media (max-width: 880px) {
+      .legal-wrap { grid-template-columns: 1fr; }
+      .legal-toc { display: none; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo"><img src="images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="legal-hero">
+    <div class="page-wrap">
+      <div class="legal-badge">Legal</div>
+      <h1>Privacy <em>Policy.</em></h1>
+      <p class="legal-meta">Last updated: March 2026</p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="legal-body">
+    <div class="page-wrap">
+      <div class="legal-wrap">
+
+        <!-- TOC -->
+        <nav class="legal-toc reveal">
+          <div class="toc-title">Contents</div>
+          <ul class="toc-list">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#information">Information We Collect</a></li>
+            <li><a href="#use">How We Use It</a></li>
+            <li><a href="#sharing">Sharing & Disclosure</a></li>
+            <li><a href="#cookies">Cookies & Analytics</a></li>
+            <li><a href="#retention">Data Retention</a></li>
+            <li><a href="#rights">Your Rights</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#children">Children</a></li>
+            <li><a href="#changes">Policy Changes</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- CONTENT -->
+        <div class="legal-content reveal" style="transition-delay:0.08s">
+
+          <div class="legal-section" id="overview">
+            <h2>Overview</h2>
+            <p>Craftsynk ("we", "us", "our") operates this website. This Privacy Policy explains how we collect, use, and protect information you provide when you visit or interact with this site. We take your privacy seriously — we collect only what we need and never sell your data.</p>
+            <div class="legal-highlight">
+              <p>Short version: We collect contact form submissions and basic analytics. We don't sell your data, we don't spam, and you can ask us to delete your information at any time.</p>
+            </div>
+          </div>
+
+          <div class="legal-section" id="information">
+            <h2>Information We Collect</h2>
+            <h3>Information you provide directly</h3>
+            <p>When you submit the contact form or subscribe through Logo Lab, we collect:</p>
+            <ul>
+              <li>Name and email address</li>
+              <li>Company or brand name (optional)</li>
+              <li>Project details you share in your brief</li>
+              <li>Budget and timeline preferences</li>
+              <li>How you heard about us</li>
+            </ul>
+            <h3>Information collected automatically</h3>
+            <p>When you visit this website, standard server and analytics tools may collect:</p>
+            <ul>
+              <li>Browser type and version</li>
+              <li>Pages visited and time spent</li>
+              <li>Referring website</li>
+              <li>General geographic region (country/city level)</li>
+            </ul>
+            <p>We do not collect precise location data, device identifiers, or any information beyond what is necessary for operating and improving this site.</p>
+          </div>
+
+          <div class="legal-section" id="use">
+            <h2>How We Use It</h2>
+            <p>Information collected is used solely to:</p>
+            <ul>
+              <li>Respond to project inquiries submitted through the contact form</li>
+              <li>Deliver Logo Lab downloads to subscribers</li>
+              <li>Send occasional design-related updates (subscribers only — you can unsubscribe at any time)</li>
+              <li>Understand how visitors use this site to improve it</li>
+            </ul>
+            <p>We do not use your information for automated decision-making, profiling, or targeted advertising. Every email from Craftsynk is personally reviewed and sent by a human.</p>
+          </div>
+
+          <div class="legal-section" id="sharing">
+            <h2>Sharing &amp; Disclosure</h2>
+            <p>We do not sell, rent, or trade your personal information. We may share data only in these limited circumstances:</p>
+            <ul>
+              <li><strong>Service providers:</strong> Third-party tools that help us operate (e.g., Formspree for form processing). These providers are contractually bound to handle data securely and only as instructed.</li>
+              <li><strong>Legal compliance:</strong> If required by law, regulation, or valid legal process.</li>
+              <li><strong>Business transfer:</strong> In the unlikely event of a merger or acquisition, user data would transfer subject to the same privacy commitments.</li>
+            </ul>
+          </div>
+
+          <div class="legal-section" id="cookies">
+            <h2>Cookies &amp; Analytics</h2>
+            <p>This site may use minimal cookies for functionality (e.g., remembering your theme preference). We use privacy-respecting analytics — if any — to understand aggregate visitor behaviour. We do not use advertising cookies or third-party trackers beyond what is operationally necessary.</p>
+            <p>You can disable cookies in your browser settings. Core site functionality will not be affected.</p>
+          </div>
+
+          <div class="legal-section" id="retention">
+            <h2>Data Retention</h2>
+            <p>Contact form submissions are retained for up to 24 months to allow us to follow up on inquiries and maintain project records. Subscriber emails are retained until you unsubscribe. You may request deletion at any time by emailing us at <a href="mailto:hello@craftsynk.com" class="contact-link">hello@craftsynk.com</a>.</p>
+          </div>
+
+          <div class="legal-section" id="rights">
+            <h2>Your Rights</h2>
+            <p>Depending on your location, you may have rights including:</p>
+            <ul>
+              <li>Access — request a copy of the data we hold about you</li>
+              <li>Correction — request we fix inaccurate data</li>
+              <li>Deletion — request we erase your data ("right to be forgotten")</li>
+              <li>Portability — receive your data in a structured format</li>
+              <li>Objection — object to certain processing activities</li>
+              <li>Unsubscribe — opt out of marketing emails at any time</li>
+            </ul>
+            <p>To exercise any of these rights, email <a href="mailto:hello@craftsynk.com" class="contact-link">hello@craftsynk.com</a>. We respond within 30 days.</p>
+          </div>
+
+          <div class="legal-section" id="security">
+            <h2>Security</h2>
+            <p>We implement appropriate technical and organisational measures to protect your information against unauthorised access, alteration, disclosure, or destruction. This site is served over HTTPS. Form submissions are processed by Formspree, which uses industry-standard encryption in transit and at rest.</p>
+            <p>No method of transmission over the internet is 100% secure. We cannot guarantee absolute security, but we take reasonable precautions and will notify you of any breach that affects your data as required by applicable law.</p>
+          </div>
+
+          <div class="legal-section" id="children">
+            <h2>Children</h2>
+            <p>This website is not directed at children under 16. We do not knowingly collect personal information from minors. If you believe a minor has submitted information to us, please contact us and we will delete it promptly.</p>
+          </div>
+
+          <div class="legal-section" id="changes">
+            <h2>Policy Changes</h2>
+            <p>We may update this Privacy Policy periodically. Changes are effective immediately upon posting to this page. The "Last updated" date at the top will reflect any revision. We encourage you to review this policy occasionally. Continued use of this site after changes constitutes acceptance.</p>
+          </div>
+
+          <div class="legal-section" id="contact">
+            <h2>Contact</h2>
+            <p>Questions, requests, or concerns about this Privacy Policy should be directed to:</p>
+            <div class="legal-highlight">
+              <p><strong>Craftsynk</strong><br />
+              Email: <a href="mailto:hello@craftsynk.com" class="contact-link">hello@craftsynk.com</a><br />
+              Website: <a href="index.html" class="contact-link">craftsynk.com</a></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="https://www.behance.net/cbjal" class="social-btn" title="Behance" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="https://dribbble.com/CBJ001" class="social-btn" title="Dribbble" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="https://www.instagram.com/chandanbjal/" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.fiverr.com/s/bd6P2Dm" class="social-btn" title="Fiverr" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+            <a href="https://www.linkedin.com/in/chandan-b-jal/" class="social-btn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk &copy; 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js"></script>
+  <script>initPage('privacy.html');</script>
+</body>
+</html>

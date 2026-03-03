@@ -277,6 +277,66 @@
       .inputs-panel { position: static; }
       .concepts-grid { grid-template-columns: 1fr; }
     }
+
+    /* ---- SUBSCRIPTION GATE MODAL ---- */
+    .sub-overlay {
+      display: none; position: fixed; inset: 0; z-index: 3000;
+      background: rgba(9,9,9,0.8); backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .sub-overlay.active { display: flex; }
+    .sub-box {
+      background: var(--glass-card); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border); border-radius: var(--r-xl);
+      padding: 48px 40px; max-width: 420px; width: 100%;
+      text-align: center; position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(184,247,58,0.08);
+      animation: subIn 0.28s var(--ease) both;
+    }
+    @keyframes subIn {
+      from { transform: translateY(20px) scale(0.96); opacity: 0; }
+      to   { transform: none; opacity: 1; }
+    }
+    .sub-close {
+      position: absolute; top: 16px; right: 18px;
+      background: none; border: none; color: var(--text-3);
+      font-size: 22px; cursor: pointer; line-height: 1;
+      transition: color var(--t-fast);
+    }
+    .sub-close:hover { color: var(--text); }
+    .sub-icon {
+      font-size: 32px; color: var(--lime); margin-bottom: 16px;
+      display: block; animation: subPulse 2s ease-in-out infinite;
+    }
+    @keyframes subPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.08)} }
+    .sub-box h3 { font-size: 24px; margin-bottom: 12px; }
+    .sub-box p  { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 28px; }
+    .sub-input {
+      width: 100%; background: var(--glass-bg);
+      border: 1px solid var(--glass-border); border-radius: var(--r-md);
+      color: var(--text); font-family: var(--font-body); font-size: 15px;
+      padding: 13px 16px; outline: none; margin-bottom: 12px;
+      transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+    .sub-input:focus { border-color: var(--lime-border); box-shadow: 0 0 0 3px rgba(184,247,58,0.07); }
+    .sub-input::placeholder { color: var(--text-3); }
+    .sub-error { color: #ff8080; font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+    .sub-btn {
+      width: 100%; padding: 14px; background: var(--lime); color: #0a0a0a;
+      font-family: var(--font-display); font-size: 15px; font-weight: 700;
+      border: none; border-radius: var(--r-pill); cursor: pointer;
+      transition: all var(--t-fast) var(--ease); position: relative; overflow: hidden;
+    }
+    .sub-btn::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      animation: btn-shine 3s ease-in-out infinite;
+    }
+    .sub-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--lime-glow); }
+    .sub-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .sub-note { font-size: 12px; color: var(--text-3); margin-top: 14px; }
   </style>
 </head>
 <body>
@@ -408,6 +468,20 @@
           For a complete, production-ready identity system, <a href="contact.html">start a proper project with Craftsynk</a>.
         </p>
       </div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIPTION GATE MODAL -->
+  <div id="subModal" class="sub-overlay" role="dialog" aria-modal="true" aria-labelledby="subModalTitle">
+    <div class="sub-box">
+      <button class="sub-close" onclick="closeSubModal()" aria-label="Close">&times;</button>
+      <span class="sub-icon">◈</span>
+      <h3 id="subModalTitle">Unlock Your Download</h3>
+      <p>Enter your email to get free access to Logo Lab SVG downloads. Occasionally we'll share design insights — never spam.</p>
+      <input type="email" id="subEmail" class="sub-input" placeholder="your@email.com" autocomplete="email" />
+      <div class="sub-error" id="subError"></div>
+      <button class="sub-btn" id="subBtn" onclick="submitSubscription()">Get Free Access →</button>
+      <p class="sub-note">No spam. Unsubscribe anytime.</p>
     </div>
   </div>
 
@@ -652,6 +726,11 @@
       const panel = document.getElementById('outputPanel');
       const concepts = result.concepts;
 
+      // Store for download access
+      window.__labConcepts = concepts;
+      window.__labBrand    = brandName;
+      window.__labTagline  = tagline;
+
       let html = `
         <div class="concepts-header">
           <h3>${concepts.length} Concepts Generated</h3>
@@ -685,6 +764,7 @@
               </div>
               <div class="concept-actions">
                 <button class="action-btn" onclick="toggleDark(${i}, '${c.bgColor}', '${c.textColor}')">Toggle Light</button>
+                <button class="action-btn" onclick="downloadConcept(${i})">↓ Download SVG</button>
                 <button class="action-btn primary" onclick="openContact('${brandName.replace(/'/g,"\\'")}', '${c.name.replace(/'/g,"\\'")}')">Use This →</button>
               </div>
             </div>
@@ -763,6 +843,139 @@
     document.getElementById('brandName').addEventListener('keydown', e => {
       if (e.key === 'Enter') generateLogos();
     });
+
+    // ---- SUBSCRIPTION GATE ----
+    let __pendingDownload = null;
+
+    function openSubModal() {
+      document.getElementById('subModal').classList.add('active');
+      document.getElementById('subEmail').focus();
+    }
+    function closeSubModal() {
+      document.getElementById('subModal').classList.remove('active');
+      document.getElementById('subError').textContent = '';
+      document.getElementById('subEmail').value = '';
+      const btn = document.getElementById('subBtn');
+      btn.disabled = false;
+      btn.textContent = 'Get Free Access →';
+    }
+    document.getElementById('subModal').addEventListener('click', function(e) {
+      if (e.target === this) closeSubModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSubModal();
+    });
+
+    async function submitSubscription() {
+      const email = document.getElementById('subEmail').value.trim();
+      const errEl = document.getElementById('subError');
+      errEl.textContent = '';
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        return;
+      }
+
+      const btn = document.getElementById('subBtn');
+      btn.disabled = true;
+      btn.textContent = 'Unlocking…';
+
+      // Persist subscription state
+      localStorage.setItem('craftsynk_subscribed', email);
+
+      // Silently capture email (fire-and-forget — replace with your Formspree newsletter form ID)
+      fetch('https://formspree.io/f/YOUR_NEWSLETTER_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ _subject: 'Logo Lab Subscriber', email })
+      }).catch(() => {});
+
+      closeSubModal();
+
+      // Proceed with pending download
+      if (__pendingDownload !== null) {
+        const idx = __pendingDownload;
+        __pendingDownload = null;
+        setTimeout(() => triggerDownload(idx), 300);
+      }
+    }
+
+    // ---- SVG DOWNLOAD ----
+    const fontImportMap = {
+      'Outfit':             'Outfit:wght@300;400;500;600;700;800;900',
+      'Space Grotesk':      'Space+Grotesk:wght@300;400;500;600;700',
+      'Raleway':            'Raleway:wght@300;400;500;600;700;800;900',
+      'Cormorant Garamond': 'Cormorant+Garamond:wght@300;400;500;600;700',
+      'Bebas Neue':         'Bebas+Neue',
+      'Playfair Display':   'Playfair+Display:wght@400;500;600;700;800;900',
+      'IBM Plex Mono':      'IBM+Plex+Mono:wght@300;400;500;600',
+      'Josefin Sans':       'Josefin+Sans:wght@300;400;600;700',
+      'Cinzel':             'Cinzel:wght@400;500;600;700',
+      'DM Serif Display':   'DM+Serif+Display',
+      'Epilogue':           'Epilogue:wght@300;400;500;600;700;800;900',
+      'Syne':               'Syne:wght@400;500;600;700;800',
+    };
+
+    function buildSVG(concept, brandName, tagline) {
+      const svgW = 600, svgH = 200;
+      const font = fontMap[concept.font] || { family: 'sans-serif' };
+      const fontQuery = fontImportMap[concept.font] || '';
+      const textSize = Math.max(36, Math.min(72, Math.floor(svgW * 0.11)));
+      const processedName = concept.textTransform === 'uppercase'
+        ? brandName.toUpperCase() : brandName;
+      const textY = tagline ? svgH / 2 - 10 : svgH / 2;
+
+      const styleTag = fontQuery
+        ? `<defs><style>@import url('https://fonts.googleapis.com/css2?family=${fontQuery}&amp;display=swap');</style></defs>`
+        : '';
+
+      const taglineSVG = tagline
+        ? `<text x="${svgW/2}" y="${textY + textSize * 0.7 + 18}"
+             font-family="${font.family}" font-size="13"
+             fill="${concept.accentColor}" text-anchor="middle"
+             letter-spacing="3">${tagline.toUpperCase()}</text>`
+        : '';
+
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}">
+  ${styleTag}
+  <rect width="${svgW}" height="${svgH}" fill="${concept.bgColor}" rx="12"/>
+  <text x="${svgW/2}" y="${textY}"
+        font-family="${font.family}"
+        font-weight="${concept.fontWeight}"
+        font-size="${textSize}"
+        fill="${concept.textColor}"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        letter-spacing="${concept.letterSpacing}"
+        style="text-transform:${concept.textTransform}"
+  >${processedName}</text>
+  ${taglineSVG}
+</svg>`;
+    }
+
+    function triggerDownload(idx) {
+      const c = window.__labConcepts && window.__labConcepts[idx];
+      if (!c) return;
+      const svg  = buildSVG(c, window.__labBrand, window.__labTagline);
+      const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      const slug = (window.__labBrand || 'logo').toLowerCase().replace(/\s+/g, '-');
+      const name = c.name.toLowerCase().replace(/\s+/g, '-');
+      a.href = url; a.download = `${slug}-${name}.svg`;
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadConcept(idx) {
+      if (localStorage.getItem('craftsynk_subscribed')) {
+        triggerDownload(idx);
+      } else {
+        __pendingDownload = idx;
+        openSubModal();
+      }
+    }
   </script>
 </body>
 </html>
