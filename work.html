@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Work — CraftSynk</title>
   <meta name="description" content="Selected brand identity projects by Craftsynk — logos, brand systems, guidelines, and corporate assets." />
-  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <link rel="stylesheet" href="craftsynk-v2.css?v=2" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     .work-hero {
       padding-top: calc(var(--nav-h) + 80px);
       padding-bottom: 60px; position: relative; z-index: 1;
     }
-    .work-hero h1 em { font-style:normal; color:var(--lime); }
+    .work-hero h1 em { font-style:normal; color:var(--lime-text); }
     .work-hero p { font-size:18px; color:var(--text-2); max-width:520px; margin-top:20px; line-height:1.65; }
 
     /* Filter tabs */
@@ -72,7 +72,7 @@
       padding:28px; opacity:0; transition:opacity var(--t-med) var(--ease);
     }
     .pb-card:hover .pb-overlay { opacity:1; }
-    .pb-tag { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); margin-bottom:6px; }
+    .pb-tag { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime-text); margin-bottom:6px; }
     .pb-title { font-family:var(--font-display); font-size:22px; font-weight:700; color:#fff; margin-bottom:8px; }
     .pb-cta {
       display:inline-flex; align-items:center; gap:6px;
@@ -119,7 +119,7 @@
     .stats-bar-item:hover .sbi-val {
       text-shadow: 0 0 20px var(--lime-glow), 0 0 40px rgba(184,247,58,0.15);
     }
-    .sbi-val { font-family:var(--font-display); font-size:36px; font-weight:800; letter-spacing:-0.04em; color:var(--lime); }
+    .sbi-val { font-family:var(--font-display); font-size:36px; font-weight:800; letter-spacing:-0.04em; color:var(--lime-text); }
     .sbi-label { font-size:13px; color:var(--text-2); margin-top:4px; }
 
     @media (max-width:960px) {
@@ -156,8 +156,27 @@
     <div class="nav-right">
       <button class="theme-toggle" id="themeToggle">🌙</button>
       <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="services.html" class="nav-mobile-link">Services</a>
+      <a href="work.html" class="nav-mobile-link active">Work</a>
+      <a href="logo-lab.html" class="nav-mobile-link">Logo Lab</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <div class="work-hero">
@@ -328,7 +347,7 @@
     </div>
   </footer>
 
-  <script src="craftsynk-v2.js"></script>
+  <script src="craftsynk-v2.js?v=2"></script>
   <script>
     initPage('work.html');
 

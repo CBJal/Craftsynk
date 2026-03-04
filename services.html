@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Services — CraftSynk</title>
-  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <link rel="stylesheet" href="craftsynk-v2.css?v=2" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     .services-hero {
@@ -12,20 +12,20 @@
       padding-bottom: 80px; position:relative; z-index:1;
     }
     .services-hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-    .services-hero h1 em { font-style:normal; color:var(--lime); }
+    .services-hero h1 em { font-style:normal; color:var(--lime-text); }
     .services-hero p { font-size:17px; color:var(--text-2); line-height:1.7; margin-top:20px; max-width:440px; }
 
     /* What you get card */
     .what-card {
       padding:36px; border-radius:var(--r-xl);
     }
-    .what-card h4 { font-size:14px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--lime); margin-bottom:24px; }
+    .what-card h4 { font-size:14px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--lime-text); margin-bottom:24px; }
     .what-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
     .what-item {
       display:flex; align-items:flex-start; gap:12px;
       font-size:15px; color:var(--text-2); line-height:1.5;
     }
-    .what-item::before { content:'✓'; color:var(--lime); font-weight:700; flex-shrink:0; margin-top:1px; }
+    .what-item::before { content:'✓'; color:var(--lime-text); font-weight:700; flex-shrink:0; margin-top:1px; }
 
     /* Services accordion */
     .services-section { position:relative; z-index:1; padding-bottom:120px; }
@@ -89,7 +89,7 @@
     .includes-list li {
       display:flex; gap:10px; font-size:14px; color:var(--text-2); align-items:flex-start;
     }
-    .includes-list li::before { content:'→'; color:var(--lime); flex-shrink:0; }
+    .includes-list li::before { content:'→'; color:var(--lime-text); flex-shrink:0; }
 
     /* Pricing cards */
     .pricing-section { position:relative; z-index:1; padding:0 0 120px; }
@@ -112,13 +112,13 @@
     }
     .price-card.featured * { color:#0a0a0a !important; }
     .price-card.featured .price-btn { background:#0a0a0a; color:var(--lime) !important; }
-    .price-tier { font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); margin-bottom:16px; }
+    .price-tier { font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime-text); margin-bottom:16px; }
     .price-card.featured .price-tier { color:rgba(0,0,0,0.5); }
     .price-name { font-family:var(--font-display); font-size:26px; font-weight:700; margin-bottom:8px; }
     .price-desc { font-size:14px; color:var(--text-2); margin-bottom:32px; line-height:1.5; }
     .price-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:36px; }
     .price-features li { font-size:14px; color:var(--text-2); display:flex; gap:8px; }
-    .price-features li::before { content:'✓'; color:var(--lime); font-weight:700; flex-shrink:0; }
+    .price-features li::before { content:'✓'; color:var(--lime-text); font-weight:700; flex-shrink:0; }
     .price-card.featured .price-features li::before { color:#0a0a0a; }
     .price-btn {
       display:block; width:100%; text-align:center;
@@ -133,6 +133,13 @@
       .services-hero-grid { grid-template-columns:1fr; }
       .pricing-grid { grid-template-columns:1fr; }
       .accord-content { grid-template-columns:1fr; gap:24px; }
+    }
+    @media (max-width:600px) {
+      .services-hero { padding-top: calc(var(--nav-h) + 48px); }
+      .accord-trigger { padding:20px 20px; }
+      .accord-content { padding:0 20px 28px; }
+      .pricing-header { margin-bottom:32px; }
+      .price-card { padding:28px 20px; }
     }
   </style>
 </head>
@@ -156,8 +163,27 @@
     <div class="nav-right">
       <button class="theme-toggle" id="themeToggle">🌙</button>
       <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="services.html" class="nav-mobile-link active">Services</a>
+      <a href="work.html" class="nav-mobile-link">Work</a>
+      <a href="logo-lab.html" class="nav-mobile-link">Logo Lab</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <div class="services-hero">
@@ -415,7 +441,7 @@
     </div>
   </footer>
 
-  <script src="craftsynk-v2.js"></script>
+  <script src="craftsynk-v2.js?v=2"></script>
   <script>
     initPage('services.html');
 

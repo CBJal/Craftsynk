@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CraftSynk — Strategic Brand Identity for Ambitious Businesses</title>
   <meta name="description" content="Craftsynk builds complete, structured brand identity systems for ambitious businesses. Founded by Chandan B. Jal." />
-  <link rel="stylesheet" href="craftsynk-v2.css" />
+  <link rel="stylesheet" href="craftsynk-v2.css?v=2" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     /* ============ HERO ============ */
@@ -121,7 +121,7 @@
       font-size: 32px; margin-bottom: 16px; display: block;
       transition: color var(--t-fast) var(--ease), text-shadow var(--t-fast) var(--ease);
     }
-    .bento-icon:hover {
+    .bento-card:hover .bento-icon {
       color: var(--lime-text);
       text-shadow: 0 0 16px var(--lime-glow), 0 0 32px rgba(184,247,58,0.15);
     }
@@ -214,7 +214,7 @@
       color: transparent;
       transition: color var(--t-fast) var(--ease), text-shadow var(--t-fast) var(--ease);
     }
-    .step-num:hover {
+    .process-step:hover .step-num {
       color: var(--lime-text);
       -webkit-text-stroke: 1px var(--lime);
       text-shadow: 0 0 20px var(--lime-glow), 0 0 40px rgba(184,247,58,0.15);
@@ -245,7 +245,7 @@
       font-size: 20px; flex-shrink: 0;
       transition: all var(--t-fast) var(--ease);
     }
-    .service-icon:hover {
+    .service-row:hover .service-icon {
       background: var(--lime-glow);
       border-color: var(--lime);
       text-shadow: 0 0 12px var(--lime-glow);
@@ -319,8 +319,27 @@
     <div class="nav-right">
       <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
       <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link active">Home</a>
+      <a href="services.html" class="nav-mobile-link">Services</a>
+      <a href="work.html" class="nav-mobile-link">Work</a>
+      <a href="logo-lab.html" class="nav-mobile-link">Logo Lab</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section id="heroSection" style="position:relative; z-index:1;">
@@ -631,7 +650,7 @@
     </div>
   </footer>
 
-  <script src="craftsynk-v2.js"></script>
+  <script src="craftsynk-v2.js?v=2"></script>
   <script>
     initPage('index.html');
     // Counters triggered on scroll
