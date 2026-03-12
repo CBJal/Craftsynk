@@ -23,15 +23,78 @@
     justify-content: center;
     align-items: center;
   }
-  .q-logo {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: -0.03em;
+  /* Image Upload Zones */
+  .inspo-entry {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 12px;
   }
-  .q-logo span { color: var(--lime); }
+  .inspo-entry:last-of-type { margin-bottom: 0; }
+  .inspo-entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .inspo-upload-zone {
+    border: 1.5px dashed rgba(255,255,255,0.14);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+    display: block;
+  }
+  .inspo-upload-zone:hover, .inspo-upload-zone.dragover {
+    border-color: rgba(184,247,58,0.5);
+    background: rgba(184,247,58,0.04);
+  }
+  .inspo-upload-zone input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+  }
+  .inspo-upload-icon { font-size: 24px; display: block; margin-bottom: 6px; line-height: 1; }
+  .inspo-upload-txt { font-size: 12px; color: var(--text-3); line-height: 1.5; }
+  .inspo-upload-txt strong { color: var(--lime-text); font-weight: 600; }
+  .inspo-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .inspo-thumb {
+    position: relative;
+    width: 72px; height: 72px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid var(--glass-border);
+    animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1) both;
+    flex-shrink: 0;
+  }
+  .inspo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .inspo-thumb-rm {
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 18px; height: 18px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    font-size: 9px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+  }
 
   /* Hero */
   .q-hero {
@@ -797,7 +860,7 @@
 
 <!-- Header -->
 <header class="q-header">
-  <a href="index.html" class="q-logo">craft<span>synk</span></a>
+  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" style="height:36px;width:auto;display:block;"></a>
 </header>
 
 <!-- Hero -->
@@ -871,22 +934,43 @@
       <button type="button" class="add-row-btn" id="addCompBtn" onclick="addComp()">＋ Add another competitor</button>
     </div>
 
-    <!-- Q4 Services -->
+    <!-- Q4 Industry -->
     <div class="q-card">
-      <div class="q-label"><span class="q-num">4</span> Services & Products</div>
-      <div class="q-question">What will you be offering?</div>
-      <div class="q-hint">Select everything that applies.</div>
-      <div class="check-grid" id="servicesGrid">
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Logo Design"><div class="ck-box">✓</div><span class="ck-ico">✏️</span><span class="ck-lbl">Logo Design</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Brand Identity"><div class="ck-box">✓</div><span class="ck-ico">🎨</span><span class="ck-lbl">Brand Identity</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Social Media"><div class="ck-box">✓</div><span class="ck-ico">📱</span><span class="ck-lbl">Social Media</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Print Materials"><div class="ck-box">✓</div><span class="ck-ico">🖨️</span><span class="ck-lbl">Print Materials</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Web Design"><div class="ck-box">✓</div><span class="ck-ico">💻</span><span class="ck-lbl">Web Design</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Packaging"><div class="ck-box">✓</div><span class="ck-ico">📦</span><span class="ck-lbl">Packaging</span></label>
-        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Signage"><div class="ck-box">✓</div><span class="ck-ico">🪧</span><span class="ck-lbl">Signage</span></label>
-        <label class="ck-item" onclick="ckToggle(this)" id="svcOtherLbl"><input type="checkbox" name="svc" value="Other"><div class="ck-box">✓</div><span class="ck-ico">✨</span><span class="ck-lbl">Other</span></label>
+      <div class="q-label"><span class="q-num">4</span> Your Industry</div>
+      <div class="q-question">What industry or sector is your business in?</div>
+      <div class="q-hint">Select the one that best represents you — tick a few if you span multiple sectors.</div>
+      <div class="check-grid" id="industryGrid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Retail &amp; E-commerce"><div class="ck-box">✓</div><span class="ck-ico">🛍️</span><span class="ck-lbl">Retail &amp; E-commerce</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Hospitality &amp; Food &amp; Beverage"><div class="ck-box">✓</div><span class="ck-ico">🍽️</span><span class="ck-lbl">Hospitality &amp; F&amp;B</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Technology"><div class="ck-box">✓</div><span class="ck-ico">💻</span><span class="ck-lbl">Technology</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Manufacturing &amp; Industrial"><div class="ck-box">✓</div><span class="ck-ico">🏭</span><span class="ck-lbl">Manufacturing</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Professional Services"><div class="ck-box">✓</div><span class="ck-ico">💼</span><span class="ck-lbl">Professional Services</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Healthcare &amp; Wellness"><div class="ck-box">✓</div><span class="ck-ico">🏥</span><span class="ck-lbl">Healthcare &amp; Wellness</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Fashion &amp; Lifestyle"><div class="ck-box">✓</div><span class="ck-ico">👗</span><span class="ck-lbl">Fashion &amp; Lifestyle</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Real Estate &amp; Construction"><div class="ck-box">✓</div><span class="ck-ico">🏢</span><span class="ck-lbl">Real Estate</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="FMCG &amp; Consumer Goods"><div class="ck-box">✓</div><span class="ck-ico">📦</span><span class="ck-lbl">FMCG / Consumer</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Education"><div class="ck-box">✓</div><span class="ck-ico">🎓</span><span class="ck-lbl">Education</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ind" value="Non-profit / NGO"><div class="ck-box">✓</div><span class="ck-ico">🤝</span><span class="ck-lbl">Non-profit / NGO</span></label>
+        <label class="ck-item" onclick="ckToggle(this)" id="indOtherLbl"><input type="checkbox" name="ind" value="Other"><div class="ck-box">✓</div><span class="ck-ico">✨</span><span class="ck-lbl">Other</span></label>
       </div>
-      <input type="text" class="q-input" id="svcOtherInput" placeholder="Describe your other services…" style="margin-top:12px;display:none;">
+      <input type="text" class="q-input" id="indOtherInput" placeholder="Tell us your industry…" style="margin-top:12px;display:none;">
+    </div>
+
+    <!-- Q4b Deliverables -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">4b</span> What You Need From Us</div>
+      <div class="q-question">What are you looking for from CraftSynk?</div>
+      <div class="q-hint">Tick everything you'd like us to create for you.</div>
+      <div class="check-grid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Logo Design"><div class="ck-box">✓</div><span class="ck-ico">✏️</span><span class="ck-lbl">Logo Design</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Full Brand Identity"><div class="ck-box">✓</div><span class="ck-ico">🎨</span><span class="ck-lbl">Full Brand Identity</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Rebrand / Refresh"><div class="ck-box">✓</div><span class="ck-ico">🔄</span><span class="ck-lbl">Rebrand / Refresh</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Social Media Assets"><div class="ck-box">✓</div><span class="ck-ico">📱</span><span class="ck-lbl">Social Media Assets</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Print Materials"><div class="ck-box">✓</div><span class="ck-ico">🖨️</span><span class="ck-lbl">Print Materials</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Packaging Design"><div class="ck-box">✓</div><span class="ck-ico">📦</span><span class="ck-lbl">Packaging Design</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Brand Guidelines"><div class="ck-box">✓</div><span class="ck-ico">📋</span><span class="ck-lbl">Brand Guidelines</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="del" value="Full Brand Package"><div class="ck-box">✓</div><span class="ck-ico">💎</span><span class="ck-lbl">Full Brand Package</span></label>
+      </div>
     </div>
   </div>
 
@@ -1061,45 +1145,19 @@
     <!-- Q13 Love -->
     <div class="q-card">
       <div class="q-label"><span class="q-num">13</span> Brands You Love ❤️</div>
-      <div class="q-question">Share 3 logos or brands you admire</div>
-      <div class="q-hint">They don't need to be in your industry. Paste a website URL or image link, and tell us why you love it.</div>
-      <div class="inspo-row">
-        <div class="inspo-tag">⭐ #1 — Brand or logo you love</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
-        <textarea class="q-input" placeholder="What do you love about it? The colours, the font, the simplicity?" rows="2" data-lw></textarea>
-      </div>
-      <div class="inspo-row">
-        <div class="inspo-tag">⭐ #2 — Brand or logo you love</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
-        <textarea class="q-input" placeholder="What stands out to you?" rows="2" data-lw></textarea>
-      </div>
-      <div class="inspo-row">
-        <div class="inspo-tag">⭐ #3 — Brand or logo you love</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
-        <textarea class="q-input" placeholder="What do you love about it?" rows="2" data-lw></textarea>
-      </div>
+      <div class="q-question">Share logos or brands you admire</div>
+      <div class="q-hint">Upload reference images and tell us what you love. The more you share, the better we understand your taste!</div>
+      <div id="lovesContainer"></div>
+      <button type="button" class="add-row-btn" onclick="addInspoEntry('loves')">＋ Add another inspiration</button>
     </div>
 
     <!-- Q14 Dislike -->
     <div class="q-card">
       <div class="q-label"><span class="q-num">14</span> Brands You Dislike 💔</div>
-      <div class="q-question">Share 3 logos or brands that aren't your thing</div>
-      <div class="q-hint">This is just as useful as the logos you love. What bothers you about them?</div>
-      <div class="inspo-row">
-        <div class="inspo-tag">❌ #1 — Brand or logo you dislike</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
-        <textarea class="q-input" placeholder="What don't you like? Too busy? Wrong colours? Feels cheap?" rows="2" data-dw></textarea>
-      </div>
-      <div class="inspo-row">
-        <div class="inspo-tag">❌ #2 — Brand or logo you dislike</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
-        <textarea class="q-input" placeholder="What's off about it?" rows="2" data-dw></textarea>
-      </div>
-      <div class="inspo-row">
-        <div class="inspo-tag">❌ #3 — Brand or logo you dislike</div>
-        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
-        <textarea class="q-input" placeholder="What don't you like about it?" rows="2" data-dw></textarea>
-      </div>
+      <div class="q-question">Share logos or brands that aren't your thing</div>
+      <div class="q-hint">Just as useful as the ones you love! Upload images and tell us what puts you off.</div>
+      <div id="dislikesContainer"></div>
+      <button type="button" class="add-row-btn" onclick="addInspoEntry('dislikes')">＋ Add another example</button>
     </div>
   </div>
 
@@ -1143,6 +1201,34 @@
           <h4>Both</h4>
           <p>Icon + text — the most flexible & recommended choice</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Q17 Budget -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">17</span> Budget Range</div>
+      <div class="q-question">What's your approximate budget for this project?</div>
+      <div class="q-hint">No judgement — helps us tailor our proposals to suit you.</div>
+      <div class="opt-grid-2">
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="Under £500"><span class="opt-icon">💰</span><span class="opt-name">Under £500</span><span class="opt-sub">Starter / Essential</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£500 – £1,500"><span class="opt-icon">💰💰</span><span class="opt-name">£500 – £1,500</span><span class="opt-sub">Professional</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£1,500 – £3,000"><span class="opt-icon">💰💰💰</span><span class="opt-name">£1,500 – £3,000</span><span class="opt-sub">Premium</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£3,000+"><span class="opt-icon">🏆</span><span class="opt-name">£3,000+</span><span class="opt-sub">Enterprise / Full Package</span></div>
+      </div>
+    </div>
+
+    <!-- Q18 How did you hear -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">18</span> How Did You Find Us?</div>
+      <div class="q-question">How did you hear about CraftSynk?</div>
+      <div class="q-hint">Optional — really helps us know where to focus our energy!</div>
+      <div class="check-grid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Instagram"><div class="ck-box">✓</div><span class="ck-ico">📸</span><span class="ck-lbl">Instagram</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="LinkedIn"><div class="ck-box">✓</div><span class="ck-ico">💼</span><span class="ck-lbl">LinkedIn</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Referral / Word of Mouth"><div class="ck-box">✓</div><span class="ck-ico">🗣️</span><span class="ck-lbl">Referral / Word of Mouth</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Google Search"><div class="ck-box">✓</div><span class="ck-ico">🔍</span><span class="ck-lbl">Google Search</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Portfolio / Behance"><div class="ck-box">✓</div><span class="ck-ico">🎨</span><span class="ck-lbl">Portfolio / Behance</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Other"><div class="ck-box">✓</div><span class="ck-ico">✨</span><span class="ck-lbl">Other</span></label>
       </div>
     </div>
 
@@ -1259,9 +1345,9 @@ function ckToggle(lbl) {
   const cb = lbl.querySelector('input[type=checkbox]');
   cb.checked = !cb.checked;
   lbl.classList.toggle('on', cb.checked);
-  // Show "Other" input for services
-  if (cb.value === 'Other' && cb.name === 'svc') {
-    document.getElementById('svcOtherInput').style.display = cb.checked ? 'block' : 'none';
+  // Show "Other" input for industry
+  if (cb.value === 'Other' && cb.name === 'ind') {
+    document.getElementById('indOtherInput').style.display = cb.checked ? 'block' : 'none';
   }
 }
 
@@ -1329,6 +1415,121 @@ function addColor() {
   row.insertBefore(wrap, addBtn);
   colorN++;
   if (colorN >= 5) addBtn.style.display = 'none';
+}
+
+// ── Inspiration Image Upload ──
+let loveCount = 0;
+let dislikeCount = 0;
+
+function createInspoEntry(type, num) {
+  const isLove = type === 'loves';
+  const emoji = isLove ? '❤️' : '💔';
+  const placeholder = isLove
+    ? 'What do you love about it? The colours, the simplicity, the feel?'
+    : "What don't you like? Too busy? Wrong colours? Feels cheap?";
+
+  const div = document.createElement('div');
+  div.className = 'inspo-entry';
+  div._files = [];
+  div.innerHTML = `
+    <div class="inspo-entry-head">
+      <div class="inspo-tag">${emoji} #${num}</div>
+      <button type="button" class="rm-btn" onclick="removeInspoEntry(this,'${type}')"${num === 1 ? ' style="display:none"' : ''}>✕</button>
+    </div>
+    <div data-thumbs class="inspo-thumbs"></div>
+    <label class="inspo-upload-zone">
+      <input type="file" accept="image/*" multiple onchange="handleInspoFiles(this)">
+      <span class="inspo-upload-icon">📎</span>
+      <div class="inspo-upload-txt"><strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:11px;opacity:0.75;">PNG, JPG, WebP — you can add multiple</span></div>
+    </label>
+    <input type="url" class="q-input" placeholder="Or paste a website / image URL (optional)" data-iurl style="margin-top:8px;">
+    <textarea class="q-input" placeholder="${placeholder}" rows="2" data-icmt style="margin-top:8px;"></textarea>
+  `;
+
+  // Drag and drop
+  const zone = div.querySelector('.inspo-upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addFilesToEntry(div, files);
+  });
+
+  return div;
+}
+
+function handleInspoFiles(input) {
+  const entry = input.closest('.inspo-entry');
+  const files = Array.from(input.files).filter(f => f.type.startsWith('image/'));
+  addFilesToEntry(entry, files);
+  input.value = '';
+}
+
+function addFilesToEntry(entry, files) {
+  const thumbsWrap = entry.querySelector('[data-thumbs]');
+  files.forEach(file => {
+    entry._files.push(file);
+    const reader = new FileReader();
+    reader.onload = e => {
+      const wrap = document.createElement('div');
+      wrap.className = 'inspo-thumb';
+      const safeName = file.name.replace(/'/g, "\\'");
+      wrap.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><button type="button" class="inspo-thumb-rm" onclick="removeThumb(this,'${safeName}')">✕</button>`;
+      thumbsWrap.appendChild(wrap);
+      entry.querySelector('.inspo-upload-txt').innerHTML = `<strong>Add more images</strong> or drag &amp; drop`;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function removeThumb(btn, filename) {
+  const thumb = btn.closest('.inspo-thumb');
+  const entry = thumb.closest('.inspo-entry');
+  entry._files = entry._files.filter(f => f.name !== filename);
+  thumb.remove();
+  if (entry._files.length === 0) {
+    entry.querySelector('.inspo-upload-txt').innerHTML =
+      `<strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:11px;opacity:0.75;">PNG, JPG, WebP — you can add multiple</span>`;
+  }
+}
+
+function addInspoEntry(type) {
+  const container = document.getElementById(type + 'Container');
+  if (type === 'loves') {
+    loveCount++;
+    container.appendChild(createInspoEntry(type, loveCount));
+  } else {
+    dislikeCount++;
+    container.appendChild(createInspoEntry(type, dislikeCount));
+  }
+  // Show remove button on first entry if there's more than one
+  const entries = container.querySelectorAll('.inspo-entry');
+  if (entries.length > 1) {
+    entries[0].querySelector('.rm-btn').style.display = '';
+  }
+}
+
+function removeInspoEntry(btn, type) {
+  const entries = document.querySelectorAll('#' + type + 'Container .inspo-entry');
+  if (entries.length <= 1) return;
+  btn.closest('.inspo-entry').remove();
+  // Renumber remaining
+  const remaining = document.querySelectorAll('#' + type + 'Container .inspo-entry');
+  const emoji = type === 'loves' ? '❤️' : '💔';
+  remaining.forEach((e, i) => {
+    e.querySelector('.inspo-tag').textContent = emoji + ' #' + (i + 1);
+    const rmBtn = e.querySelector('.rm-btn');
+    if (rmBtn) rmBtn.style.display = remaining.length <= 1 && i === 0 ? 'none' : '';
+  });
+}
+
+function initInspoEntries() {
+  loveCount = 1;
+  dislikeCount = 1;
+  document.getElementById('lovesContainer').appendChild(createInspoEntry('loves', 1));
+  document.getElementById('dislikesContainer').appendChild(createInspoEntry('dislikes', 1));
 }
 
 // ── Step Navigation ──
@@ -1421,10 +1622,13 @@ function collectData() {
   const cUrls  = [...document.querySelectorAll('[data-curl]')].map(i => i.value.trim());
   const comps  = cNames.map((n,i) => n + (cUrls[i] ? ` → ${cUrls[i]}` : '')).join(' | ') || 'None listed';
 
-  // Services
-  const svcs = [...document.querySelectorAll('[name="svc"]:checked')].map(c => c.value);
-  const svcOther = document.getElementById('svcOtherInput').value;
-  if (svcOther) svcs.push('Other: ' + svcOther);
+  // Industry
+  const inds = [...document.querySelectorAll('[name="ind"]:checked')].map(c => c.value);
+  const indOther = document.getElementById('indOtherInput').value;
+  if (indOther) inds.push('Other: ' + indOther);
+
+  // Deliverables
+  const dels = [...document.querySelectorAll('[name="del"]:checked')].map(c => c.value);
 
   // Gender
   const gEl = document.querySelector('[onclick*="gender"].sel');
@@ -1448,15 +1652,35 @@ function collectData() {
   // Usage
   const uses = [...document.querySelectorAll('[name="use"]:checked')].map(c => c.value);
 
-  // Likes
-  const lUs = [...document.querySelectorAll('[data-lu]')].map(i => i.value).filter(Boolean);
-  const lWs = [...document.querySelectorAll('[data-lw]')].map(i => i.value);
-  const likes = lUs.map((u,i) => `#${i+1}: ${u} — "${lWs[i]||'no comment'}"`).join('\n') || 'None provided';
+  // Inspo Loves
+  const likes = [...document.querySelectorAll('#lovesContainer .inspo-entry')].map((entry, i) => {
+    const url = (entry.querySelector('[data-iurl]') || {}).value || '';
+    const cmt = (entry.querySelector('[data-icmt]') || {}).value || '';
+    const fc  = (entry._files || []).length;
+    const parts = [];
+    if (url.trim()) parts.push('URL: ' + url.trim());
+    if (cmt.trim()) parts.push('"' + cmt.trim() + '"');
+    if (fc > 0) parts.push(fc + ' image(s) attached');
+    return '#' + (i + 1) + ': ' + (parts.join(' | ') || 'No details added');
+  }).join('\n') || 'None provided';
 
-  // Dislikes
-  const dUs = [...document.querySelectorAll('[data-du]')].map(i => i.value).filter(Boolean);
-  const dWs = [...document.querySelectorAll('[data-dw]')].map(i => i.value);
-  const dislikes = dUs.map((u,i) => `#${i+1}: ${u} — "${dWs[i]||'no comment'}"`).join('\n') || 'None provided';
+  // Inspo Dislikes
+  const dislikes = [...document.querySelectorAll('#dislikesContainer .inspo-entry')].map((entry, i) => {
+    const url = (entry.querySelector('[data-iurl]') || {}).value || '';
+    const cmt = (entry.querySelector('[data-icmt]') || {}).value || '';
+    const fc  = (entry._files || []).length;
+    const parts = [];
+    if (url.trim()) parts.push('URL: ' + url.trim());
+    if (cmt.trim()) parts.push('"' + cmt.trim() + '"');
+    if (fc > 0) parts.push(fc + ' image(s) attached');
+    return '#' + (i + 1) + ': ' + (parts.join(' | ') || 'No details added');
+  }).join('\n') || 'None provided';
+
+  // Budget
+  const budgetEl = document.querySelector('[onclick*="budget"].sel');
+
+  // Source
+  const srcs = [...document.querySelectorAll('[name="src"]:checked')].map(c => c.value);
 
   // Logo type
   const ltEl = document.querySelector('[onclick*="logoType"].sel');
@@ -1476,7 +1700,8 @@ function collectData() {
     '─ Q1 Company':    company,
     '─ Q2 Brand Words':selWords.join(', ') || 'Not selected',
     '─ Q3 Competitors':comps,
-    '─ Q4 Services':   svcs.join(', ') || 'Not specified',
+    '─ Q4 Industry':   inds.join(', ') || 'Not specified',
+    '─ Q4b Deliverables': dels.join(', ') || 'Not specified',
     '─ Q5 Audience':   `${gEl ? gEl.dataset.val : 'Not specified'} | Age ${ageMn}–${+ageMx >= 75 ? '75+' : ageMx}`,
     '─ Q6 Message':    document.getElementById('q6').value || 'Not provided',
     '─ Q7 Channels':   chs.join(', ') || 'Not specified',
@@ -1491,6 +1716,8 @@ function collectData() {
     '─ Q14 Dislikes':  dislikes,
     '─ Q15 Deadline':  deadline,
     '─ Q16 Logo Type': ltEl ? ltEl.dataset.val : 'Not specified',
+    '─ Q17 Budget':    budgetEl ? budgetEl.dataset.val : 'Not specified',
+    '─ Q18 Source':    srcs.join(', ') || 'Not specified',
   };
 }
 
@@ -1503,14 +1730,22 @@ async function submitForm() {
 
   const data = collectData();
 
+  // Build FormData so file attachments are included
+  const fd = new FormData();
+  Object.entries(data).forEach(([k, v]) => fd.append(k, v));
+  // Attach inspo images
+  document.querySelectorAll('#lovesContainer .inspo-entry').forEach((entry, idx) => {
+    (entry._files || []).forEach(f => fd.append('attachment', f, 'love_' + (idx + 1) + '_' + f.name));
+  });
+  document.querySelectorAll('#dislikesContainer .inspo-entry').forEach((entry, idx) => {
+    (entry._files || []).forEach(f => fd.append('attachment', f, 'dislike_' + (idx + 1) + '_' + f.name));
+  });
+
   try {
     const res = await fetch('https://formsubmit.co/ajax/cbjal001@gmail.com', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(data)
+      headers: { 'Accept': 'application/json' }, // No Content-Type — browser sets multipart/form-data
+      body: fd
     });
 
     const json = await res.json();
@@ -1542,6 +1777,7 @@ async function submitForm() {
 // ── Init ──
 document.addEventListener('DOMContentLoaded', () => {
   initChips();
+  initInspoEntries();
   updateProgress();
   syncAge();
   syncVibe(1); syncVibe(2); syncVibe(3);
