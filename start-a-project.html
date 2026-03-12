@@ -850,6 +850,97 @@
   @media (max-width: 420px) {
     .opt-grid-2 { grid-template-columns: 1fr; }
   }
+
+  /* Inspo Tabs */
+  .inspo-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .inspo-tab {
+    padding: 7px 16px;
+    border-radius: 100px;
+    border: 1.5px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-3);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .inspo-tab:last-child {
+    flex: 0 0 auto;
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+  .inspo-tab.active {
+    background: var(--lime-dim);
+    border-color: var(--lime-border);
+    color: var(--lime-text);
+  }
+  .inspo-tab:hover:not(.active) {
+    border-color: rgba(184,247,58,0.3);
+    color: var(--text-2);
+  }
+  .inspo-panel { display: none; }
+  .inspo-panel.active { display: block; }
+
+  /* Font Cards */
+  .font-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .font-card {
+    padding: 16px 10px 12px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+    user-select: none;
+  }
+  .font-card:hover {
+    border-color: rgba(184,247,58,0.35);
+    background: var(--lime-dim);
+    transform: translateY(-2px);
+  }
+  .font-card.on {
+    border-color: var(--lime-border);
+    background: rgba(184,247,58,0.07);
+    box-shadow: 0 0 0 1px rgba(184,247,58,0.15);
+    transform: translateY(-2px);
+  }
+  .font-sample {
+    font-size: 30px;
+    color: var(--text-2);
+    line-height: 1;
+    margin-bottom: 8px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+  .font-card.on .font-sample { color: var(--lime-text); }
+  .font-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  .font-card.on .font-name { color: var(--lime-text); }
+  .font-desc { font-size: 10px; color: var(--text-3); line-height: 1.3; }
+  @media (max-width: 500px) { .font-card-grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
@@ -860,7 +951,7 @@
 
 <!-- Header -->
 <header class="q-header">
-  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" style="height:36px;width:auto;display:block;"></a>
+  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" style="height:42px;width:auto;display:block;"></a>
 </header>
 
 <!-- Hero -->
@@ -1099,6 +1190,46 @@
       <textarea class="q-input" id="q9why" placeholder="Why these colours? e.g. 'I love earthy greens — feels natural and premium. Black for contrast…'" rows="3"></textarea>
     </div>
 
+    <!-- Q9b Font Preference -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">9b</span> Font Preference</div>
+      <div class="q-question">What kind of typography feels right for your brand?</div>
+      <div class="q-hint">Select all that appeal — helps us choose the right typeface direction.</div>
+      <div class="font-card-grid">
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Clean &amp; Modern Sans">
+          <div class="font-sample" style="font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:0.02em;">Aa</div>
+          <div class="font-name">Clean &amp; Modern</div>
+          <div class="font-desc">Sans-serif</div>
+        </div>
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Bold &amp; Impactful">
+          <div class="font-sample" style="font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-0.05em;">Aa</div>
+          <div class="font-name">Bold &amp; Impactful</div>
+          <div class="font-desc">Heavy display</div>
+        </div>
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Classic Serif">
+          <div class="font-sample" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;">Aa</div>
+          <div class="font-name">Classic Serif</div>
+          <div class="font-desc">Timeless &amp; elegant</div>
+        </div>
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Script &amp; Handwritten">
+          <div class="font-sample" style="font-family:'Brush Script MT',cursive;font-size:24px;">Aa</div>
+          <div class="font-name">Script</div>
+          <div class="font-desc">Handwritten &amp; flowing</div>
+        </div>
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Geometric &amp; Minimal">
+          <div class="font-sample" style="font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;font-size:22px;">AA</div>
+          <div class="font-name">Geometric</div>
+          <div class="font-desc">Minimal &amp; structured</div>
+        </div>
+        <div class="font-card" onclick="fontCardToggle(this)" data-val="Slab &amp; Mono">
+          <div class="font-sample" style="font-family:'Courier New',monospace;font-weight:700;">Aa</div>
+          <div class="font-name">Slab / Mono</div>
+          <div class="font-desc">Technical &amp; distinctive</div>
+        </div>
+      </div>
+      <textarea class="q-input" id="q9font" placeholder="Any specific fonts you love or hate? e.g. 'Love Futura, hate Comic Sans'" rows="2" style="margin-top:14px;"></textarea>
+    </div>
+
     <!-- Q10 Usage -->
     <div class="q-card">
       <div class="q-label"><span class="q-num">10</span> Where Will It Be Used?</div>
@@ -1210,10 +1341,10 @@
       <div class="q-question">What's your approximate budget for this project?</div>
       <div class="q-hint">No judgement — helps us tailor our proposals to suit you.</div>
       <div class="opt-grid-2">
-        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="Under £500"><span class="opt-icon">💰</span><span class="opt-name">Under £500</span><span class="opt-sub">Starter / Essential</span></div>
-        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£500 – £1,500"><span class="opt-icon">💰💰</span><span class="opt-name">£500 – £1,500</span><span class="opt-sub">Professional</span></div>
-        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£1,500 – £3,000"><span class="opt-icon">💰💰💰</span><span class="opt-name">£1,500 – £3,000</span><span class="opt-sub">Premium</span></div>
-        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="£3,000+"><span class="opt-icon">🏆</span><span class="opt-name">£3,000+</span><span class="opt-sub">Enterprise / Full Package</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="Under $500"><span class="opt-icon">💰</span><span class="opt-name">Under $500</span><span class="opt-sub">Starter / Essential</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="$500 – $1,500"><span class="opt-icon">💰💰</span><span class="opt-name">$500 – $1,500</span><span class="opt-sub">Professional</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="$1,500 – $3,000"><span class="opt-icon">💰💰💰</span><span class="opt-name">$1,500 – $3,000</span><span class="opt-sub">Premium</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'budget')" data-val="$3,000+"><span class="opt-icon">🏆</span><span class="opt-name">$3,000+</span><span class="opt-sub">Enterprise / Full Package</span></div>
       </div>
     </div>
 
@@ -1230,6 +1361,20 @@
         <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Portfolio / Behance"><div class="ck-box">✓</div><span class="ck-ico">🎨</span><span class="ck-lbl">Portfolio / Behance</span></label>
         <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="src" value="Other"><div class="ck-box">✓</div><span class="ck-ico">✨</span><span class="ck-lbl">Other</span></label>
       </div>
+    </div>
+
+    <!-- Q19 Additional Details -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">19</span> Anything Else?</div>
+      <div class="q-question">Any additional details, specific requirements, or ideas?</div>
+      <div class="q-hint">The more context the better — don't hold back! Attach mood boards, existing assets, or reference docs.</div>
+      <textarea class="q-input" id="q19" placeholder="e.g. We have an existing logo we want refreshed. Our brand colours are already set. We need the full identity done within the next 6 weeks…" rows="5"></textarea>
+      <label class="inspo-upload-zone" style="margin-top:12px;">
+        <input type="file" accept="image/*,.pdf,.doc,.docx" multiple onchange="handleAdditionalFiles(this)">
+        <span class="inspo-upload-icon">📎</span>
+        <div class="inspo-upload-txt"><strong>Attach files</strong> (optional)<br><span style="font-size:11px;opacity:0.75;">Images, PDFs, mood boards, brand docs</span></div>
+      </label>
+      <div class="inspo-thumbs" id="additionalThumbs" style="margin-top:10px;"></div>
     </div>
 
     <!-- Contact Details -->
@@ -1425,8 +1570,8 @@ function createInspoEntry(type, num) {
   const isLove = type === 'loves';
   const emoji = isLove ? '❤️' : '💔';
   const placeholder = isLove
-    ? 'What do you love about it? The colours, the simplicity, the feel?'
-    : "What don't you like? Too busy? Wrong colours? Feels cheap?";
+    ? 'What do you love about it? The colours, the feel, the simplicity?'
+    : "What don't you like? Too busy, cheap-looking, wrong vibe?";
 
   const div = document.createElement('div');
   div.className = 'inspo-entry';
@@ -1436,25 +1581,44 @@ function createInspoEntry(type, num) {
       <div class="inspo-tag">${emoji} #${num}</div>
       <button type="button" class="rm-btn" onclick="removeInspoEntry(this,'${type}')"${num === 1 ? ' style="display:none"' : ''}>✕</button>
     </div>
-    <div data-thumbs class="inspo-thumbs"></div>
-    <label class="inspo-upload-zone">
-      <input type="file" accept="image/*" multiple onchange="handleInspoFiles(this)">
-      <span class="inspo-upload-icon">📎</span>
-      <div class="inspo-upload-txt"><strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:11px;opacity:0.75;">PNG, JPG, WebP — you can add multiple</span></div>
-    </label>
-    <input type="url" class="q-input" placeholder="Or paste a website / image URL (optional)" data-iurl style="margin-top:8px;">
+    <div class="inspo-tabs">
+      <button type="button" class="inspo-tab active" onclick="switchInspoTab(this,'url')">🔗 URL / Link</button>
+      <button type="button" class="inspo-tab" onclick="switchInspoTab(this,'file')">📎 Upload</button>
+    </div>
+    <div class="inspo-panel url-panel active">
+      <input type="url" class="q-input" placeholder="Website, Google Drive, Pinterest, or image URL" data-iurl>
+    </div>
+    <div class="inspo-panel file-panel">
+      <div data-thumbs class="inspo-thumbs"></div>
+      <label class="inspo-upload-zone">
+        <input type="file" accept="image/*" multiple onchange="handleInspoFiles(this)">
+        <span class="inspo-upload-icon">📎</span>
+        <div class="inspo-upload-txt"><strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:11px;opacity:0.75;">PNG, JPG, WebP — multiple OK</span></div>
+      </label>
+    </div>
     <textarea class="q-input" placeholder="${placeholder}" rows="2" data-icmt style="margin-top:8px;"></textarea>
   `;
 
-  // Drag and drop
+  // Drag and drop auto-switches to file tab
+  const filePanel = div.querySelector('.file-panel');
   const zone = div.querySelector('.inspo-upload-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-  zone.addEventListener('drop', e => {
+  filePanel.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  filePanel.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  div.addEventListener('dragover', e => {
+    e.preventDefault();
+    // auto-switch to file tab on drag
+    div.querySelectorAll('.inspo-tab').forEach(t => t.classList.remove('active'));
+    div.querySelectorAll('.inspo-tab')[1].classList.add('active');
+    div.querySelector('.url-panel').classList.remove('active');
+    filePanel.classList.add('active');
+    zone.classList.add('dragover');
+  });
+  div.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  div.addEventListener('drop', e => {
     e.preventDefault();
     zone.classList.remove('dragover');
     const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    addFilesToEntry(div, files);
+    if (files.length) addFilesToEntry(div, files);
   });
 
   return div;
@@ -1530,6 +1694,53 @@ function initInspoEntries() {
   dislikeCount = 1;
   document.getElementById('lovesContainer').appendChild(createInspoEntry('loves', 1));
   document.getElementById('dislikesContainer').appendChild(createInspoEntry('dislikes', 1));
+}
+
+function switchInspoTab(tabBtn, type) {
+  const entry = tabBtn.closest('.inspo-entry');
+  entry.querySelectorAll('.inspo-tab').forEach(t => t.classList.remove('active'));
+  tabBtn.classList.add('active');
+  entry.querySelectorAll('.inspo-panel').forEach(p => p.classList.remove('active'));
+  entry.querySelector('.' + type + '-panel').classList.add('active');
+}
+
+function fontCardToggle(card) {
+  card.classList.toggle('on');
+}
+
+// ── Additional Files (Q19) ──
+const additionalFiles = [];
+
+function handleAdditionalFiles(input) {
+  Array.from(input.files).forEach(file => {
+    additionalFiles.push(file);
+    const thumbsWrap = document.getElementById('additionalThumbs');
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrap = document.createElement('div');
+        wrap.className = 'inspo-thumb';
+        const safeName = file.name.replace(/'/g, "\\'");
+        wrap.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><button type="button" class="inspo-thumb-rm" onclick="removeAdditionalFile(this,'${safeName}')">✕</button>`;
+        thumbsWrap.appendChild(wrap);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const wrap = document.createElement('div');
+      wrap.className = 'inspo-thumb';
+      wrap.style.cssText = 'display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);';
+      const safeName = file.name.replace(/'/g, "\\'");
+      wrap.innerHTML = `<span style="font-size:22px;">📄</span><button type="button" class="inspo-thumb-rm" onclick="removeAdditionalFile(this,'${safeName}')">✕</button>`;
+      thumbsWrap.appendChild(wrap);
+    }
+  });
+  input.value = '';
+}
+
+function removeAdditionalFile(btn, filename) {
+  btn.closest('.inspo-thumb').remove();
+  const idx = additionalFiles.findIndex(f => f.name === filename);
+  if (idx > -1) additionalFiles.splice(idx, 1);
 }
 
 // ── Step Navigation ──
@@ -1708,6 +1919,8 @@ function collectData() {
     '─ Q8 Style':      `Traditional↔Modern: ${vibes[0]} | CostEffective↔HighEnd: ${vibes[1]} | Corporate↔Friendly: ${vibes[2]}`,
     '─ Q9 Colours':    cols.join(', '),
     '─ Q9 Why':        document.getElementById('q9why').value || 'Not provided',
+    '─ Q9b Font Style': [...document.querySelectorAll('.font-card.on')].map(c => c.dataset.val).join(', ') || 'Not specified',
+    '─ Q9b Font Notes': document.getElementById('q9font').value || 'None',
     '─ Q10 Usage':     uses.join(', ') || 'Not specified',
     '─ Q11 No-Gos':    document.getElementById('q11').value || 'Nothing specified',
     '─ Q11 Refs':      document.getElementById('q11url').value || 'None',
@@ -1718,6 +1931,7 @@ function collectData() {
     '─ Q16 Logo Type': ltEl ? ltEl.dataset.val : 'Not specified',
     '─ Q17 Budget':    budgetEl ? budgetEl.dataset.val : 'Not specified',
     '─ Q18 Source':    srcs.join(', ') || 'Not specified',
+    '─ Q19 Additional': document.getElementById('q19').value || 'None',
   };
 }
 
@@ -1740,6 +1954,7 @@ async function submitForm() {
   document.querySelectorAll('#dislikesContainer .inspo-entry').forEach((entry, idx) => {
     (entry._files || []).forEach(f => fd.append('attachment', f, 'dislike_' + (idx + 1) + '_' + f.name));
   });
+  additionalFiles.forEach(f => fd.append('attachment', f, 'extra_' + f.name));
 
   try {
     const res = await fetch('https://formsubmit.co/ajax/cbjal001@gmail.com', {
