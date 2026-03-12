@@ -203,10 +203,21 @@
     .comments-card > p {
       font-size: 15px; color: var(--text-2); margin-bottom: 28px;
     }
-    .comments-card iframe {
-      border-radius: var(--r-xl);
-      border: 1px solid var(--glass-border);
+    /* Comment form */
+    .comment-form { display: flex; flex-direction: column; gap: 20px; }
+    .comment-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .field-group { display: flex; flex-direction: column; gap: 8px; }
+    .field-group label { font-size: 13px; font-weight: 600; color: var(--text-2); }
+    .comment-form input, .comment-form textarea {
+      background: var(--bg-2); border: 1px solid var(--glass-border);
+      color: var(--text); font-family: var(--font-body); font-size: 15px;
+      padding: 12px 16px; border-radius: var(--r-md); outline: none;
+      transition: border-color var(--t-fast);
     }
+    .comment-form input::placeholder, .comment-form textarea::placeholder { color: var(--text-3); }
+    .comment-form input:focus, .comment-form textarea:focus { border-color: var(--lime-border); }
+    .comment-form textarea { resize: vertical; min-height: 120px; }
+    @media (max-width: 600px) { .comment-fields { grid-template-columns: 1fr; } }
 
     /* ---- RELATED POSTS ---- */
     .related-section {
@@ -293,6 +304,7 @@
       <a href="work.html" class="nav-link">Work</a>
       <a href="logo-lab.html" class="nav-link">Logo Lab</a>
       <a href="blog.html" class="nav-link active">Blog</a>
+      <a href="store.html" class="nav-link">Store</a>
       <a href="about.html" class="nav-link">About</a>
     </div>
     <div class="nav-right">
@@ -313,6 +325,7 @@
       <a href="work.html" class="nav-mobile-link">Work</a>
       <a href="logo-lab.html" class="nav-mobile-link">Logo Lab</a>
       <a href="blog.html" class="nav-mobile-link active">Blog</a>
+      <a href="store.html" class="nav-mobile-link">Store</a>
       <a href="about.html" class="nav-mobile-link">About</a>
     </nav>
     <div class="nav-mobile-cta">
@@ -439,14 +452,26 @@
     <div class="page-wrap">
       <div class="comments-card reveal">
         <h3>Join the conversation</h3>
-        <p>Share your thoughts on this article.</p>
-        <!-- Replace with your Google Form or Disqus embed for comments -->
-        <!-- Google Form Comments Embed -->
-        <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true"
-                width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0"
-                style="border-radius: var(--r-xl); border: 1px solid var(--glass-border);">
-          Loading...
-        </iframe>
+        <p>Share your thoughts on this article. We read every comment.</p>
+        <form class="comment-form" id="commentForm">
+          <input type="hidden" name="_subject" value="Blog Comment" />
+          <div class="comment-fields">
+            <div class="field-group">
+              <label for="commentName">Name</label>
+              <input type="text" id="commentName" name="name" placeholder="Your name" required />
+            </div>
+            <div class="field-group">
+              <label for="commentEmail">Email <span style="color:var(--text-3);font-weight:400">(not published)</span></label>
+              <input type="email" id="commentEmail" name="email" placeholder="your@email.com" />
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="commentText">Comment</label>
+            <textarea id="commentText" name="comment" placeholder="What do you think?" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="commentSubmit">Post comment →</button>
+          <p id="commentMsg" style="display:none;margin-top:16px;font-size:14px;"></p>
+        </form>
       </div>
     </div>
   </section>
@@ -513,7 +538,7 @@
           </div>
         </div>
         <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
-        <div class="footer-col"><h4>Tools</h4><ul><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a href="store.html">All Products</a></li><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="contact.html">Start a Project</a></li></ul></div>
         <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
       </div>
       <div class="footer-bottom">
@@ -552,6 +577,32 @@
       const url = encodeURIComponent(window.location.href);
       window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
     }
+
+    // Comment form submission
+    document.getElementById('commentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('commentSubmit');
+      const msg = document.getElementById('commentMsg');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      const data = new FormData(this);
+      data.append('article', document.title);
+      try {
+        const res = await fetch('https://formspree.io/f/xzdaloej', {
+          method: 'POST', body: data, headers: { Accept: 'application/json' }
+        });
+        if (res.ok) {
+          btn.textContent = '✓ Comment received!';
+          btn.style.background = 'rgba(184,247,58,0.8)';
+          this.reset();
+          msg.style.display = 'block'; msg.style.color = 'var(--text-2)';
+          msg.textContent = 'Thanks for your comment. We review all submissions before publishing.';
+        } else { throw new Error(); }
+      } catch {
+        btn.disabled = false; btn.textContent = 'Post comment →';
+        msg.style.display = 'block'; msg.style.color = 'rgba(255,80,80,0.8)';
+        msg.textContent = 'Something went wrong. Please try again.';
+      }
+    });
 
     function copyLink() {
       const btn = document.getElementById('copyLinkBtn');

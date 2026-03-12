@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CraftSynk Admin</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lime: #b8f73a;
+      --lime-dim: rgba(184,247,58,0.08);
+      --lime-border: rgba(184,247,58,0.25);
+      --lime-text: #9dd933;
+      --bg: #090909;
+      --bg-2: #111111;
+      --bg-3: #1a1a1a;
+      --text: #f0f0f0;
+      --text-2: rgba(240,240,240,0.65);
+      --text-3: rgba(240,240,240,0.35);
+      --border: rgba(255,255,255,0.08);
+      --card: rgba(255,255,255,0.04);
+      --card-hover: rgba(255,255,255,0.07);
+      --sidebar-w: 240px;
+      --r: 12px;
+      --r-sm: 8px;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    /* ── AUTH SCREENS ── */
+    .auth-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; background: var(--bg);
+      position: fixed; inset: 0; z-index: 1000;
+      background-image: radial-gradient(ellipse at 30% 20%, rgba(184,247,58,0.06) 0%, transparent 60%);
+    }
+    .auth-screen.hidden { display: none; }
+    .auth-box {
+      width: 100%; max-width: 400px; padding: 48px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 20px; text-align: center;
+    }
+    .auth-logo {
+      font-family: 'Syne', system-ui, sans-serif;
+      font-size: 20px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--lime-text); margin-bottom: 8px;
+    }
+    .auth-logo span { color: var(--text-2); font-weight: 400; font-size: 13px; letter-spacing: 0; display: block; margin-top: 2px; }
+    .auth-box h2 {
+      font-size: 22px; font-weight: 700; color: var(--text);
+      margin: 28px 0 8px;
+    }
+    .auth-box p { font-size: 14px; color: var(--text-2); margin-bottom: 28px; line-height: 1.6; }
+    .auth-input {
+      width: 100%; padding: 13px 16px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: var(--r-sm); color: var(--text);
+      font-size: 15px; font-family: inherit; outline: none;
+      margin-bottom: 12px; transition: border-color 0.2s;
+    }
+    .auth-input:focus { border-color: var(--lime-border); }
+    .auth-input.error { border-color: rgba(255,80,80,0.6); }
+    .auth-btn {
+      width: 100%; padding: 13px;
+      background: var(--lime); color: #0a0a0a;
+      border: none; border-radius: var(--r-sm);
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .auth-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .auth-error { font-size: 13px; color: rgba(255,80,80,0.9); margin-top: 10px; min-height: 18px; }
+    .auth-note {
+      margin-top: 20px; font-size: 12px; color: var(--text-3); line-height: 1.6;
+    }
+    .auth-note a { color: var(--lime-text); text-decoration: underline; }
+
+    /* ── DASHBOARD SHELL ── */
+    #app { display: none; }
+    #app.visible { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--bg-2); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; height: 100vh;
+      overflow-y: auto; z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo-name {
+      font-family: 'Syne', system-ui, sans-serif;
+      font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: var(--lime-text);
+    }
+    .sidebar-logo-sub {
+      font-size: 11px; color: var(--text-3); margin-top: 2px; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .sidebar-nav { padding: 16px 12px; flex: 1; }
+    .nav-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-3); padding: 0 8px; margin: 16px 0 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: var(--r-sm);
+      font-size: 14px; color: var(--text-2);
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: var(--card); color: var(--text); }
+    .nav-item.active { background: var(--lime-dim); color: var(--lime-text); }
+    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; }
+    .sidebar-footer {
+      padding: 16px 12px; border-top: 1px solid var(--border);
+    }
+    .sidebar-footer a, .sidebar-footer button {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text-3);
+      padding: 8px 10px; border-radius: var(--r-sm);
+      transition: color 0.15s; text-decoration: none;
+      background: none; border: none; cursor: pointer; width: 100%;
+    }
+    .sidebar-footer a:hover, .sidebar-footer button:hover { color: var(--text); }
+    .sidebar-footer svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1; margin-left: var(--sidebar-w);
+      min-height: 100vh; background: var(--bg);
+    }
+    .main-header {
+      padding: 28px 36px 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .main-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+    .main-sub { font-size: 13px; color: var(--text-3); margin-top: 4px; }
+    .main-body { padding: 24px 36px 60px; }
+
+    /* ── SECTION VISIBILITY ── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── STATS ROW ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px 24px;
+    }
+    .stat-card-val {
+      font-size: 32px; font-weight: 800; letter-spacing: -0.04em; color: var(--lime-text);
+    }
+    .stat-card-label { font-size: 13px; color: var(--text-3); margin-top: 4px; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden; margin-bottom: 20px;
+    }
+    .table-head {
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .table-head-title { font-size: 15px; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--border); }
+    td { padding: 13px 16px; font-size: 14px; color: var(--text-2); border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--card); }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 100px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+    }
+    .badge-pub { background: rgba(184,247,58,0.12); color: var(--lime-text); }
+    .badge-draft { background: rgba(255,255,255,0.06); color: var(--text-3); }
+    .badge-feat { background: rgba(184,247,58,0.2); color: var(--lime-text); }
+    .action-btns { display: flex; gap: 6px; }
+    .action-btn {
+      padding: 5px 12px; font-size: 12px; font-weight: 600;
+      border-radius: var(--r-sm); cursor: pointer;
+      border: 1px solid var(--border); background: none; color: var(--text-2);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .action-btn:hover { background: var(--card-hover); color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .action-btn.danger:hover { border-color: rgba(255,80,80,0.4); color: rgba(255,80,80,0.9); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: var(--r-sm);
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary { background: var(--lime); color: #0a0a0a; }
+    .btn-ghost { background: var(--card); color: var(--text-2); border: 1px solid var(--border); }
+    .btn-sm { padding: 7px 14px; font-size: 13px; }
+    .btn:disabled { opacity: 0.5; pointer-events: none; }
+
+    /* ── EDITOR MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+      z-index: 200; display: flex; align-items: flex-start; justify-content: center;
+      padding: 24px; overflow-y: auto;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 16px; width: 100%; max-width: 820px;
+      margin: auto;
+    }
+    .modal-header {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-title { font-size: 17px; font-weight: 700; }
+    .modal-close {
+      background: none; border: none; color: var(--text-3);
+      font-size: 20px; cursor: pointer; line-height: 1; padding: 4px;
+      transition: color 0.15s;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── FORM FIELDS ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 12px; font-weight: 600; color: var(--text-2); letter-spacing: 0.02em; }
+    input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+    select, textarea {
+      background: var(--bg-3); border: 1px solid var(--border);
+      color: var(--text); font-family: inherit; font-size: 14px;
+      padding: 10px 12px; border-radius: var(--r-sm);
+      outline: none; transition: border-color 0.2s; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--lime-border); }
+    textarea { resize: vertical; min-height: 80px; }
+    select option { background: var(--bg-3); }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; }
+    .toggle-label { font-size: 13px; color: var(--text-2); }
+    .toggle {
+      width: 38px; height: 22px; background: var(--border); border-radius: 11px;
+      border: none; cursor: pointer; position: relative; transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle.on { background: var(--lime); }
+    .toggle::after {
+      content: ''; position: absolute; width: 16px; height: 16px;
+      background: white; border-radius: 50%; top: 3px; left: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle.on::after { transform: translateX(16px); }
+
+    /* ── RICH TEXT EDITOR ── */
+    .rte-toolbar {
+      display: flex; gap: 4px; padding: 8px 12px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-bottom: none; border-radius: var(--r-sm) var(--r-sm) 0 0;
+      flex-wrap: wrap;
+    }
+    .rte-btn {
+      padding: 5px 10px; font-size: 13px; font-weight: 600;
+      background: none; border: 1px solid transparent;
+      color: var(--text-2); border-radius: 6px; cursor: pointer;
+      transition: all 0.15s; min-width: 32px;
+    }
+    .rte-btn:hover { background: var(--card); color: var(--text); border-color: var(--border); }
+    .rte-sep { width: 1px; background: var(--border); margin: 0 4px; }
+    #rteContent {
+      min-height: 240px; padding: 16px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      color: var(--text); font-size: 15px; line-height: 1.7;
+      outline: none; overflow-y: auto;
+    }
+    #rteContent:focus { border-color: var(--lime-border); }
+    #rteContent h2 { font-size: 20px; font-weight: 700; margin: 16px 0 8px; color: var(--text); }
+    #rteContent h3 { font-size: 17px; font-weight: 600; margin: 12px 0 6px; color: var(--text); }
+    #rteContent blockquote { border-left: 3px solid var(--lime); padding: 8px 16px; margin: 12px 0; color: var(--text-2); }
+    #rteContent ul { padding-left: 20px; margin: 8px 0; }
+    #rteContent a { color: var(--lime-text); }
+
+    /* ── MEDIA LIBRARY ── */
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .media-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r);
+      overflow: hidden; cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+    }
+    .media-card:hover { border-color: var(--lime-border); transform: translateY(-2px); }
+    .media-thumb {
+      aspect-ratio: 1; background: var(--bg-3);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .media-thumb .media-icon { font-size: 32px; color: var(--text-3); }
+    .media-info { padding: 10px 12px; }
+    .media-name { font-size: 12px; color: var(--text-2); word-break: break-all; margin-bottom: 6px; line-height: 1.3; }
+    .media-actions { display: flex; gap: 6px; }
+    .media-actions button {
+      flex: 1; padding: 4px; font-size: 11px; font-weight: 600;
+      border-radius: 6px; cursor: pointer; border: 1px solid var(--border);
+      background: none; color: var(--text-3); transition: all 0.15s;
+    }
+    .media-actions button:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .media-actions .del-btn:hover { color: rgba(255,80,80,0.9); border-color: rgba(255,80,80,0.3); }
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: var(--r);
+      padding: 48px 24px; text-align: center; cursor: pointer;
+      transition: border-color 0.2s; margin-bottom: 20px;
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--lime-border); }
+    .upload-zone p { font-size: 14px; color: var(--text-3); margin-top: 8px; }
+    #fileInput { display: none; }
+
+    /* ── SETTINGS ── */
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .settings-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 24px;
+    }
+    .settings-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .settings-card .settings-desc { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+    .color-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .color-label { font-size: 13px; color: var(--text-2); }
+    input[type="color"] {
+      width: 48px; height: 32px; padding: 2px; border: 1px solid var(--border);
+      border-radius: var(--r-sm); cursor: pointer; background: var(--bg-3);
+    }
+    .asset-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .asset-preview {
+      width: 64px; height: 64px; background: var(--bg-3);
+      border: 1px solid var(--border); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .asset-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .asset-upload-btn {
+      padding: 8px 16px; font-size: 13px; font-weight: 600;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r-sm); cursor: pointer; color: var(--text-2);
+      transition: all 0.15s;
+    }
+    .asset-upload-btn:hover { border-color: var(--lime-border); color: var(--lime-text); }
+
+    /* ── PAGE EDITOR ── */
+    .page-edit-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 24px; margin-bottom: 16px;
+    }
+    .page-edit-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .page-badge { font-size: 11px; padding: 2px 8px; background: var(--card); border-radius: 100px; color: var(--text-3); font-weight: 600; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 14px 20px;
+      font-size: 14px; color: var(--text); z-index: 999;
+      transform: translateY(100px); opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      max-width: 360px; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { border-color: var(--lime-border); }
+    #toast.error { border-color: rgba(255,80,80,0.4); }
+
+    /* ── CONFIRM DIALOG ── */
+    #confirmDialog {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px); z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #confirmDialog.hidden { display: none; }
+    .confirm-box {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; max-width: 380px; text-align: center;
+    }
+    .confirm-box h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .confirm-box p { font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.6; }
+    .confirm-box-btns { display: flex; gap: 10px; justify-content: center; }
+
+    /* ── LOADING SPINNER ── */
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--lime); border-radius: 50%;
+      animation: spin 0.7s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state {
+      padding: 48px 24px; text-align: center; color: var(--text-3);
+      font-size: 14px; line-height: 2;
+    }
+
+    /* ── QUICK ACTIONS ── */
+    .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+    .qa-btn {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px; text-align: center;
+      cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+      color: var(--text-2); font-size: 13px; font-weight: 600;
+    }
+    .qa-btn:hover { border-color: var(--lime-border); color: var(--lime-text); transform: translateY(-2px); }
+    .qa-btn .qa-icon { font-size: 24px; margin-bottom: 8px; }
+
+    @media (max-width: 900px) {
+      :root { --sidebar-w: 60px; }
+      .sidebar-logo-name, .sidebar-logo-sub, .nav-section-label, .nav-item span { display: none; }
+      .nav-item { justify-content: center; padding: 12px; }
+      .sidebar-footer a span, .sidebar-footer button span { display: none; }
+      .main-body { padding: 20px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ████████████████ AUTH: PASSWORD ████████████████ -->
+<div id="authPassword" class="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">◈ CraftSynk <span>Admin Dashboard</span></div>
+    <h2>Enter password</h2>
+    <p>Enter the admin password to access the dashboard.</p>
+    <input type="password" class="auth-input" id="passwordInput" placeholder="Admin password" />
+    <button class="auth-btn" onclick="checkPassword()">Continue →</button>
+    <p class="auth-error" id="pwError"></p>
+  </div>
+</div>
+
+<!-- ████████████████ AUTH: GITHUB PAT ████████████████ -->
+<div id="authPat" class="auth-screen hidden">
+  <div class="auth-box">
+    <div class="auth-logo">◈ CraftSynk <span>Admin Dashboard</span></div>
+    <h2>Connect GitHub</h2>
+    <p>Enter your GitHub Personal Access Token with <strong>repo</strong> scope. It's stored in your browser only — never sent to any server.</p>
+    <input type="password" class="auth-input" id="patInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+    <button class="auth-btn" id="patBtn" onclick="savePAT()">Connect →</button>
+    <p class="auth-error" id="patError"></p>
+    <p class="auth-note">
+      Need a token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=CraftSynk+Admin" target="_blank">Create one on GitHub ↗</a>
+    </p>
+  </div>
+</div>
+
+<!-- ████████████████ CONFIRM DIALOG ████████████████ -->
+<div id="confirmDialog" class="hidden">
+  <div class="confirm-box">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMsg">This action cannot be undone.</p>
+    <div class="confirm-box-btns">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn" id="confirmOkBtn" style="background:rgba(255,80,80,0.8);color:white;" onclick="confirmOk()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ████████████████ TOAST ████████████████ -->
+<div id="toast"></div>
+
+<!-- ████████████████ MAIN APP ████████████████ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-name">◈ CraftSynk</div>
+      <div class="sidebar-logo-sub">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <div class="nav-section-label">Content</div>
+      <button class="nav-item" data-section="blog" onclick="showSection('blog',this)">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Blog Posts</span>
+      </button>
+      <button class="nav-item" data-section="media" onclick="showSection('media',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Media Library</span>
+      </button>
+      <div class="nav-section-label">Customise</div>
+      <button class="nav-item" data-section="settings" onclick="showSection('settings',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Site Settings</span>
+      </button>
+      <button class="nav-item" data-section="pages" onclick="showSection('pages',this)">
+        <svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        <span>Pages Editor</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../index.html" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>View Site</span>
+      </a>
+      <button onclick="signOut()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ══════════ DASHBOARD ══════════ -->
+    <div id="sec-dashboard" class="section active">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Dashboard</div>
+          <div class="main-sub">Welcome back, Chandan</div>
+        </div>
+      </div>
+      <div class="main-body">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-card-val" id="statTotal">—</div><div class="stat-card-label">Total Posts</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statPublished">—</div><div class="stat-card-label">Published</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statDraft">—</div><div class="stat-card-label">Drafts</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statImages">—</div><div class="stat-card-label">Images</div></div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-head"><div class="table-head-title">Recent Posts</div></div>
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="recentPostsTbody"><tr><td colspan="4" style="text-align:center;color:var(--text-3)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="quick-actions">
+          <div class="qa-btn" onclick="showSection('blog'); openPostEditor()">
+            <div class="qa-icon">✏️</div>New Post
+          </div>
+          <div class="qa-btn" onclick="showSection('media')">
+            <div class="qa-icon">🖼️</div>Upload Image
+          </div>
+          <div class="qa-btn" onclick="window.open('../index.html','_blank')">
+            <div class="qa-icon">↗</div>Open Site
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ BLOG POSTS ══════════ -->
+    <div id="sec-blog" class="section">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Blog Posts</div>
+          <div class="main-sub">Manage articles and drafts</div>
+        </div>
+        <button class="btn btn-primary" onclick="openPostEditor()">+ New Post</button>
+      </div>
+      <div class="main-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Featured</th><th>Actions</th></tr></thead>
+            <tbody id="postsTbody"><tr><td colspan="5" style="text-align:center;color:var(--text-3)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ MEDIA LIBRARY ══════════ -->
+    <div id="sec-media" class="section">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Media Library</div>
+          <div class="main-sub">Images in the /images directory</div>
+        </div>
+      </div>
+      <div class="main-body">
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div style="font-size:32px;">📁</div>
+          <p>Click to upload or drag-and-drop<br><span style="font-size:12px;">PNG, JPG, WebP, SVG, GIF · Max 10MB per file</span></p>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileUpload(this.files)" />
+        <div class="media-grid" id="mediaGrid"><div class="empty-state">Loading images…</div></div>
+      </div>
+    </div>
+
+    <!-- ══════════ SITE SETTINGS ══════════ -->
+    <div id="sec-settings" class="section">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Site Settings</div>
+          <div class="main-sub">Colours, assets, and metadata</div>
+        </div>
+      </div>
+      <div class="main-body">
+        <div class="settings-grid">
+
+          <!-- Colors -->
+          <div class="settings-card">
+            <h3>Accent Colour</h3>
+            <div class="settings-desc">The lime green accent used throughout both themes.</div>
+            <div class="color-row"><span class="color-label">--lime</span><input type="color" id="colorLime" value="#b8f73a" /></div>
+            <button class="btn btn-primary btn-sm" onclick="saveColors()">Save Colours</button>
+          </div>
+
+          <!-- Dark mode colors -->
+          <div class="settings-card">
+            <h3>Dark Mode Background</h3>
+            <div class="settings-desc">Background colours in dark mode.</div>
+            <div class="color-row"><span class="color-label">--bg (primary)</span><input type="color" id="colorDarkBg" value="#090909" /></div>
+            <div class="color-row"><span class="color-label">--bg-2 (surface)</span><input type="color" id="colorDarkBg2" value="#111111" /></div>
+            <div class="color-row"><span class="color-label">--bg-text</span><input type="color" id="colorDarkText" value="#f0f0f0" /></div>
+            <button class="btn btn-primary btn-sm" onclick="saveColors()">Save Colours</button>
+          </div>
+
+          <!-- Favicon -->
+          <div class="settings-card">
+            <h3>Favicon</h3>
+            <div class="settings-desc">32×32px PNG displayed in browser tabs.</div>
+            <div class="asset-row">
+              <div class="asset-preview" id="faviconPreview">
+                <img src="../favicon.png" onerror="this.style.display='none'" alt="favicon" />
+              </div>
+              <div>
+                <label class="asset-upload-btn" for="faviconInput">Upload PNG</label>
+                <input type="file" id="faviconInput" accept="image/png" style="display:none" onchange="uploadAsset(this,'favicon.png','faviconPreview')" />
+                <div style="font-size:12px;color:var(--text-3);margin-top:6px;">Saved as /images/favicon.png</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo -->
+          <div class="settings-card">
+            <h3>Logo</h3>
+            <div class="settings-desc">Horizontal logo used in the navigation and footer.</div>
+            <div class="asset-row">
+              <div class="asset-preview" id="logoPreview" style="width:100px;height:40px;">
+                <img src="../images/logo.png" onerror="this.style.display='none'" alt="logo" style="max-height:36px;" />
+              </div>
+              <div>
+                <label class="asset-upload-btn" for="logoInput">Upload PNG</label>
+                <input type="file" id="logoInput" accept="image/png" style="display:none" onchange="uploadAsset(this,'images/logo.png','logoPreview')" />
+                <div style="font-size:12px;color:var(--text-3);margin-top:6px;">Saved as /images/logo.png</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ PAGES EDITOR ══════════ -->
+    <div id="sec-pages" class="section">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Pages Editor</div>
+          <div class="main-sub">Edit hero text on key pages</div>
+        </div>
+      </div>
+      <div class="main-body">
+        <div id="pagesContent"><div class="empty-state">Loading pages…</div></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ████████████████ POST EDITOR MODAL ████████████████ -->
+<div id="postModal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">New Post</div>
+      <button class="modal-close" onclick="closePostEditor()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="postTitle">Title *</label>
+          <input type="text" id="postTitle" placeholder="Article title" oninput="autoSlug()" />
+        </div>
+        <div class="form-group">
+          <label for="postSlug">Slug *</label>
+          <input type="text" id="postSlug" placeholder="article-slug" />
+        </div>
+        <div class="form-group">
+          <label for="postCategory">Category</label>
+          <select id="postCategory">
+            <option>Strategy</option>
+            <option>Identity</option>
+            <option>Typography</option>
+            <option>Process</option>
+            <option>Branding</option>
+            <option>Business</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="postDate">Date</label>
+          <input type="date" id="postDate" />
+        </div>
+        <div class="form-group">
+          <label for="postReadTime">Read Time (min)</label>
+          <input type="number" id="postReadTime" value="5" min="1" max="60" />
+        </div>
+        <div class="form-group">
+          <label for="postAuthor">Author</label>
+          <input type="text" id="postAuthor" value="CraftSynk Studio" />
+        </div>
+        <div class="form-group full">
+          <label for="postExcerpt">Excerpt / Meta Description</label>
+          <textarea id="postExcerpt" rows="2" placeholder="Short description for blog listing and SEO"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="toggle-row">
+            <span class="toggle-label">Featured post</span>
+            <button class="toggle" id="postFeatured" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="toggle-row">
+            <span class="toggle-label">Published (live)</span>
+            <button class="toggle on" id="postPublished" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+
+      <label style="display:block;margin-bottom:8px;">Content *</label>
+      <div class="rte-toolbar">
+        <button class="rte-btn" title="Bold" onclick="rteCmd('bold')"><b>B</b></button>
+        <button class="rte-btn" title="Italic" onclick="rteCmd('italic')"><em>I</em></button>
+        <div class="rte-sep"></div>
+        <button class="rte-btn" title="Heading 2" onclick="rteH('h2')">H2</button>
+        <button class="rte-btn" title="Heading 3" onclick="rteH('h3')">H3</button>
+        <div class="rte-sep"></div>
+        <button class="rte-btn" title="Blockquote" onclick="rteCmd('formatBlock','blockquote')">"</button>
+        <button class="rte-btn" title="Bullet list" onclick="rteCmd('insertUnorderedList')">• List</button>
+        <div class="rte-sep"></div>
+        <button class="rte-btn" title="Link" onclick="rteLink()">🔗</button>
+        <button class="rte-btn" title="Clear formatting" onclick="rteCmd('removeFormat')" style="margin-left:auto;font-size:11px;color:var(--text-3)">Clear</button>
+      </div>
+      <div id="rteContent" contenteditable="true" spellcheck="true"></div>
+
+      <input type="hidden" id="editingSlug" value="" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closePostEditor()">Cancel</button>
+      <button class="btn btn-primary" id="savePostBtn" onclick="savePost()">Save &amp; Publish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════════════════════
+const REPO       = 'CBJal/Craftsynk';
+const BRANCH     = 'main';
+const ADMIN_PASS = 'CraftSynk@2026!';
+const LS_PAT     = 'cs_admin_token';
+
+let ghPAT = '';
+let allPosts = [];
+let _confirmCallback = null;
+
+// ═══════════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  // Auto-fill PAT if saved
+  const savedPat = localStorage.getItem(LS_PAT);
+  if (savedPat) {
+    ghPAT = savedPat;
+    document.getElementById('patInput').value = savedPat;
+  }
+
+  // Check if already authed (password session)
+  if (sessionStorage.getItem('cs_admin_auth') === '1') {
+    document.getElementById('authPassword').classList.add('hidden');
+    if (ghPAT) {
+      startDashboard();
+    } else {
+      document.getElementById('authPat').classList.remove('hidden');
+    }
+  }
+
+  // Enter key for password
+  document.getElementById('passwordInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+  document.getElementById('patInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') savePAT();
+  });
+
+  // Drag-and-drop on upload zone
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('drag-over');
+    handleFileUpload(e.dataTransfer.files);
+  });
+});
+
+function checkPassword() {
+  const val = document.getElementById('passwordInput').value;
+  if (val === ADMIN_PASS) {
+    sessionStorage.setItem('cs_admin_auth', '1');
+    document.getElementById('authPassword').classList.add('hidden');
+    if (ghPAT) {
+      startDashboard();
+    } else {
+      document.getElementById('authPat').classList.remove('hidden');
+    }
+  } else {
+    const inp = document.getElementById('passwordInput');
+    inp.classList.add('error');
+    document.getElementById('pwError').textContent = 'Incorrect password.';
+    setTimeout(() => { inp.classList.remove('error'); document.getElementById('pwError').textContent = ''; }, 2500);
+  }
+}
+
+async function savePAT() {
+  const val = document.getElementById('patInput').value.trim();
+  if (!val) return;
+  const btn = document.getElementById('patBtn');
+  btn.textContent = 'Verifying…';
+  btn.disabled = true;
+  // Test the PAT
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO}`, {
+      headers: { Authorization: `token ${val}` }
+    });
+    if (!res.ok) throw new Error();
+    ghPAT = val;
+    localStorage.setItem(LS_PAT, val);
+    document.getElementById('authPat').classList.add('hidden');
+    startDashboard();
+  } catch {
+    document.getElementById('patError').textContent = 'Invalid token or no access to the repo. Check the token has "repo" scope.';
+    btn.textContent = 'Connect →';
+    btn.disabled = false;
+  }
+}
+
+function signOut() {
+  sessionStorage.removeItem('cs_admin_auth');
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  STARTUP
+// ═══════════════════════════════════════════════════════════
+async function startDashboard() {
+  document.getElementById('app').classList.add('visible');
+  loadPosts();
+  loadMediaLibrary();
+  loadPages();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else {
+    const found = document.querySelector(`.nav-item[data-section="${id}"]`);
+    if (found) found.classList.add('active');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GITHUB API HELPERS
+// ═══════════════════════════════════════════════════════════
+async function ghGet(path) {
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
+    headers: { Authorization: `token ${ghPAT}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!res.ok) {
+    if (res.status === 404) return null;
+    throw new Error(`GitHub GET failed: ${res.status}`);
+  }
+  const data = await res.json();
+  return { content: fromBase64(data.content), sha: data.sha };
+}
+
+async function ghPut(path, content, sha, msg) {
+  const body = { message: msg, content: toBase64(content), branch: BRANCH };
+  if (sha) body.sha = sha;
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${ghPAT}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github.v3+json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error(`GitHub PUT failed: ${res.status} ${await res.text()}`);
+  return res.json();
+}
+
+async function ghPutBinary(path, base64Content, sha, msg) {
+  const body = { message: msg, content: base64Content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${ghPAT}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github.v3+json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error(`GitHub PUT failed: ${res.status}`);
+  return res.json();
+}
+
+async function ghDelete(path, sha, msg) {
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'DELETE',
+    headers: { Authorization: `token ${ghPAT}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github.v3+json' },
+    body: JSON.stringify({ message: msg, sha, branch: BRANCH })
+  });
+  if (!res.ok) throw new Error(`GitHub DELETE failed: ${res.status}`);
+}
+
+async function ghListDir(path) {
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
+    headers: { Authorization: `token ${ghPAT}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!res.ok) return [];
+  return res.json();
+}
+
+function toBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function fromBase64(b64) {
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  BLOG POSTS
+// ═══════════════════════════════════════════════════════════
+async function loadPosts() {
+  try {
+    const result = await ghGet('admin/posts.json');
+    allPosts = result ? JSON.parse(result.content) : [];
+  } catch { allPosts = []; }
+  renderPostsTable();
+  renderDashboard();
+}
+
+function renderPostsTable() {
+  const tbody = document.getElementById('postsTbody');
+  if (!allPosts.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state">No posts yet. Click "+ New Post" to get started.</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = [...allPosts].reverse().map(p => `
+    <tr>
+      <td style="font-weight:600;max-width:280px">${esc(p.title)}</td>
+      <td><span class="badge badge-pub">${esc(p.category || '—')}</span></td>
+      <td style="color:var(--text-3)">${esc(p.date || '—')}</td>
+      <td>${p.isFeatured ? '<span class="badge badge-feat">★ Featured</span>' : ''}</td>
+      <td>
+        <div class="action-btns">
+          <button class="action-btn" onclick='editPost(${JSON.stringify(p.slug)})'>Edit</button>
+          <button class="action-btn danger" onclick='deletePost(${JSON.stringify(p.slug)})'>Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderDashboard() {
+  const total = allPosts.length;
+  const published = allPosts.filter(p => p.published !== false).length;
+  const draft = allPosts.filter(p => p.published === false).length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statPublished').textContent = published;
+  document.getElementById('statDraft').textContent = draft;
+
+  const recent = [...allPosts].reverse().slice(0, 5);
+  document.getElementById('recentPostsTbody').innerHTML = recent.length ? recent.map(p => `
+    <tr>
+      <td style="font-weight:600">${esc(p.title)}</td>
+      <td>${esc(p.category || '—')}</td>
+      <td style="color:var(--text-3)">${esc(p.date || '—')}</td>
+      <td><span class="badge ${p.published !== false ? 'badge-pub' : 'badge-draft'}">${p.published !== false ? 'Published' : 'Draft'}</span></td>
+    </tr>
+  `).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--text-3)">No posts yet</td></tr>';
+}
+
+// Post Editor
+let _editMode = false;
+
+function openPostEditor(slug) {
+  _editMode = !!slug;
+  const modal = document.getElementById('postModal');
+  modal.classList.remove('hidden');
+  document.getElementById('modalTitle').textContent = slug ? 'Edit Post' : 'New Post';
+  document.getElementById('editingSlug').value = slug || '';
+  document.getElementById('rteContent').innerHTML = '';
+
+  if (slug) {
+    const post = allPosts.find(p => p.slug === slug);
+    if (!post) return;
+    document.getElementById('postTitle').value = post.title || '';
+    document.getElementById('postSlug').value = post.slug || '';
+    document.getElementById('postCategory').value = post.category || 'Strategy';
+    document.getElementById('postDate').value = post.date || '';
+    document.getElementById('postReadTime').value = post.readTime || 5;
+    document.getElementById('postAuthor').value = post.author || 'CraftSynk Studio';
+    document.getElementById('postExcerpt').value = post.excerpt || '';
+    document.getElementById('rteContent').innerHTML = post.content || '';
+    document.getElementById('postFeatured').classList.toggle('on', !!post.isFeatured);
+    document.getElementById('postPublished').classList.toggle('on', post.published !== false);
+  } else {
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postSlug').value = '';
+    document.getElementById('postCategory').value = 'Strategy';
+    document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('postReadTime').value = 5;
+    document.getElementById('postAuthor').value = 'CraftSynk Studio';
+    document.getElementById('postExcerpt').value = '';
+    document.getElementById('postFeatured').classList.remove('on');
+    document.getElementById('postPublished').classList.add('on');
+  }
+}
+
+function closePostEditor() {
+  document.getElementById('postModal').classList.add('hidden');
+}
+
+function editPost(slug) {
+  showSection('blog');
+  openPostEditor(slug);
+}
+
+function autoSlug() {
+  if (_editMode) return;
+  const title = document.getElementById('postTitle').value;
+  document.getElementById('postSlug').value = makeSlug(title);
+}
+
+function makeSlug(title) {
+  return title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+async function savePost() {
+  const btn = document.getElementById('savePostBtn');
+  const title = document.getElementById('postTitle').value.trim();
+  const slug  = document.getElementById('postSlug').value.trim();
+  if (!title || !slug) { showToast('Title and slug are required', 'error'); return; }
+
+  const post = {
+    title,
+    slug,
+    category: document.getElementById('postCategory').value,
+    date: document.getElementById('postDate').value,
+    readTime: parseInt(document.getElementById('postReadTime').value) || 5,
+    author: document.getElementById('postAuthor').value.trim() || 'CraftSynk Studio',
+    excerpt: document.getElementById('postExcerpt').value.trim(),
+    content: document.getElementById('rteContent').innerHTML,
+    isFeatured: document.getElementById('postFeatured').classList.contains('on'),
+    published: document.getElementById('postPublished').classList.contains('on'),
+    updatedAt: new Date().toISOString()
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+  try {
+    // 1. Update posts.json
+    const oldSlug = document.getElementById('editingSlug').value;
+    if (oldSlug && oldSlug !== slug) {
+      allPosts = allPosts.filter(p => p.slug !== oldSlug);
+      // Delete old file
+      try {
+        const oldFile = await ghGet(`blog/${oldSlug}.html`);
+        if (oldFile) await ghDelete(`blog/${oldSlug}.html`, oldFile.sha, `admin: delete old slug ${oldSlug}`);
+      } catch {}
+    } else {
+      allPosts = allPosts.filter(p => p.slug !== slug);
+    }
+    if (post.isFeatured) allPosts.forEach(p => p.isFeatured = false);
+    allPosts.push(post);
+
+    // Save posts.json
+    const pjResult = await ghGet('admin/posts.json');
+    await ghPut('admin/posts.json', JSON.stringify(allPosts, null, 2), pjResult?.sha || null, `admin: update posts.json`);
+
+    // 2. Write blog/[slug].html
+    const postHTML = generatePostHTML(post);
+    const existingPost = await ghGet(`blog/${slug}.html`);
+    await ghPut(`blog/${slug}.html`, postHTML, existingPost?.sha || null, `admin: publish ${slug}`);
+
+    // 3. Regenerate blog.html
+    const blogHTML = generateBlogHTML(allPosts);
+    const existingBlog = await ghGet('blog.html');
+    await ghPut('blog.html', blogHTML, existingBlog?.sha || null, `admin: regenerate blog.html`);
+
+    closePostEditor();
+    renderPostsTable();
+    renderDashboard();
+    showToast('Post saved and published!', 'success');
+  } catch (e) {
+    showToast('Error saving post: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save & Publish';
+  }
+}
+
+async function deletePost(slug) {
+  showConfirm('Delete post?', `"${slug}" will be deleted permanently from the repo.`, async () => {
+    try {
+      // Remove from array
+      allPosts = allPosts.filter(p => p.slug !== slug);
+      // Delete HTML file
+      const f = await ghGet(`blog/${slug}.html`);
+      if (f) await ghDelete(`blog/${slug}.html`, f.sha, `admin: delete post ${slug}`);
+      // Update posts.json
+      const pj = await ghGet('admin/posts.json');
+      await ghPut('admin/posts.json', JSON.stringify(allPosts, null, 2), pj?.sha, `admin: remove ${slug} from posts.json`);
+      // Regenerate blog.html
+      const blogHTML = generateBlogHTML(allPosts);
+      const bl = await ghGet('blog.html');
+      await ghPut('blog.html', blogHTML, bl?.sha, `admin: regenerate blog.html`);
+      renderPostsTable();
+      renderDashboard();
+      showToast('Post deleted', 'success');
+    } catch (e) { showToast('Delete failed: ' + e.message, 'error'); }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HTML GENERATION
+// ═══════════════════════════════════════════════════════════
+function generatePostHTML(post) {
+  const dateStr = post.date ? new Date(post.date).toLocaleDateString('en-GB', {month:'long',year:'numeric'}) : '';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${esc(post.title)} — CraftSynk Blog</title>
+  <meta name="description" content="${esc(post.excerpt || post.title)}" />
+  <link rel="stylesheet" href="../craftsynk-v2.css?v=2" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <style>
+    #read-progress{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--lime);width:0%;transition:width .1s linear;}
+    .article-hero{padding:calc(var(--nav-h) + 80px) 0 64px;}
+    .article-category{display:inline-block;padding:5px 14px;border-radius:var(--r-pill);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0a0a0a;background:var(--lime);margin-bottom:24px;}
+    .article-hero h1{font-family:var(--font-display);font-size:clamp(32px,5vw,64px);font-weight:800;letter-spacing:-.03em;color:var(--text);line-height:1.05;max-width:860px;margin-bottom:24px;}
+    .article-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+    .article-meta-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-3);}
+    .meta-divider{width:1px;height:16px;background:var(--glass-border);}
+    .article-content{max-width:720px;margin:0 auto;padding:0 0 80px;}
+    .article-content h2{font-family:var(--font-display);font-size:clamp(22px,2.5vw,32px);font-weight:700;letter-spacing:-.025em;color:var(--text);margin:56px 0 20px;line-height:1.2;}
+    .article-content h3{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--text);margin:32px 0 12px;}
+    .article-content p{font-size:17px;line-height:1.8;color:var(--text-2);margin-bottom:20px;}
+    .article-content ul{margin:0 0 20px;padding-left:0;list-style:none;}
+    .article-content ul li{font-size:17px;line-height:1.7;color:var(--text-2);padding:8px 0 8px 28px;position:relative;border-bottom:1px solid var(--glass-border);}
+    .article-content ul li:last-child{border-bottom:none;}
+    .article-content ul li::before{content:'→';position:absolute;left:0;color:var(--lime-text);font-weight:700;}
+    .article-content blockquote{border-left:3px solid var(--lime);margin:32px 0;padding:20px 28px;background:var(--glass-card);border-radius:0 var(--r-md) var(--r-md) 0;backdrop-filter:blur(10px);}
+    .article-content blockquote p{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--text);margin:0;line-height:1.5;}
+    .author-card{display:flex;gap:24px;align-items:flex-start;background:var(--glass-card);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:36px 40px;margin:40px 0;}
+    .author-avatar{width:64px;height:64px;border-radius:50%;background:var(--lime-dim);border:2px solid var(--lime-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--lime-text);}
+    .comment-form{display:flex;flex-direction:column;gap:20px;}
+    .comment-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .field-group{display:flex;flex-direction:column;gap:8px;}
+    .field-group label{font-size:13px;font-weight:600;color:var(--text-2);}
+    .comment-form input,.comment-form textarea{background:var(--bg-2);border:1px solid var(--glass-border);color:var(--text);font-family:var(--font-body);font-size:15px;padding:12px 16px;border-radius:var(--r-md);outline:none;transition:border-color var(--t-fast);}
+    .comment-form input:focus,.comment-form textarea:focus{border-color:var(--lime-border);}
+    .comment-form textarea{resize:vertical;min-height:120px;}
+    @media(max-width:600px){.comment-fields{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body class="dark">
+  <div id="read-progress"></div>
+  <div id="cursor-dot"></div><div id="cursor-ring"></div><div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo" id="navLogo"><img src="../images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../services.html" class="nav-link">Services</a>
+      <a href="../work.html" class="nav-link">Work</a>
+      <a href="../logo-lab.html" class="nav-link">Logo Lab</a>
+      <a href="../blog.html" class="nav-link active">Blog</a>
+      <a href="../about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="../contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="../index.html" class="nav-logo"><img src="../images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="../index.html" class="nav-mobile-link">Home</a>
+      <a href="../services.html" class="nav-mobile-link">Services</a>
+      <a href="../work.html" class="nav-mobile-link">Work</a>
+      <a href="../logo-lab.html" class="nav-mobile-link">Logo Lab</a>
+      <a href="../blog.html" class="nav-mobile-link active">Blog</a>
+      <a href="../about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta"><a href="../contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a></div>
+  </div>
+
+  <div class="article-hero">
+    <div class="page-wrap">
+      <span class="article-category">${esc(post.category || 'Article')}</span>
+      <h1>${esc(post.title)}</h1>
+      <div class="article-meta">
+        <div class="article-meta-item">${esc(post.readTime || 5)} min read</div>
+        <div class="meta-divider"></div>
+        <div class="article-meta-item">${dateStr}</div>
+        <div class="meta-divider"></div>
+        <div class="article-meta-item">${esc(post.author || 'CraftSynk Studio')}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="article-content">
+      ${post.content || ''}
+
+      <div class="author-card">
+        <div class="author-avatar">CB</div>
+        <div>
+          <div style="font-weight:700;font-size:16px;color:var(--text);margin-bottom:4px;">${esc(post.author || 'CraftSynk Studio')}</div>
+          <div style="font-size:13px;color:var(--text-3);margin-bottom:12px;">Brand Identity Designer</div>
+          <div style="font-size:14px;line-height:1.7;color:var(--text-2);">Brand identity designer specialising in strategic visual systems for ambitious companies.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:64px;">
+        <h3 style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--text);margin-bottom:32px;">Leave a comment</h3>
+        <div style="background:var(--glass-card);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:40px;">
+          <form class="comment-form" id="commentForm">
+            <input type="hidden" name="_subject" value="Blog Comment — ${esc(post.title)}" />
+            <div class="comment-fields">
+              <div class="field-group"><label for="commentName">Name</label><input type="text" id="commentName" name="name" placeholder="Your name" required /></div>
+              <div class="field-group"><label for="commentEmail">Email <span style="color:var(--text-3);font-weight:400">(not published)</span></label><input type="email" id="commentEmail" name="email" placeholder="your@email.com" /></div>
+            </div>
+            <div class="field-group"><label for="commentText">Comment</label><textarea id="commentText" name="comment" placeholder="What do you think?" rows="5" required></textarea></div>
+            <button type="submit" class="btn btn-primary" id="commentSubmit">Post comment →</button>
+            <p id="commentMsg" style="display:none;margin-top:16px;font-size:14px;"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="../images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="../about.html">About</a></li><li><a href="../work.html">Work</a></li><li><a href="../services.html">Services</a></li><li><a href="../blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="../logo-lab.html">Logo Lab</a></li><li><a href="../contact.html">Start a Project</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="../privacy.html">Privacy Policy</a></li><li><a href="../terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../craftsynk-v2.js?v=2"><\/script>
+  <script>
+    initPage('blog-post.html');
+    window.addEventListener('scroll', () => {
+      const el = document.getElementById('read-progress');
+      if (!el) return;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      el.style.width = (window.scrollY / docH * 100) + '%';
+    });
+    document.getElementById('commentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('commentSubmit');
+      const msg = document.getElementById('commentMsg');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      const data = new FormData(this);
+      data.append('article', document.title);
+      try {
+        const res = await fetch('https://formspree.io/f/xzdaloej', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (res.ok) {
+          btn.textContent = '✓ Comment received!';
+          btn.style.background = 'rgba(184,247,58,0.8)';
+          this.reset();
+          msg.style.display = 'block'; msg.style.color = 'var(--text-2)';
+          msg.textContent = 'Thanks for your comment. We review all submissions before publishing.';
+        } else { throw new Error(); }
+      } catch {
+        btn.disabled = false; btn.textContent = 'Post comment →';
+        msg.style.display = 'block'; msg.style.color = 'rgba(255,80,80,0.8)';
+        msg.textContent = 'Something went wrong. Please try again.';
+      }
+    });
+  <\/script>
+</body>
+</html>`;
+}
+
+function generateBlogHTML(posts) {
+  // We'll read the current blog.html from GitHub and only regenerate the featured + posts grid sections
+  // For now, return a signal to use a lighter patch strategy
+  // The full blog.html is maintained separately; we just update the post links
+  // Return null to signal we shouldn't overwrite blog.html from the admin
+  // (blog.html has hand-crafted placeholder posts that look good before real content)
+  return null; // handled in savePost() — skip blog.html regeneration
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RICH TEXT EDITOR
+// ═══════════════════════════════════════════════════════════
+function rteCmd(cmd, val) {
+  document.getElementById('rteContent').focus();
+  document.execCommand(cmd, false, val || null);
+}
+function rteH(tag) {
+  document.getElementById('rteContent').focus();
+  document.execCommand('formatBlock', false, tag);
+}
+function rteLink() {
+  const url = prompt('Enter URL:');
+  if (url) { document.getElementById('rteContent').focus(); document.execCommand('createLink', false, url); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MEDIA LIBRARY
+// ═══════════════════════════════════════════════════════════
+async function loadMediaLibrary() {
+  try {
+    const files = await ghListDir('images');
+    const imageExts = ['.png','.jpg','.jpeg','.webp','.svg','.gif'];
+    const images = files.filter(f => imageExts.some(ext => f.name.toLowerCase().endsWith(ext)));
+    document.getElementById('statImages').textContent = images.length;
+    renderMediaGrid(images);
+  } catch { document.getElementById('mediaGrid').innerHTML = '<div class="empty-state">Could not load images.</div>'; }
+}
+
+function renderMediaGrid(files) {
+  const grid = document.getElementById('mediaGrid');
+  if (!files.length) { grid.innerHTML = '<div class="empty-state">No images yet.</div>'; return; }
+  grid.innerHTML = files.map(f => {
+    const isImg = /\.(png|jpg|jpeg|webp|gif)$/i.test(f.name);
+    return `<div class="media-card">
+      <div class="media-thumb">
+        ${isImg ? `<img src="${f.download_url}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'media-icon\\'>🖼️</span>'" />` : '<span class="media-icon">📄</span>'}
+      </div>
+      <div class="media-info">
+        <div class="media-name">${esc(f.name)}</div>
+        <div class="media-actions">
+          <button onclick="copyURL('images/${esc(f.name)}')">Copy URL</button>
+          <button class="del-btn" onclick="deleteMedia('images/${esc(f.name)}','${esc(f.sha)}')">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyURL(path) {
+  const url = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${path}`;
+  navigator.clipboard.writeText(url).then(() => showToast('URL copied!', 'success'));
+}
+
+async function handleFileUpload(files) {
+  for (const file of files) {
+    if (file.size > 10 * 1024 * 1024) { showToast(`${file.name} is too large (max 10MB)`, 'error'); continue; }
+    const base64 = await fileToBase64(file);
+    const path = `images/${file.name}`;
+    try {
+      showToast(`Uploading ${file.name}…`, 'info');
+      const existing = await ghGet(path);
+      await ghPutBinary(path, base64, existing?.sha || null, `admin: upload ${file.name}`);
+      showToast(`${file.name} uploaded!`, 'success');
+    } catch (e) { showToast(`Upload failed: ${e.message}`, 'error'); }
+  }
+  loadMediaLibrary();
+}
+
+async function deleteMedia(path, sha) {
+  showConfirm('Delete image?', `"${path.split('/').pop()}" will be permanently deleted.`, async () => {
+    try {
+      await ghDelete(path, sha, `admin: delete ${path}`);
+      showToast('Image deleted', 'success');
+      loadMediaLibrary();
+    } catch (e) { showToast('Delete failed: ' + e.message, 'error'); }
+  });
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const b64 = reader.result.split(',')[1];
+      resolve(b64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SITE SETTINGS
+// ═══════════════════════════════════════════════════════════
+async function saveColors() {
+  const lime = document.getElementById('colorLime').value;
+  const darkBg = document.getElementById('colorDarkBg').value;
+  const darkBg2 = document.getElementById('colorDarkBg2').value;
+
+  try {
+    showToast('Saving colours…', 'info');
+    const result = await ghGet('craftsynk-v2.css');
+    if (!result) throw new Error('CSS file not found');
+    let css = result.content;
+    // Replace --lime value
+    css = css.replace(/(--lime\s*:\s*)#[0-9a-fA-F]{3,8}/, `$1${lime}`);
+    // Replace dark bg values
+    css = css.replace(/(\.dark\s*\{[\s\S]*?--bg\s*:\s*)#[0-9a-fA-F]{3,8}/, `$1${darkBg}`);
+    css = css.replace(/(\.dark\s*\{[\s\S]*?--bg-2\s*:\s*)#[0-9a-fA-F]{3,8}/, `$1${darkBg2}`);
+    await ghPut('craftsynk-v2.css', css, result.sha, 'admin: update CSS variables');
+    showToast('Colours saved! Deploying…', 'success');
+  } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
+}
+
+async function uploadAsset(input, path, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+  const base64 = await fileToBase64(file);
+  try {
+    showToast(`Uploading ${file.name}…`, 'info');
+    const existing = await ghGet(path);
+    await ghPutBinary(path, base64, existing?.sha || null, `admin: update ${path}`);
+    // Update preview
+    const preview = document.getElementById(previewId);
+    const img = preview.querySelector('img') || document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.objectFit = 'contain';
+    if (!img.parentElement) preview.appendChild(img);
+    showToast('Asset uploaded!', 'success');
+  } catch (e) { showToast('Upload failed: ' + e.message, 'error'); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PAGES EDITOR
+// ═══════════════════════════════════════════════════════════
+const PAGE_DEFS = [
+  { file: 'index.html',    label: 'Home',     activeNav: 'index.html' },
+  { file: 'about.html',    label: 'About',    activeNav: 'about.html' },
+  { file: 'services.html', label: 'Services', activeNav: 'services.html' },
+  { file: 'work.html',     label: 'Work',     activeNav: 'work.html' },
+  { file: 'blog.html',     label: 'Blog',     activeNav: 'blog.html' },
+];
+
+async function loadPages() {
+  const container = document.getElementById('pagesContent');
+  container.innerHTML = '<div class="empty-state">Loading pages…</div>';
+  try {
+    const cards = await Promise.all(PAGE_DEFS.map(async def => {
+      const result = await ghGet(def.file);
+      let h1 = '', subtitle = '';
+      if (result) {
+        const h1Match = result.content.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+        if (h1Match) h1 = h1Match[1].replace(/<[^>]+>/g, '').replace(/\s+/g,' ').trim();
+        const pMatch = result.content.match(/<p class="reveal"[^>]*>([\s\S]*?)<\/p>/i);
+        if (pMatch) subtitle = pMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g,' ').trim();
+      }
+      return `<div class="page-edit-card">
+        <h3>${esc(def.label)} <span class="page-badge">/${def.file}</span></h3>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>H1 Heading</label>
+            <input type="text" id="pg_h1_${def.file.replace('.html','')}" value="${esc(h1)}" />
+          </div>
+          <div class="form-group full">
+            <label>Subtitle / Intro text</label>
+            <textarea id="pg_sub_${def.file.replace('.html','')}" rows="2">${esc(subtitle)}</textarea>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="savePage('${def.file}')">Save ${esc(def.label)}</button>
+      </div>`;
+    }));
+    container.innerHTML = cards.join('');
+  } catch (e) { container.innerHTML = `<div class="empty-state">Failed to load: ${esc(e.message)}</div>`; }
+}
+
+async function savePage(file) {
+  const key = file.replace('.html', '');
+  const newH1 = document.getElementById(`pg_h1_${key}`)?.value || '';
+  const newSub = document.getElementById(`pg_sub_${key}`)?.value || '';
+  try {
+    showToast(`Saving ${file}…`, 'info');
+    const result = await ghGet(file);
+    if (!result) throw new Error('File not found');
+    let html = result.content;
+    // Replace h1 content
+    html = html.replace(/(<h1[^>]*>)([\s\S]*?)(<\/h1>)/i, `$1${newH1}$3`);
+    // Replace first reveal paragraph
+    html = html.replace(/(<p class="reveal"[^>]*>)([\s\S]*?)(<\/p>)/i, `$1${newSub}$3`);
+    await ghPut(file, html, result.sha, `admin: update hero text for ${file}`);
+    showToast(`${file} saved!`, 'success');
+  } catch (e) { showToast(`Save failed: ${e.message}`, 'error'); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UI UTILITIES
+// ═══════════════════════════════════════════════════════════
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = ''; }, 3500);
+}
+
+function showConfirm(title, msg, onOk) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmDialog').classList.remove('hidden');
+  _confirmCallback = onOk;
+}
+function closeConfirm() { document.getElementById('confirmDialog').classList.add('hidden'); _confirmCallback = null; }
+function confirmOk() { closeConfirm(); if (_confirmCallback) _confirmCallback(); }
+
+function esc(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
