@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start a Project — CraftSynk</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Tell us about your project so we can build something brilliant together.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="craftsynk-v2.css?v=2">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+  /* ===========================
+     PROJECT QUESTIONNAIRE PAGE
+  =========================== */
+
+  /* Header */
+  .q-header {
+    padding: 32px 24px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .q-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+  }
+  .q-logo span { color: var(--lime); }
+
+  /* Hero */
+  .q-hero {
+    text-align: center;
+    padding: 52px 24px 0;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .q-hero .label {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+  .q-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 5.5vw, 64px);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin-bottom: 18px;
+  }
+  .q-hero h1 em { font-style: normal; color: var(--lime); }
+  .q-hero p {
+    font-size: 17px;
+    color: var(--text-2);
+    line-height: 1.65;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    max-width: 700px;
+    margin: 48px auto 0;
+    padding: 0 24px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .progress-step-text {
+    font-size: 12px;
+    color: var(--lime-text);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .progress-bar {
+    height: 3px;
+    background: var(--glass-border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--lime);
+    border-radius: 2px;
+    transition: width 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .progress-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .progress-dot {
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--glass-border);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .progress-dot.done { background: var(--lime); }
+  .progress-dot.active { background: rgba(184,247,58,0.55); transform: scaleY(1.5); }
+
+  /* Form wrap */
+  .form-wrap {
+    max-width: 700px;
+    margin: 36px auto 0;
+    padding: 0 24px 120px;
+  }
+
+  /* Step */
+  .step { display: none; }
+  .step.active {
+    display: block;
+    animation: stepIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .step.exit {
+    animation: stepOut 0.2s ease-in both;
+  }
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.99); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes stepOut {
+    from { opacity: 1; }
+    to   { opacity: 0; transform: translateY(-12px); }
+  }
+
+  .step-eyebrow {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .step-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.5vw, 32px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .step-subtitle {
+    font-size: 15px;
+    color: var(--text-2);
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  /* Q card */
+  .q-card {
+    background: var(--glass-card);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 18px;
+    transition: border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .q-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(184,247,58,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .q-card:focus-within { border-color: rgba(184,247,58,0.32); }
+  .q-card:focus-within::before { opacity: 1; }
+
+  .q-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--lime-text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .q-num {
+    width: 20px; height: 20px;
+    background: var(--lime-dim);
+    border: 1px solid var(--lime-border);
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--lime-text);
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .q-question {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+  .q-hint {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 18px;
+    line-height: 1.55;
+  }
+
+  /* Text inputs */
+  .q-input {
+    width: 100%;
+    padding: 13px 17px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+  }
+  .q-input:focus {
+    border-color: rgba(184,247,58,0.4);
+    background: rgba(184,247,58,0.03);
+    box-shadow: 0 0 0 3px rgba(184,247,58,0.07);
+  }
+  .q-input::placeholder { color: var(--text-3); }
+  textarea.q-input {
+    resize: vertical;
+    min-height: 96px;
+    line-height: 1.65;
+  }
+  .q-input.error {
+    border-color: rgba(255,80,70,0.7);
+    box-shadow: 0 0 0 3px rgba(255,80,70,0.08);
+  }
+
+  /* Word chips */
+  .word-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .word-chip {
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1.5px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-2);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+  }
+  .word-chip:hover:not(.maxed) {
+    border-color: rgba(184,247,58,0.4);
+    color: var(--lime-text);
+    background: var(--lime-dim);
+  }
+  .word-chip.selected {
+    background: var(--lime);
+    border-color: var(--lime);
+    color: #0a0a0a;
+    font-weight: 700;
+    transform: scale(1.04);
+    box-shadow: 0 4px 14px rgba(184,247,58,0.28);
+  }
+  .word-chip.maxed {
+    opacity: 0.28;
+    cursor: not-allowed;
+  }
+  .chip-counter {
+    font-size: 12px;
+    color: var(--text-3);
+    text-align: right;
+    font-weight: 500;
+  }
+  .chip-counter .c { color: var(--lime-text); font-weight: 800; font-size: 14px; }
+
+  /* Competitor rows */
+  .competitor-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 38px;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .rm-btn {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-3);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+  }
+  .rm-btn:hover {
+    border-color: rgba(255,80,70,0.5);
+    color: rgba(255,80,70,0.85);
+    background: rgba(255,80,70,0.08);
+  }
+  .add-row-btn {
+    width: 100%;
+    padding: 11px;
+    border: 1.5px dashed rgba(255,255,255,0.12);
+    border-radius: 14px;
+    background: transparent;
+    color: var(--text-3);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .add-row-btn:hover {
+    border-color: rgba(184,247,58,0.35);
+    color: var(--lime-text);
+    background: var(--lime-dim);
+  }
+
+  /* Visual option cards */
+  .opt-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .opt-card {
+    padding: 18px 14px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    user-select: none;
+  }
+  .opt-card:hover {
+    border-color: rgba(184,247,58,0.35);
+    background: var(--lime-dim);
+    transform: translateY(-2px);
+  }
+  .opt-card.sel {
+    border-color: var(--lime);
+    background: rgba(184,247,58,0.08);
+    box-shadow: 0 0 0 1px rgba(184,247,58,0.2), 0 8px 24px rgba(184,247,58,0.1);
+  }
+  .opt-icon { font-size: 28px; display: block; margin-bottom: 8px; line-height: 1; }
+  .opt-name { font-size: 14px; font-weight: 600; color: var(--text); display: block; }
+  .opt-sub { font-size: 11px; color: var(--text-3); margin-top: 3px; display: block; line-height: 1.4; }
+  .opt-card.sel .opt-name { color: var(--lime-text); }
+
+  /* Age slider */
+  .age-value-display {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--lime-text);
+    text-align: center;
+    letter-spacing: -0.04em;
+    margin: 8px 0 20px;
+    transition: all 0.15s ease;
+  }
+  .slider-edge-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .slider-stack { display: flex; flex-direction: column; gap: 12px; }
+
+  /* Range inputs */
+  input[type=range].q-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    background: var(--glass-border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range].q-range::-webkit-slider-track {
+    height: 5px;
+    border-radius: 3px;
+    background: transparent;
+  }
+  input[type=range].q-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--lime);
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px rgba(184,247,58,0.35), 0 4px 12px rgba(184,247,58,0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  input[type=range].q-range::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px rgba(184,247,58,0.45), 0 6px 18px rgba(184,247,58,0.3);
+  }
+  input[type=range].q-range::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--lime);
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px rgba(184,247,58,0.35);
+  }
+
+  /* Vibe sliders */
+  .vibe-block { margin-bottom: 32px; }
+  .vibe-block:last-child { margin-bottom: 0; }
+  .vibe-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+  .vibe-end {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-3);
+    transition: color 0.2s ease, opacity 0.2s ease;
+    max-width: 42%;
+    line-height: 1.2;
+  }
+  .vibe-end.right { text-align: right; }
+  .vibe-end.lit { color: var(--lime-text); }
+  .vibe-desc {
+    font-size: 12px;
+    color: var(--text-3);
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    min-height: 18px;
+    transition: all 0.2s ease;
+  }
+  .vibe-pips {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .vibe-pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--glass-border);
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .vibe-pip.on { background: var(--lime); }
+  .vibe-pip.center { transform: scale(1.3); }
+
+  /* Checkbox grid */
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ck-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+  }
+  .ck-item:hover {
+    border-color: rgba(184,247,58,0.35);
+    background: rgba(184,247,58,0.04);
+  }
+  .ck-item input { display: none; }
+  .ck-box {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+    color: transparent;
+  }
+  .ck-item.on .ck-box {
+    background: var(--lime);
+    border-color: var(--lime);
+    color: #0a0a0a;
+  }
+  .ck-item.on {
+    border-color: rgba(184,247,58,0.4);
+    background: rgba(184,247,58,0.06);
+  }
+  .ck-ico { font-size: 15px; line-height: 1; }
+  .ck-lbl {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    line-height: 1.2;
+  }
+  .ck-item.on .ck-lbl { color: var(--lime-text); }
+
+  /* Color pickers */
+  .color-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .cp-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .cp-wrap input[type=color] {
+    width: 54px; height: 54px;
+    border: 2px solid var(--glass-border);
+    border-radius: 14px;
+    cursor: pointer;
+    padding: 3px;
+    background: transparent;
+    -webkit-appearance: none;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .cp-wrap input[type=color]:hover { border-color: rgba(184,247,58,0.4); transform: scale(1.08); }
+  .cp-wrap input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+  .cp-wrap input[type=color]::-webkit-color-swatch { border: none; border-radius: 9px; }
+  .cp-val {
+    font-size: 9px;
+    font-family: 'Courier New', monospace;
+    color: var(--text-3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .cp-add {
+    width: 54px; height: 54px;
+    border: 2px dashed rgba(255,255,255,0.12);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    color: var(--text-3);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .cp-add:hover {
+    border-color: rgba(184,247,58,0.4);
+    color: var(--lime-text);
+    background: var(--lime-dim);
+  }
+
+  /* Inspiration rows */
+  .inspo-row {
+    padding: 18px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .inspo-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--lime-text);
+    opacity: 0.7;
+  }
+
+  /* Logo type grid */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .logo-card {
+    padding: 22px 14px 18px;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+    user-select: none;
+  }
+  .logo-card:hover {
+    border-color: rgba(184,247,58,0.4);
+    background: rgba(184,247,58,0.04);
+    transform: translateY(-3px);
+  }
+  .logo-card.sel {
+    border-color: var(--lime);
+    background: rgba(184,247,58,0.08);
+    box-shadow: 0 0 0 1px rgba(184,247,58,0.2), 0 12px 32px rgba(184,247,58,0.12);
+    transform: translateY(-3px);
+  }
+  .logo-preview {
+    height: 64px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    color: var(--text-2);
+  }
+  .logo-card.sel .logo-preview { color: var(--lime-text); }
+  .logo-card h4 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+  .logo-card p { font-size: 11px; color: var(--text-3); line-height: 1.5; }
+  .logo-card.sel h4 { color: var(--lime-text); }
+
+  /* Bottom nav bar */
+  .form-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px 24px;
+    background: var(--glass-nav);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 200;
+  }
+  .btn-back {
+    padding: 11px 22px;
+    background: transparent;
+    border: 1.5px solid var(--glass-border);
+    border-radius: 100px;
+    color: var(--text-2);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-back:hover { background: var(--glass-hover); color: var(--text); border-color: rgba(255,255,255,0.18); }
+  .btn-back:disabled { opacity: 0; pointer-events: none; }
+  .btn-next {
+    padding: 12px 28px;
+    background: var(--lime);
+    border: none;
+    border-radius: 100px;
+    color: #0a0a0a;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .btn-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(184,247,58,0.4);
+  }
+  .btn-next:active { transform: translateY(0); }
+  .btn-next.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .btn-next .spinner {
+    display: none;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(10,10,10,0.25);
+    border-top-color: #0a0a0a;
+    border-radius: 50%;
+    animation: spin 0.65s linear infinite;
+  }
+  .btn-next.loading .spinner { display: block; }
+  .btn-next.loading .btn-arrow { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .nav-mid {
+    font-size: 12px;
+    color: var(--text-3);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* Success */
+  .success-wrap {
+    display: none;
+    text-align: center;
+    padding: 80px 24px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .success-wrap.show {
+    display: block;
+    animation: stepIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .success-emoji {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 24px;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+  }
+  @keyframes popIn {
+    from { transform: scale(0) rotate(-15deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .success-wrap h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  .success-wrap h2 em { font-style: normal; color: var(--lime); }
+  .success-wrap p {
+    font-size: 16px;
+    color: var(--text-2);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto 40px;
+  }
+  .success-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--lime-dim);
+    border: 1px solid var(--lime-border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--lime-text);
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+
+  /* Section divider */
+  .q-divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: 20px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 580px) {
+    .competitor-row { grid-template-columns: 1fr 38px; }
+    .competitor-row .q-input:first-child { grid-column: 1/-1; }
+    .check-grid { grid-template-columns: 1fr; }
+    .logo-grid { grid-template-columns: 1fr; }
+    .opt-grid-2 { grid-template-columns: 1fr 1fr; }
+    .q-card { padding: 22px 18px; }
+    input[type=date].q-input { font-size: 14px; }
+  }
+  @media (max-width: 420px) {
+    .opt-grid-2 { grid-template-columns: 1fr; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Header -->
+<header class="q-header">
+  <a href="index.html" class="q-logo">craft<span>synk</span></a>
+</header>
+
+<!-- Hero -->
+<div class="q-hero" id="qHero">
+  <span class="label">✦ New Project Enquiry</span>
+  <h1>Let's build something<br><em>brilliant</em> together.</h1>
+  <p>This quick questionnaire helps us understand your vision. Honest answers = better design. No wrong answers here!</p>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-meta">
+    <span class="progress-label" id="stepName">About Your Brand</span>
+    <span class="progress-step-text" id="stepCount">Step 1 of 6</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:16.67%"></div>
+  </div>
+  <div class="progress-dots" id="progressDots">
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+</div>
+
+<!-- ======== FORM WRAP ======== -->
+<div class="form-wrap" id="formWrap">
+
+  <!-- ── STEP 1: About Your Brand ── -->
+  <div class="step active" id="step-1">
+    <span class="step-eyebrow">🏢</span>
+    <div class="step-title">About Your Brand</div>
+    <div class="step-subtitle">Let's get to know you and what you're building.</div>
+
+    <!-- Q1 Company Name -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">1</span> Company Name</div>
+      <div class="q-question">What's the name of your company?</div>
+      <input type="text" class="q-input" id="q1" placeholder="e.g. Acme Studio" autocomplete="organization">
+    </div>
+
+    <!-- Q2 Brand Words -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">2</span> Brand Personality</div>
+      <div class="q-question">Pick exactly 3 words that describe your brand</div>
+      <div class="q-hint">Tap the words that feel most true to who you are. No overthinking!</div>
+      <div class="word-chips" id="wordChips"></div>
+      <div class="chip-counter"><span class="c" id="chipCount">0</span> / 3 selected</div>
+    </div>
+
+    <!-- Q3 Competitors -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">3</span> Competition</div>
+      <div class="q-question">Who are your main competitors?</div>
+      <div class="q-hint">List 2–3 companies doing what you do. Add their website if they're online.</div>
+      <div id="compList">
+        <div class="competitor-row">
+          <input type="text" class="q-input" placeholder="Company name" data-cname>
+          <input type="url" class="q-input" placeholder="Website (optional)" data-curl>
+          <button type="button" class="rm-btn" onclick="rmComp(this)">✕</button>
+        </div>
+        <div class="competitor-row">
+          <input type="text" class="q-input" placeholder="Company name" data-cname>
+          <input type="url" class="q-input" placeholder="Website (optional)" data-curl>
+          <button type="button" class="rm-btn" onclick="rmComp(this)">✕</button>
+        </div>
+      </div>
+      <button type="button" class="add-row-btn" id="addCompBtn" onclick="addComp()">＋ Add another competitor</button>
+    </div>
+
+    <!-- Q4 Services -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">4</span> Services & Products</div>
+      <div class="q-question">What will you be offering?</div>
+      <div class="q-hint">Select everything that applies.</div>
+      <div class="check-grid" id="servicesGrid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Logo Design"><div class="ck-box">✓</div><span class="ck-ico">✏️</span><span class="ck-lbl">Logo Design</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Brand Identity"><div class="ck-box">✓</div><span class="ck-ico">🎨</span><span class="ck-lbl">Brand Identity</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Social Media"><div class="ck-box">✓</div><span class="ck-ico">📱</span><span class="ck-lbl">Social Media</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Print Materials"><div class="ck-box">✓</div><span class="ck-ico">🖨️</span><span class="ck-lbl">Print Materials</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Web Design"><div class="ck-box">✓</div><span class="ck-ico">💻</span><span class="ck-lbl">Web Design</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Packaging"><div class="ck-box">✓</div><span class="ck-ico">📦</span><span class="ck-lbl">Packaging</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="svc" value="Signage"><div class="ck-box">✓</div><span class="ck-ico">🪧</span><span class="ck-lbl">Signage</span></label>
+        <label class="ck-item" onclick="ckToggle(this)" id="svcOtherLbl"><input type="checkbox" name="svc" value="Other"><div class="ck-box">✓</div><span class="ck-ico">✨</span><span class="ck-lbl">Other</span></label>
+      </div>
+      <input type="text" class="q-input" id="svcOtherInput" placeholder="Describe your other services…" style="margin-top:12px;display:none;">
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Audience & Goals ── -->
+  <div class="step" id="step-2">
+    <span class="step-eyebrow">🎯</span>
+    <div class="step-title">Your Audience & Goals</div>
+    <div class="step-subtitle">Who are you speaking to, and what do you want to say?</div>
+
+    <!-- Q5 Audience -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">5</span> Target Audience</div>
+      <div class="q-question">Who is your main customer?</div>
+      <div class="q-hint">Select the gender that best represents your primary audience.</div>
+      <div class="opt-grid-2" style="margin-bottom:26px;">
+        <div class="opt-card" onclick="pickOpt(this,'gender')" data-val="Primarily Male"><span class="opt-icon">👨</span><span class="opt-name">Primarily Male</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'gender')" data-val="Primarily Female"><span class="opt-icon">👩</span><span class="opt-name">Primarily Female</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'gender')" data-val="All Genders"><span class="opt-icon">🧑‍🤝‍🧑</span><span class="opt-name">All Genders</span></div>
+        <div class="opt-card" onclick="pickOpt(this,'gender')" data-val="Non-binary / Fluid"><span class="opt-icon">🌈</span><span class="opt-name">Non-binary / Fluid</span></div>
+      </div>
+      <div class="q-label" style="margin-bottom:4px;">Age Range</div>
+      <div class="q-hint">Drag both sliders to define your target age bracket.</div>
+      <div class="age-value-display" id="ageDisplay">18 – 35</div>
+      <div class="slider-stack">
+        <input type="range" class="q-range" id="ageMin" min="13" max="75" value="18" oninput="syncAge()">
+        <input type="range" class="q-range" id="ageMax" min="13" max="75" value="35" oninput="syncAge()">
+      </div>
+      <div class="slider-edge-labels"><span>Age 13</span><span>75+</span></div>
+    </div>
+
+    <!-- Q6 Message -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">6</span> Brand Message</div>
+      <div class="q-question">What message do you want to send your customers?</div>
+      <div class="q-hint">If your buyers had to describe your brand in a few words, what would you want them to say?</div>
+      <textarea class="q-input" id="q6" placeholder="e.g. We make luxury skincare feel accessible. People should feel invested in themselves, not just buying a product…" rows="4"></textarea>
+    </div>
+
+    <!-- Q7 Marketing Channels -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">7</span> Marketing Channels</div>
+      <div class="q-question">How will you reach your customers?</div>
+      <div class="q-hint">Tick all the channels you plan to use.</div>
+      <div class="check-grid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Social Media"><div class="ck-box">✓</div><span class="ck-ico">📲</span><span class="ck-lbl">Social Media</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Leaflets / Print"><div class="ck-box">✓</div><span class="ck-ico">📄</span><span class="ck-lbl">Leaflets / Print</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Email Marketing"><div class="ck-box">✓</div><span class="ck-ico">📧</span><span class="ck-lbl">Email Marketing</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Online Ads"><div class="ck-box">✓</div><span class="ck-ico">🎯</span><span class="ck-lbl">Online Ads</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="SEO / Content"><div class="ck-box">✓</div><span class="ck-ico">🔍</span><span class="ck-lbl">SEO / Content</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Word of Mouth"><div class="ck-box">✓</div><span class="ck-ico">💬</span><span class="ck-lbl">Word of Mouth</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Events / Pop-ups"><div class="ck-box">✓</div><span class="ck-ico">🎪</span><span class="ck-lbl">Events / Pop-ups</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="ch" value="Influencer / PR"><div class="ck-box">✓</div><span class="ck-ico">⭐</span><span class="ck-lbl">Influencer / PR</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Style & Vibe ── -->
+  <div class="step" id="step-3">
+    <span class="step-eyebrow">🎭</span>
+    <div class="step-title">Style & Vibe</div>
+    <div class="step-subtitle">Drag each slider to show where your brand sits. Trust your gut.</div>
+
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">8</span> Brand Style</div>
+      <div class="q-question">Where does your brand sit on each scale?</div>
+      <div class="q-hint">Middle is perfectly valid — not every brand is a polar extreme!</div>
+
+      <!-- Vibe 1: Traditional ↔ Modern -->
+      <div class="vibe-block">
+        <div class="vibe-row">
+          <span class="vibe-end" id="v1L">Traditional</span>
+          <span class="vibe-end right" id="v1R">Modern</span>
+        </div>
+        <input type="range" class="q-range" id="v1" min="1" max="5" value="3" oninput="syncVibe(1)">
+        <div class="vibe-pips" id="v1pips">
+          <div class="vibe-pip"></div><div class="vibe-pip"></div><div class="vibe-pip center"></div><div class="vibe-pip"></div><div class="vibe-pip"></div>
+        </div>
+        <div class="vibe-desc" id="v1desc">Balanced — a bit of both</div>
+      </div>
+
+      <!-- Vibe 2: Cost Effective ↔ High End -->
+      <div class="vibe-block">
+        <div class="vibe-row">
+          <span class="vibe-end" id="v2L">Cost Effective</span>
+          <span class="vibe-end right" id="v2R">High End</span>
+        </div>
+        <input type="range" class="q-range" id="v2" min="1" max="5" value="3" oninput="syncVibe(2)">
+        <div class="vibe-pips" id="v2pips">
+          <div class="vibe-pip"></div><div class="vibe-pip"></div><div class="vibe-pip center"></div><div class="vibe-pip"></div><div class="vibe-pip"></div>
+        </div>
+        <div class="vibe-desc" id="v2desc">Mid-market positioning</div>
+      </div>
+
+      <!-- Vibe 3: Corporate ↔ Friendly -->
+      <div class="vibe-block">
+        <div class="vibe-row">
+          <span class="vibe-end" id="v3L">Corporate</span>
+          <span class="vibe-end right" id="v3R">Friendly</span>
+        </div>
+        <input type="range" class="q-range" id="v3" min="1" max="5" value="3" oninput="syncVibe(3)">
+        <div class="vibe-pips" id="v3pips">
+          <div class="vibe-pip"></div><div class="vibe-pip"></div><div class="vibe-pip center"></div><div class="vibe-pip"></div><div class="vibe-pip"></div>
+        </div>
+        <div class="vibe-desc" id="v3desc">Professional yet approachable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Look & Feel ── -->
+  <div class="step" id="step-4">
+    <span class="step-eyebrow">🎨</span>
+    <div class="step-title">Look & Feel</div>
+    <div class="step-subtitle">Let's nail the visual direction — colours, usage, and what to avoid.</div>
+
+    <!-- Q9 Colors -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">9</span> Colour Palette</div>
+      <div class="q-question">What colours feel right for your brand?</div>
+      <div class="q-hint">Click each swatch to change it. You can add up to 5. These are just starting points!</div>
+      <div class="color-row" id="colorRow">
+        <div class="cp-wrap"><input type="color" value="#b8f73a" oninput="syncColor(this)"><div class="cp-val">#b8f73a</div></div>
+        <div class="cp-wrap"><input type="color" value="#0a0a0a" oninput="syncColor(this)"><div class="cp-val">#0a0a0a</div></div>
+        <div class="cp-wrap"><input type="color" value="#f0ede8" oninput="syncColor(this)"><div class="cp-val">#f0ede8</div></div>
+        <div class="cp-add" id="cpAdd" onclick="addColor()" title="Add a colour">＋</div>
+      </div>
+      <textarea class="q-input" id="q9why" placeholder="Why these colours? e.g. 'I love earthy greens — feels natural and premium. Black for contrast…'" rows="3"></textarea>
+    </div>
+
+    <!-- Q10 Usage -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">10</span> Where Will It Be Used?</div>
+      <div class="q-question">How and where will the logo appear?</div>
+      <div class="check-grid">
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Business Cards"><div class="ck-box">✓</div><span class="ck-ico">💳</span><span class="ck-lbl">Business Cards</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Website / Digital"><div class="ck-box">✓</div><span class="ck-ico">🌐</span><span class="ck-lbl">Website / Digital</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Social Media"><div class="ck-box">✓</div><span class="ck-ico">📱</span><span class="ck-lbl">Social Media</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Print / Posters"><div class="ck-box">✓</div><span class="ck-ico">🖼️</span><span class="ck-lbl">Print / Posters</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Packaging"><div class="ck-box">✓</div><span class="ck-ico">📦</span><span class="ck-lbl">Packaging</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Signage / Outdoor"><div class="ck-box">✓</div><span class="ck-ico">🪧</span><span class="ck-lbl">Signage / Outdoor</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Merchandise"><div class="ck-box">✓</div><span class="ck-ico">👕</span><span class="ck-lbl">Merchandise</span></label>
+        <label class="ck-item" onclick="ckToggle(this)"><input type="checkbox" name="use" value="Presentations"><div class="ck-box">✓</div><span class="ck-ico">📊</span><span class="ck-lbl">Presentations</span></label>
+      </div>
+    </div>
+
+    <!-- Q11 No-gos -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">11</span> The No-Go Zone 🚫</div>
+      <div class="q-question">What do you absolutely NOT want?</div>
+      <div class="q-hint">Any colours, fonts, styles, or vibes that are completely off the table? Be as specific as you like.</div>
+      <textarea class="q-input" id="q11" placeholder="e.g. No pastel colours. Nothing too 'corporate' or generic. No clip-art style icons. Avoid Comic Sans at all costs…" rows="4"></textarea>
+      <div style="margin-top:14px;">
+        <div class="q-hint" style="margin-bottom:8px;">📎 Share reference images via link (Google Drive, Pinterest, Dropbox, or any image URL):</div>
+        <input type="url" class="q-input" id="q11url" placeholder="https://pinterest.com/pin/... or https://drive.google.com/...">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Inspiration ── -->
+  <div class="step" id="step-5">
+    <span class="step-eyebrow">💡</span>
+    <div class="step-title">Inspiration</div>
+    <div class="step-subtitle">What you love and what you hate are both incredibly useful to us!</div>
+
+    <!-- Q12 Tagline -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">12</span> Tagline</div>
+      <div class="q-question">Do you have a tagline in mind?</div>
+      <div class="q-hint">Totally optional — leave blank if you don't have one yet. We can help craft one.</div>
+      <input type="text" class="q-input" id="q12" placeholder="e.g. 'Design that works as hard as you do' (optional)">
+    </div>
+
+    <!-- Q13 Love -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">13</span> Brands You Love ❤️</div>
+      <div class="q-question">Share 3 logos or brands you admire</div>
+      <div class="q-hint">They don't need to be in your industry. Paste a website URL or image link, and tell us why you love it.</div>
+      <div class="inspo-row">
+        <div class="inspo-tag">⭐ #1 — Brand or logo you love</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
+        <textarea class="q-input" placeholder="What do you love about it? The colours, the font, the simplicity?" rows="2" data-lw></textarea>
+      </div>
+      <div class="inspo-row">
+        <div class="inspo-tag">⭐ #2 — Brand or logo you love</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
+        <textarea class="q-input" placeholder="What stands out to you?" rows="2" data-lw></textarea>
+      </div>
+      <div class="inspo-row">
+        <div class="inspo-tag">⭐ #3 — Brand or logo you love</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-lu>
+        <textarea class="q-input" placeholder="What do you love about it?" rows="2" data-lw></textarea>
+      </div>
+    </div>
+
+    <!-- Q14 Dislike -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">14</span> Brands You Dislike 💔</div>
+      <div class="q-question">Share 3 logos or brands that aren't your thing</div>
+      <div class="q-hint">This is just as useful as the logos you love. What bothers you about them?</div>
+      <div class="inspo-row">
+        <div class="inspo-tag">❌ #1 — Brand or logo you dislike</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
+        <textarea class="q-input" placeholder="What don't you like? Too busy? Wrong colours? Feels cheap?" rows="2" data-dw></textarea>
+      </div>
+      <div class="inspo-row">
+        <div class="inspo-tag">❌ #2 — Brand or logo you dislike</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
+        <textarea class="q-input" placeholder="What's off about it?" rows="2" data-dw></textarea>
+      </div>
+      <div class="inspo-row">
+        <div class="inspo-tag">❌ #3 — Brand or logo you dislike</div>
+        <input type="url" class="q-input" placeholder="Website or image URL" data-du>
+        <textarea class="q-input" placeholder="What don't you like about it?" rows="2" data-dw></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 6: Final Details ── -->
+  <div class="step" id="step-6">
+    <span class="step-eyebrow">🚀</span>
+    <div class="step-title">Almost there!</div>
+    <div class="step-subtitle">A couple of final details and we're ready to get started.</div>
+
+    <!-- Q15 Deadline -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">15</span> Deadline</div>
+      <div class="q-question">Is there a specific deadline for this project?</div>
+      <div class="q-hint">No stress if there isn't one — we'll work out timelines together.</div>
+      <input type="date" class="q-input" id="q15" min="2026-03-12" style="cursor:pointer;">
+      <label class="ck-item" onclick="ckToggle(this)" style="margin-top:10px;max-width:220px;">
+        <input type="checkbox" id="noDeadlineCk">
+        <div class="ck-box">✓</div>
+        <span class="ck-lbl">No specific deadline — let's chat!</span>
+      </label>
+    </div>
+
+    <!-- Q16 Logo Type -->
+    <div class="q-card">
+      <div class="q-label"><span class="q-num">16</span> Logo Style</div>
+      <div class="q-question">What type of logo are you after?</div>
+      <div class="q-hint">Not sure? "Both" is the most versatile option for most brands.</div>
+      <div class="logo-grid">
+        <div class="logo-card" onclick="pickOpt(this,'logoType')" data-val="Text-Based (Wordmark)">
+          <div class="logo-preview" style="font-size:22px;letter-spacing:-0.04em;">Aa</div>
+          <h4>Text Only</h4>
+          <p>Your brand name as the logo — clean wordmark style</p>
+        </div>
+        <div class="logo-card" onclick="pickOpt(this,'logoType')" data-val="Image-Based (Icon)">
+          <div class="logo-preview" style="font-size:36px;">⬡</div>
+          <h4>Icon Only</h4>
+          <p>A symbol or mark — great for recognition</p>
+        </div>
+        <div class="logo-card" onclick="pickOpt(this,'logoType')" data-val="Both (Combination Mark)">
+          <div class="logo-preview" style="font-size:14px;font-weight:700;flex-direction:column;gap:2px;"><span style="font-size:26px;">⬡</span><span>Aa</span></div>
+          <h4>Both</h4>
+          <p>Icon + text — the most flexible & recommended choice</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Details -->
+    <div class="q-card">
+      <div class="q-label">📬 Your Details</div>
+      <div class="q-question">Who should we reach back out to?</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <input type="text" class="q-input" id="cName" placeholder="Your full name *" autocomplete="name">
+        <input type="email" class="q-input" id="cEmail" placeholder="Email address *" autocomplete="email">
+        <input type="tel" class="q-input" id="cPhone" placeholder="Phone number (optional)" autocomplete="tel">
+      </div>
+    </div>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<!-- Success Screen -->
+<div class="success-wrap" id="successWrap">
+  <span class="success-emoji">🎉</span>
+  <h2>Brilliant! We've got your brief, <em id="sName">friend</em>.</h2>
+  <p>Your questionnaire is in. We'll review everything carefully and be in touch within 24 hours to kick things off.</p>
+  <div class="success-detail">
+    <span>✦</span>
+    <span>Sent to CraftSynk — expect a reply within 24hrs</span>
+  </div>
+  <a href="index.html" class="btn btn-primary">Back to CraftSynk →</a>
+</div>
+
+<!-- Bottom Navigation Bar -->
+<div class="form-nav" id="formNav">
+  <button class="btn-back" id="btnBack" onclick="prevStep()" disabled>← Back</button>
+  <span class="nav-mid" id="navMid">1 of 6</span>
+  <button class="btn-next" id="btnNext" onclick="nextStep()">
+    <span class="btn-label">Continue</span>
+    <span class="btn-arrow">→</span>
+    <span class="spinner"></span>
+  </button>
+</div>
+
+<script>
+/* =========================================
+   PROJECT QUESTIONNAIRE — CRAFTSYNK
+   FormSubmit.co → cbjal001@gmail.com
+   NOTE: First submission triggers a one-time
+   confirmation email to activate the endpoint.
+========================================= */
+
+// ── Brand Words ──
+const WORDS = [
+  'Luxury','Bold','Minimal','Vibrant','Fun',
+  'Playful','Premium','Trustworthy','Energetic','Elegant',
+  'Innovative','Timeless','Approachable','Raw','Edgy',
+  'Prestige','Funky','Classic','Fresh','Refined',
+  'Daring','Professional','Quirky','Sleek'
+];
+
+let selWords = [];
+
+function initChips() {
+  const wrap = document.getElementById('wordChips');
+  WORDS.forEach(w => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'word-chip';
+    b.textContent = w;
+    b.dataset.w = w;
+    b.addEventListener('click', () => {
+      if (b.classList.contains('selected')) {
+        b.classList.remove('selected');
+        selWords = selWords.filter(x => x !== w);
+      } else {
+        if (selWords.length >= 3) return;
+        b.classList.add('selected');
+        selWords.push(w);
+      }
+      document.getElementById('chipCount').textContent = selWords.length;
+      const at_max = selWords.length >= 3;
+      document.querySelectorAll('.word-chip').forEach(c => {
+        c.classList.toggle('maxed', at_max && !c.classList.contains('selected'));
+      });
+    });
+    wrap.appendChild(b);
+  });
+}
+
+// ── Competitors ──
+let compN = 2;
+
+function addComp() {
+  if (compN >= 3) return;
+  compN++;
+  const r = document.createElement('div');
+  r.className = 'competitor-row';
+  r.innerHTML = `
+    <input type="text" class="q-input" placeholder="Company name" data-cname>
+    <input type="url" class="q-input" placeholder="Website (optional)" data-curl>
+    <button type="button" class="rm-btn" onclick="rmComp(this)">✕</button>
+  `;
+  document.getElementById('compList').appendChild(r);
+  if (compN >= 3) document.getElementById('addCompBtn').style.display = 'none';
+}
+
+function rmComp(btn) {
+  const rows = document.querySelectorAll('.competitor-row');
+  if (rows.length <= 1) return;
+  btn.closest('.competitor-row').remove();
+  compN--;
+  document.getElementById('addCompBtn').style.display = 'flex';
+}
+
+// ── Checkbox toggle ──
+function ckToggle(lbl) {
+  const cb = lbl.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  lbl.classList.toggle('on', cb.checked);
+  // Show "Other" input for services
+  if (cb.value === 'Other' && cb.name === 'svc') {
+    document.getElementById('svcOtherInput').style.display = cb.checked ? 'block' : 'none';
+  }
+}
+
+// ── Option cards (gender, logo type) ──
+function pickOpt(card, group) {
+  document.querySelectorAll(`[data-val][onclick*="${group}"]`).forEach(c => c.classList.remove('sel'));
+  card.classList.add('sel');
+}
+
+// ── Age range sync ──
+function syncAge() {
+  let mn = +document.getElementById('ageMin').value;
+  let mx = +document.getElementById('ageMax').value;
+  if (mn > mx) { [mn, mx] = [mx, mn]; }
+  document.getElementById('ageDisplay').textContent = `${mn} – ${mx >= 75 ? '75+' : mx}`;
+}
+
+// ── Vibe sliders ──
+const vibeData = {
+  1: {
+    descs: ['Very Traditional','Leaning Traditional','Balanced — a bit of both','Leaning Modern','Very Modern'],
+    L: 'v1L', R: 'v1R'
+  },
+  2: {
+    descs: ['Very Budget-Friendly','Value-Focused','Mid-market positioning','Premium-leaning','Luxury / High End'],
+    L: 'v2L', R: 'v2R'
+  },
+  3: {
+    descs: ['Very Corporate','Mostly Professional','Professional yet approachable','Warm & Friendly','Very Casual & Fun'],
+    L: 'v3L', R: 'v3R'
+  }
+};
+
+function syncVibe(n) {
+  const val = +document.getElementById(`v${n}`).value;
+  const d = vibeData[n];
+  document.getElementById(`v${n}desc`).textContent = d.descs[val - 1];
+  // Update pips
+  const pips = document.querySelectorAll(`#v${n}pips .vibe-pip`);
+  pips.forEach((p, i) => {
+    p.classList.toggle('on', i < val);
+    p.classList.toggle('center', i === 2);
+  });
+  // Highlight dominant side
+  document.getElementById(d.L).classList.toggle('lit', val < 3);
+  document.getElementById(d.R).classList.toggle('lit', val > 3);
+}
+
+// ── Color pickers ──
+let colorN = 3;
+const extraColors = ['#ff6b6b','#4ecdc4','#ffe66d','#a29bfe'];
+
+function syncColor(input) {
+  input.nextElementSibling.textContent = input.value;
+}
+
+function addColor() {
+  if (colorN >= 5) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'cp-wrap';
+  const c = extraColors[colorN - 3] || '#888888';
+  wrap.innerHTML = `<input type="color" value="${c}" oninput="syncColor(this)"><div class="cp-val">${c}</div>`;
+  const row = document.getElementById('colorRow');
+  const addBtn = document.getElementById('cpAdd');
+  row.insertBefore(wrap, addBtn);
+  colorN++;
+  if (colorN >= 5) addBtn.style.display = 'none';
+}
+
+// ── Step Navigation ──
+const STEP_NAMES = [
+  'About Your Brand',
+  'Audience & Goals',
+  'Style & Vibe',
+  'Look & Feel',
+  'Inspiration',
+  'Final Details'
+];
+const TOTAL = 6;
+let current = 1;
+
+function updateProgress() {
+  const pct = (current / TOTAL) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('stepName').textContent = STEP_NAMES[current - 1];
+  document.getElementById('stepCount').textContent = `Step ${current} of ${TOTAL}`;
+  document.getElementById('navMid').textContent = `${current} of ${TOTAL}`;
+
+  document.querySelectorAll('.progress-dot').forEach((d, i) => {
+    d.classList.remove('done','active');
+    if (i < current - 1) d.classList.add('done');
+    else if (i === current - 1) d.classList.add('active');
+  });
+
+  document.getElementById('btnBack').disabled = current === 1;
+  const lbl = document.querySelector('#btnNext .btn-label');
+  const arr = document.querySelector('#btnNext .btn-arrow');
+  if (current === TOTAL) {
+    lbl.textContent = 'Submit Brief';
+    arr.textContent = '🚀';
+  } else {
+    lbl.textContent = 'Continue';
+    arr.textContent = '→';
+  }
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`step-${n}`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+  if (!validate(current)) return;
+  if (current === TOTAL) { submitForm(); return; }
+  current++;
+  updateProgress();
+  showStep(current);
+}
+
+function prevStep() {
+  if (current <= 1) return;
+  current--;
+  updateProgress();
+  showStep(current);
+}
+
+// ── Validation ──
+function shake(el) {
+  el.classList.add('error');
+  el.focus();
+  setTimeout(() => el.classList.remove('error'), 1800);
+}
+
+function validate(step) {
+  if (step === 1) {
+    if (!document.getElementById('q1').value.trim()) {
+      shake(document.getElementById('q1'));
+      return false;
+    }
+  }
+  if (step === 6) {
+    const n = document.getElementById('cName');
+    const e = document.getElementById('cEmail');
+    let ok = true;
+    if (!n.value.trim()) { shake(n); ok = false; }
+    if (!e.value.trim() || !e.value.includes('@')) { shake(e); ok = false; }
+    return ok;
+  }
+  return true;
+}
+
+// ── Data Collection ──
+function collectData() {
+  // Competitors
+  const cNames = [...document.querySelectorAll('[data-cname]')].map(i => i.value.trim()).filter(Boolean);
+  const cUrls  = [...document.querySelectorAll('[data-curl]')].map(i => i.value.trim());
+  const comps  = cNames.map((n,i) => n + (cUrls[i] ? ` → ${cUrls[i]}` : '')).join(' | ') || 'None listed';
+
+  // Services
+  const svcs = [...document.querySelectorAll('[name="svc"]:checked')].map(c => c.value);
+  const svcOther = document.getElementById('svcOtherInput').value;
+  if (svcOther) svcs.push('Other: ' + svcOther);
+
+  // Gender
+  const gEl = document.querySelector('[onclick*="gender"].sel');
+
+  // Age
+  const ageMn = document.getElementById('ageMin').value;
+  const ageMx = document.getElementById('ageMax').value;
+
+  // Channels
+  const chs = [...document.querySelectorAll('[name="ch"]:checked')].map(c => c.value);
+
+  // Vibes
+  const vibes = [1,2,3].map(n => {
+    const v = +document.getElementById(`v${n}`).value;
+    return vibeData[n].descs[v - 1];
+  });
+
+  // Colors
+  const cols = [...document.querySelectorAll('.cp-wrap input[type=color]')].map(c => c.value);
+
+  // Usage
+  const uses = [...document.querySelectorAll('[name="use"]:checked')].map(c => c.value);
+
+  // Likes
+  const lUs = [...document.querySelectorAll('[data-lu]')].map(i => i.value).filter(Boolean);
+  const lWs = [...document.querySelectorAll('[data-lw]')].map(i => i.value);
+  const likes = lUs.map((u,i) => `#${i+1}: ${u} — "${lWs[i]||'no comment'}"`).join('\n') || 'None provided';
+
+  // Dislikes
+  const dUs = [...document.querySelectorAll('[data-du]')].map(i => i.value).filter(Boolean);
+  const dWs = [...document.querySelectorAll('[data-dw]')].map(i => i.value);
+  const dislikes = dUs.map((u,i) => `#${i+1}: ${u} — "${dWs[i]||'no comment'}"`).join('\n') || 'None provided';
+
+  // Logo type
+  const ltEl = document.querySelector('[onclick*="logoType"].sel');
+
+  // Deadline
+  const noD = document.getElementById('noDeadlineCk').checked;
+  const deadline = noD ? 'No specific deadline' : (document.getElementById('q15').value || 'Not specified');
+
+  const company = document.getElementById('q1').value.trim();
+  const clientName = document.getElementById('cName').value.trim();
+
+  return {
+    '_subject': `✦ New Project Brief — ${company || 'Untitled'} | CraftSynk`,
+    'Client Name':     clientName,
+    'Email':           document.getElementById('cEmail').value.trim(),
+    'Phone':           document.getElementById('cPhone').value.trim() || 'Not provided',
+    '─ Q1 Company':    company,
+    '─ Q2 Brand Words':selWords.join(', ') || 'Not selected',
+    '─ Q3 Competitors':comps,
+    '─ Q4 Services':   svcs.join(', ') || 'Not specified',
+    '─ Q5 Audience':   `${gEl ? gEl.dataset.val : 'Not specified'} | Age ${ageMn}–${+ageMx >= 75 ? '75+' : ageMx}`,
+    '─ Q6 Message':    document.getElementById('q6').value || 'Not provided',
+    '─ Q7 Channels':   chs.join(', ') || 'Not specified',
+    '─ Q8 Style':      `Traditional↔Modern: ${vibes[0]} | CostEffective↔HighEnd: ${vibes[1]} | Corporate↔Friendly: ${vibes[2]}`,
+    '─ Q9 Colours':    cols.join(', '),
+    '─ Q9 Why':        document.getElementById('q9why').value || 'Not provided',
+    '─ Q10 Usage':     uses.join(', ') || 'Not specified',
+    '─ Q11 No-Gos':    document.getElementById('q11').value || 'Nothing specified',
+    '─ Q11 Refs':      document.getElementById('q11url').value || 'None',
+    '─ Q12 Tagline':   document.getElementById('q12').value || 'None / TBD',
+    '─ Q13 Loves':     likes,
+    '─ Q14 Dislikes':  dislikes,
+    '─ Q15 Deadline':  deadline,
+    '─ Q16 Logo Type': ltEl ? ltEl.dataset.val : 'Not specified',
+  };
+}
+
+// ── Submit ──
+async function submitForm() {
+  if (!validate(6)) return;
+
+  const btn = document.getElementById('btnNext');
+  btn.classList.add('loading');
+
+  const data = collectData();
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/cbjal001@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    if (json.success === 'true' || json.success === true) {
+      // Show success
+      ['formWrap','progressWrap','formNav','qHero'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      document.getElementById('sName').textContent = data['Client Name'].split(' ')[0] || 'friend';
+      document.getElementById('successWrap').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      throw new Error('Server returned failure');
+    }
+
+  } catch (err) {
+    btn.classList.remove('loading');
+    // Fallback: open mailto
+    const lines = Object.entries(collectData()).map(([k,v]) => `${k}: ${v}`).join('\n');
+    const mail = `mailto:cbjal001@gmail.com?subject=${encodeURIComponent(collectData()['_subject'])}&body=${encodeURIComponent(lines)}`;
+    if (confirm('There was a hiccup sending the form. Click OK to send via your email client instead.')) {
+      window.location.href = mail;
+    }
+  }
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  initChips();
+  updateProgress();
+  syncAge();
+  syncVibe(1); syncVibe(2); syncVibe(3);
+
+  // Cursor (matches site)
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (dot && ring) {
+    let rx = 0, ry = 0, mx = 0, my = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.cssText = `left:${mx}px;top:${my}px`; });
+    (function lerp() {
+      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+      ring.style.cssText = `left:${rx}px;top:${ry}px`;
+      requestAnimationFrame(lerp);
+    })();
+    document.querySelectorAll('button, a, .word-chip, .opt-card, .ck-item, .logo-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  }
+});
+</script>
+</body>
+</html>
