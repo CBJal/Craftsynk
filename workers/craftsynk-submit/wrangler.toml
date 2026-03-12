@@ -1,0 +1,13 @@
+name = "craftsynk-submit"
+main = "index.js"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "craftsynk-submissions"
+database_id = "a156142d-4220-43ca-9922-4fec6b49805d"
+
+[vars]
+# Default admin key — change this after first deploy via:
+#   npx wrangler secret put ADMIN_KEY
+ADMIN_KEY = "cs-admin-2026"

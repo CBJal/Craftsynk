@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Briefs — CraftSynk Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #090909;
+    --bg-2:       #111111;
+    --bg-3:       #171717;
+    --text:       #f0ede8;
+    --text-2:     rgba(240,237,232,0.65);
+    --text-3:     rgba(240,237,232,0.38);
+    --lime:       #b8f73a;
+    --lime-dim:   rgba(184,247,58,0.06);
+    --lime-border:rgba(184,247,58,0.22);
+    --lime-text:  rgba(184,247,58,0.9);
+    --border:     rgba(255,255,255,0.08);
+    --border-2:   rgba(255,255,255,0.05);
+    --font-display:'Syne', sans-serif;
+    --font-body:  'DM Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Gate Screens ──────────────────────────────────────── */
+  .gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  .gate-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 28px;
+    padding: 42px 36px 36px;
+    text-align: center;
+  }
+  .gate-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .gate-logo img { height: 32px; width: auto; }
+  .gate-logo span {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .gate-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+  }
+  .gate-sub {
+    font-size: 14px;
+    color: var(--text-3);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .gate-input {
+    width: 100%;
+    padding: 13px 17px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    margin-bottom: 10px;
+    transition: border-color 0.2s ease;
+  }
+  .gate-input:focus { border-color: rgba(184,247,58,0.4); }
+  .gate-input::placeholder { color: var(--text-3); }
+  .gate-hint {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-bottom: 10px;
+    text-align: left;
+    line-height: 1.5;
+  }
+  .gate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--lime);
+    border: none;
+    border-radius: 14px;
+    color: #0a0a0a;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+  }
+  .gate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,247,58,0.35); }
+  .gate-btn:active { transform: translateY(0); }
+  .gate-error {
+    font-size: 13px;
+    color: rgba(255,80,70,0.9);
+    margin-top: 10px;
+    min-height: 18px;
+  }
+  .gate-prefill {
+    font-size: 11px;
+    color: var(--lime-text);
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+
+  /* ── App Shell ──────────────────────────────────────────── */
+  .app { display: none; flex-direction: column; height: 100vh; }
+  .app.show { display: flex; }
+
+  /* Top bar */
+  .topbar {
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    flex-shrink: 0;
+    background: rgba(9,9,9,0.95);
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .topbar-logo img { height: 26px; width: auto; }
+  .topbar-logo span {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .topbar-sep {
+    width: 1px; height: 20px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .topbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .topbar-spacer { flex: 1; }
+  .topbar-stats {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+  }
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-3);
+  }
+  .stat-pill .val {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .stat-pill .val.lime { color: var(--lime-text); }
+  .topbar-signout {
+    padding: 7px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--text-3);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .topbar-signout:hover { border-color: rgba(255,80,70,0.4); color: rgba(255,80,70,0.8); }
+
+  /* Main content */
+  .main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Left Panel — Submission List ───────────────────────── */
+  .list-panel {
+    width: 320px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .list-head {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-2);
+    flex-shrink: 0;
+  }
+  .search-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--text-3);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 9px 12px 9px 32px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .search-input:focus { border-color: rgba(184,247,58,0.3); }
+  .search-input::placeholder { color: var(--text-3); }
+  .filter-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .filter-tab {
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    color: var(--text-3);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    letter-spacing: 0.03em;
+  }
+  .filter-tab:hover { color: var(--text-2); background: rgba(255,255,255,0.04); }
+  .filter-tab.active {
+    background: var(--lime-dim);
+    color: var(--lime-text);
+    border: 1px solid var(--lime-border);
+  }
+  .filter-tab .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: rgba(184,247,58,0.18);
+    border-radius: 100px;
+    font-size: 9px;
+    font-weight: 800;
+    margin-left: 4px;
+    color: var(--lime-text);
+  }
+  .sub-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 8px 24px;
+  }
+  .sub-list::-webkit-scrollbar { width: 4px; }
+  .sub-list::-webkit-scrollbar-track { background: transparent; }
+  .sub-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .empty-list {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .empty-list .e-icon { font-size: 36px; display: block; margin-bottom: 12px; opacity: 0.5; }
+
+  /* Submission cards */
+  .sub-card {
+    padding: 13px 14px;
+    border-radius: 14px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .sub-card:hover { background: rgba(255,255,255,0.035); border-color: var(--border); }
+  .sub-card.active {
+    background: var(--lime-dim);
+    border-color: var(--lime-border);
+  }
+  .sub-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+  .sub-card-left { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+  .unread-dot {
+    width: 7px; height: 7px;
+    background: var(--lime);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+    box-shadow: 0 0 8px rgba(184,247,58,0.6);
+  }
+  .unread-spacer { width: 7px; flex-shrink: 0; }
+  .sub-company {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+  }
+  .sub-card.active .sub-company { color: var(--lime-text); }
+  .sub-date {
+    font-size: 10px;
+    color: var(--text-3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.4;
+    margin-top: 1px;
+  }
+  .sub-email {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-left: 15px;
+    margin-bottom: 7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sub-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: 15px;
+  }
+  .tag {
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .tag-new     { background: rgba(184,247,58,0.12); color: var(--lime-text); border: 1px solid rgba(184,247,58,0.2); }
+  .tag-reviewing { background: rgba(90,120,255,0.12); color: rgba(140,170,255,0.9); border: 1px solid rgba(90,120,255,0.2); }
+  .tag-proposal  { background: rgba(255,180,0,0.12); color: rgba(255,200,80,0.9); border: 1px solid rgba(255,180,0,0.2); }
+  .tag-won       { background: rgba(0,220,130,0.12); color: rgba(0,220,130,0.9); border: 1px solid rgba(0,220,130,0.2); }
+  .tag-lost      { background: rgba(255,80,70,0.1); color: rgba(255,120,110,0.9); border: 1px solid rgba(255,80,70,0.15); }
+  .tag-archived  { background: rgba(255,255,255,0.06); color: var(--text-3); border: 1px solid var(--border); }
+  .tag-budget    { background: rgba(255,255,255,0.04); color: var(--text-3); border: 1px solid var(--border-2); }
+
+  /* ── Right Panel — Detail View ──────────────────────────── */
+  .detail-panel {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .detail-panel::-webkit-scrollbar { width: 5px; }
+  .detail-panel::-webkit-scrollbar-track { background: transparent; }
+  .detail-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  .detail-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-3);
+    gap: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+  .detail-empty .d-icon { font-size: 52px; opacity: 0.35; }
+  .detail-empty h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-2);
+  }
+
+  /* Detail header */
+  .detail-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border-2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .detail-header-left { flex: 1; min-width: 200px; }
+  .detail-company {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .detail-contact {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+  .contact-chip:hover { color: var(--lime-text); }
+  .contact-chip .ci { font-size: 13px; }
+  .contact-chip .cv { font-weight: 500; }
+  .detail-meta {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 8px;
+  }
+  .detail-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .status-select {
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    min-width: 148px;
+  }
+  .status-select:focus { border-color: rgba(184,247,58,0.35); }
+  .status-select option { background: #1a1a1a; }
+  .action-row { display: flex; gap: 8px; }
+  .act-btn {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text-3);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .act-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text-2); background: rgba(255,255,255,0.04); }
+  .act-btn.danger:hover { border-color: rgba(255,80,70,0.4); color: rgba(255,120,110,0.9); background: rgba(255,80,70,0.06); }
+
+  /* Detail body */
+  .detail-body { padding: 20px 28px 48px; }
+  .d-section {
+    margin-bottom: 28px;
+    border: 1.5px solid var(--border-2);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .d-section-head {
+    padding: 13px 18px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border-2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-2);
+  }
+  .d-section-emoji { font-size: 15px; }
+  .d-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .d-field {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-2);
+    border-right: 1px solid var(--border-2);
+  }
+  .d-field:nth-child(2n) { border-right: none; }
+  .d-field:nth-last-child(-n+2) { border-bottom: none; }
+  .d-field.full {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .d-field.full:last-child { border-bottom: none; }
+  .d-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    margin-bottom: 5px;
+  }
+  .d-val {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .d-val.empty { color: var(--text-3); font-style: italic; }
+  .d-val.mono { font-family: 'Courier New', monospace; font-size: 12px; }
+
+  /* Colour swatches */
+  .color-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .color-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 4px 4px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    color: var(--text-2);
+    background: rgba(255,255,255,0.03);
+  }
+  .color-swatch {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+
+  /* Tags inline */
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 3px;
+  }
+  .tag-item {
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-2);
+  }
+
+  /* Budget highlight */
+  .budget-big {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--lime-text);
+    letter-spacing: -0.02em;
+  }
+
+  /* Confirm dialog */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .overlay.show { display: flex; }
+  .dialog {
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 22px;
+    padding: 32px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+  }
+  .dialog h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .dialog p { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 24px; }
+  .dialog-btns { display: flex; gap: 10px; }
+  .dialog-cancel {
+    flex: 1; padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-2);
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .dialog-cancel:hover { background: rgba(255,255,255,0.04); }
+  .dialog-confirm {
+    flex: 1; padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,80,70,0.85);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .dialog-confirm:hover { background: rgba(255,80,70,1); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    opacity: 0;
+    padding: 11px 20px;
+    background: var(--bg-3);
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 900;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.success { border-color: var(--lime-border); color: var(--lime-text); }
+  .toast.error   { border-color: rgba(255,80,70,0.4); color: rgba(255,120,110,0.9); }
+
+  /* Loading spinner */
+  .spin {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(184,247,58,0.2);
+    border-top-color: var(--lime);
+    border-radius: 50%;
+    animation: spin 0.65s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .list-panel { width: 280px; }
+    .d-grid { grid-template-columns: 1fr; }
+    .d-field:nth-child(2n) { border-right: none; }
+  }
+  @media (max-width: 680px) {
+    .list-panel { display: none; }
+    .topbar-stats { display: none; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ── Gate: Password ──────────────────────────────────────── -->
+<div class="gate" id="gatePassword">
+  <div class="gate-card">
+    <div class="gate-logo">
+      <img src="../images/logo.png" alt="CraftSynk">
+      <span>Admin</span>
+    </div>
+    <div class="gate-title">Project Briefs</div>
+    <div class="gate-sub">Enter the admin password to access received briefs.</div>
+    <input type="password" class="gate-input" id="pwInput" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button class="gate-btn" onclick="checkPassword()">Unlock →</button>
+    <div class="gate-error" id="pwError"></div>
+  </div>
+</div>
+
+<!-- ── Gate: Config (Worker URL + API Key) ─────────────────── -->
+<div class="gate" id="gateConfig" style="display:none">
+  <div class="gate-card" style="max-width:460px;">
+    <div class="gate-logo">
+      <img src="../images/logo.png" alt="CraftSynk">
+      <span>Admin</span>
+    </div>
+    <div class="gate-title">Connect Worker</div>
+    <div class="gate-sub">One-time setup. Enter your Worker URL and API key so the dashboard can fetch submissions.</div>
+    <div class="gate-hint">Worker URL — e.g. <code>https://craftsynk-submit.YOUR-SUBDOMAIN.workers.dev</code></div>
+    <input type="url" class="gate-input" id="workerUrl" placeholder="https://craftsynk-submit.xxx.workers.dev">
+    <div class="gate-hint">API Key — default is <code>cs-admin-2026</code> (change in wrangler.toml or via secret)</div>
+    <input type="text" class="gate-input" id="apiKeyInput" placeholder="cs-admin-2026">
+    <button class="gate-btn" onclick="saveConfig()">Save &amp; Load Dashboard →</button>
+    <div class="gate-error" id="cfgError"></div>
+    <div class="gate-prefill">💡 Run <code>npx wrangler deploy</code> in the workers/craftsynk-submit folder to get your URL.</div>
+  </div>
+</div>
+
+<!-- ── App ─────────────────────────────────────────────────── -->
+<div class="app" id="app">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a href="index.html" class="topbar-logo">
+      <img src="../images/logo.png" alt="CraftSynk">
+      <span>CraftSynk</span>
+    </a>
+    <div class="topbar-sep"></div>
+    <span class="topbar-title">Project Briefs</span>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-stats">
+      <div class="stat-pill"><span class="val" id="statTotal">—</span> total</div>
+      <div class="stat-pill"><span class="val lime" id="statNew">—</span> new</div>
+      <div class="stat-pill"><span class="val lime" id="statUnread">—</span> unread</div>
+    </div>
+    <button class="topbar-signout" onclick="signOut()">Sign out</button>
+  </header>
+
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Left: list panel -->
+    <aside class="list-panel">
+      <div class="list-head">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search company, email…" oninput="renderList()">
+        </div>
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">All</button>
+          <button class="filter-tab" data-filter="new" onclick="setFilter('new',this)">New <span class="tab-count" id="newBadge">0</span></button>
+          <button class="filter-tab" data-filter="active" onclick="setFilter('active',this)">Active</button>
+          <button class="filter-tab" data-filter="archived" onclick="setFilter('archived',this)">Archived</button>
+        </div>
+      </div>
+      <div class="sub-list" id="subList">
+        <div class="empty-list"><span class="e-icon">⏳</span>Loading submissions…</div>
+      </div>
+    </aside>
+
+    <!-- Right: detail panel -->
+    <main class="detail-panel" id="detailPanel">
+      <div class="detail-empty" id="detailEmpty">
+        <span class="d-icon">📋</span>
+        <h3>Select a brief</h3>
+        <p>Click any submission from the list to view the full project brief.</p>
+      </div>
+      <div id="detailContent" style="display:none;"></div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Confirm dialog -->
+<div class="overlay" id="overlay">
+  <div class="dialog">
+    <h3 id="dialogTitle">Confirm</h3>
+    <p id="dialogMsg">Are you sure?</p>
+    <div class="dialog-btns">
+      <button class="dialog-cancel" onclick="closeDialog()">Cancel</button>
+      <button class="dialog-confirm" id="dialogConfirm">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CraftSynk — Submissions Dashboard
+   Connects to the Cloudflare Worker + D1 backend.
+============================================================ */
+
+const ADMIN_PASS = 'CraftSynk@2026!';
+const LS_WORKER  = 'cs_worker_url';
+const LS_KEY     = 'cs_api_key';
+const LS_AUTHED  = 'cs_sub_authed';
+
+let WORKER_URL = '';
+let API_KEY    = '';
+let allSubmissions = [];
+let currentFilter  = 'all';
+let currentId      = null;
+
+// ── Auth gates ────────────────────────────────────────────────
+
+function checkPassword() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASS) {
+    document.getElementById('gatePassword').style.display = 'none';
+    sessionStorage.setItem(LS_AUTHED, '1');
+    showNextGate();
+  } else {
+    document.getElementById('pwError').textContent = 'Incorrect password.';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function showNextGate() {
+  const url = localStorage.getItem(LS_WORKER);
+  const key = localStorage.getItem(LS_KEY);
+  if (url && key) {
+    WORKER_URL = url.replace(/\/$/, '');
+    API_KEY = key;
+    launchApp();
+  } else {
+    document.getElementById('gateConfig').style.display = 'flex';
+    // Pre-fill api key default
+    document.getElementById('apiKeyInput').value = 'cs-admin-2026';
+  }
+}
+
+async function saveConfig() {
+  const url = document.getElementById('workerUrl').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('apiKeyInput').value.trim() || 'cs-admin-2026';
+  const err = document.getElementById('cfgError');
+  if (!url) { err.textContent = 'Please enter your Worker URL.'; return; }
+
+  err.textContent = '';
+  document.querySelector('#gateConfig .gate-btn').textContent = 'Testing connection…';
+
+  try {
+    const res = await fetch(`${url}/submissions?key=${encodeURIComponent(key)}`);
+    if (!res.ok && res.status !== 401) throw new Error('Could not reach Worker');
+    if (res.status === 401) throw new Error('Invalid API key — check your ADMIN_KEY');
+    localStorage.setItem(LS_WORKER, url);
+    localStorage.setItem(LS_KEY, key);
+    WORKER_URL = url;
+    API_KEY = key;
+    document.getElementById('gateConfig').style.display = 'none';
+    launchApp();
+  } catch (e) {
+    err.textContent = e.message;
+    document.querySelector('#gateConfig .gate-btn').textContent = 'Save & Load Dashboard →';
+  }
+}
+
+function signOut() {
+  sessionStorage.removeItem(LS_AUTHED);
+  location.reload();
+}
+
+// ── App launch ────────────────────────────────────────────────
+
+function launchApp() {
+  document.getElementById('app').classList.add('show');
+  loadSubmissions();
+}
+
+// ── API helpers ───────────────────────────────────────────────
+
+async function api(path, method = 'GET', body = null) {
+  const sep = path.includes('?') ? '&' : '?';
+  const url = `${WORKER_URL}${path}${sep}key=${encodeURIComponent(API_KEY)}`;
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(url, opts);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+// ── Load submissions ──────────────────────────────────────────
+
+async function loadSubmissions() {
+  try {
+    const data = await api('/submissions');
+    allSubmissions = data.submissions || [];
+    document.getElementById('statTotal').textContent  = data.total  ?? '—';
+    document.getElementById('statNew').textContent    = data.newCount ?? '—';
+    document.getElementById('statUnread').textContent = data.unread ?? '—';
+    document.getElementById('newBadge').textContent   = data.newCount || 0;
+    renderList();
+  } catch (e) {
+    document.getElementById('subList').innerHTML =
+      `<div class="empty-list"><span class="e-icon">⚠️</span>Failed to load.<br>${e.message}</div>`;
+  }
+}
+
+// ── List rendering ────────────────────────────────────────────
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+}
+
+function renderList() {
+  const query   = document.getElementById('searchInput').value.toLowerCase();
+  const list    = document.getElementById('subList');
+
+  let filtered = allSubmissions.filter(s => {
+    if (currentFilter === 'new')      return s.status === 'new';
+    if (currentFilter === 'active')   return ['reviewing','proposal'].includes(s.status);
+    if (currentFilter === 'archived') return s.status === 'archived';
+    return true; // 'all'
+  });
+
+  if (query) {
+    filtered = filtered.filter(s =>
+      (s.company || '').toLowerCase().includes(query) ||
+      (s.email   || '').toLowerCase().includes(query)
+    );
+  }
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-list"><span class="e-icon">📭</span>No submissions found.</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(s => {
+    const unread = s.is_read === 0;
+    const d = new Date(s.timestamp);
+    const dateStr = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'2-digit' });
+    const statusClass = {
+      new:'tag-new', reviewing:'tag-reviewing', proposal:'tag-proposal',
+      won:'tag-won', lost:'tag-lost', archived:'tag-archived'
+    }[s.status] || 'tag-new';
+    const statusLabel = {
+      new:'New', reviewing:'Reviewing', proposal:'Proposal Sent',
+      won:'Won 🎉', lost:'Lost', archived:'Archived'
+    }[s.status] || s.status;
+    const budgetTag = s.budget ? `<span class="tag tag-budget">${s.budget}</span>` : '';
+    return `
+      <div class="sub-card${currentId === s.id ? ' active' : ''}" onclick="openSubmission('${s.id}')">
+        <div class="sub-card-top">
+          <div class="sub-card-left">
+            <div class="${unread ? 'unread-dot' : 'unread-spacer'}"></div>
+            <div class="sub-company">${escHtml(s.company)}</div>
+          </div>
+          <div class="sub-date">${dateStr}</div>
+        </div>
+        <div class="sub-email">${escHtml(s.email || '—')}</div>
+        <div class="sub-tags">
+          <span class="tag ${statusClass}">${statusLabel}</span>
+          ${budgetTag}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Open submission detail ────────────────────────────────────
+
+async function openSubmission(id) {
+  currentId = id;
+  renderList(); // re-highlight
+
+  const panel = document.getElementById('detailContent');
+  document.getElementById('detailEmpty').style.display = 'none';
+  panel.style.display = 'block';
+  panel.innerHTML = `<div style="padding:60px;text-align:center;color:var(--text-3);"><span class="spin"></span></div>`;
+
+  try {
+    const row = await api(`/submissions/${id}`);
+    // Update is_read in local list
+    const local = allSubmissions.find(s => s.id === id);
+    if (local) local.is_read = 1;
+    updateStats();
+    renderList();
+    renderDetail(row);
+  } catch (e) {
+    panel.innerHTML = `<div style="padding:40px;text-align:center;color:rgba(255,80,70,0.8);">Failed to load brief: ${e.message}</div>`;
+  }
+}
+
+function updateStats() {
+  const unread = allSubmissions.filter(s => s.is_read === 0).length;
+  document.getElementById('statUnread').textContent = unread;
+}
+
+// ── Detail renderer ───────────────────────────────────────────
+
+const SECTIONS = [
+  { emoji:'🏢', title:'About the Brand', fields:[
+    { key:'─ Q1 Company',       label:'Company Name' },
+    { key:'─ Q2 Brand Words',   label:'Brand Personality' },
+    { key:'─ Q4 Industry',      label:'Industry / Sector' },
+    { key:'─ Q4b Deliverables', label:'What They Need', full:true },
+    { key:'─ Q3 Competitors',   label:'Competitors', full:true },
+  ]},
+  { emoji:'🎯', title:'Audience & Goals', fields:[
+    { key:'─ Q5 Audience',  label:'Target Audience' },
+    { key:'─ Q7 Channels',  label:'Marketing Channels' },
+    { key:'─ Q6 Message',   label:'Brand Message', full:true },
+  ]},
+  { emoji:'🎭', title:'Style & Vibe', fields:[
+    { key:'─ Q8 Style', label:'Brand Style Sliders', full:true },
+  ]},
+  { emoji:'🎨', title:'Look & Feel', fields:[
+    { key:'─ Q9 Colours',      label:'Colour Palette', type:'colors' },
+    { key:'─ Q9 Why',          label:'Why These Colours', full:true },
+    { key:'─ Q9b Font Style',  label:'Font Preference' },
+    { key:'─ Q9b Font Notes',  label:'Font Notes' },
+    { key:'─ Q10 Usage',       label:'Logo Usage', full:true },
+    { key:'─ Q11 No-Gos',      label:'The No-Go Zone 🚫', full:true },
+    { key:'─ Q11 Refs',        label:'Reference Links' },
+  ]},
+  { emoji:'💡', title:'Inspiration', fields:[
+    { key:'─ Q12 Tagline',  label:'Tagline' },
+    { key:'─ Q13 Loves',    label:'Brands They Love ❤️', full:true },
+    { key:'─ Q14 Dislikes', label:'Brands They Dislike 💔', full:true },
+  ]},
+  { emoji:'🚀', title:'Final Details', fields:[
+    { key:'─ Q17 Budget',    label:'Budget', type:'budget' },
+    { key:'─ Q16 Logo Type', label:'Logo Style' },
+    { key:'─ Q15 Deadline',  label:'Deadline' },
+    { key:'─ Q18 Source',    label:'How They Found Us' },
+    { key:'─ Q19 Additional',label:'Additional Notes / Requirements', full:true },
+  ]},
+];
+
+function renderDetail(row) {
+  const d = row.data || {};
+  const sub = allSubmissions.find(s => s.id === row.id) || {};
+  const dateStr = new Date(row.timestamp).toLocaleString('en-GB', {
+    day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+
+  const statusOptions = ['new','reviewing','proposal','won','lost','archived'].map(s => {
+    const lbl = {new:'New',reviewing:'Reviewing',proposal:'Proposal Sent',won:'Won 🎉',lost:'Lost',archived:'Archived'}[s];
+    return `<option value="${s}"${row.status===s?' selected':''}>${lbl}</option>`;
+  }).join('');
+
+  const sections = SECTIONS.map(sec => {
+    // Check if any field in this section has a value
+    const anyValue = sec.fields.some(f => {
+      const v = d[f.key] || '';
+      return v && v !== 'Not specified' && v !== 'None' && v !== 'Not provided' && v !== 'None / TBD' && v !== 'None listed' && v !== '—';
+    });
+    if (!anyValue) return '';
+
+    const fields = sec.fields.map(f => {
+      const val = (d[f.key] || '').trim();
+      const isEmpty = !val || ['Not specified','None','Not provided','None / TBD','None listed','—'].includes(val);
+      const cellClass = `d-field${f.full ? ' full' : ''}`;
+
+      let content = '';
+      if (f.type === 'colors' && !isEmpty) {
+        content = renderColors(val);
+      } else if (f.type === 'budget' && !isEmpty) {
+        content = `<div class="budget-big">${escHtml(val)}</div>`;
+      } else {
+        content = `<div class="d-val${isEmpty ? ' empty' : ''}">${isEmpty ? 'Not provided' : escHtml(val)}</div>`;
+      }
+
+      return `<div class="${cellClass}"><div class="d-label">${f.label}</div>${content}</div>`;
+    }).join('');
+
+    return `
+      <div class="d-section">
+        <div class="d-section-head">
+          <span class="d-section-emoji">${sec.emoji}</span>
+          ${sec.title}
+        </div>
+        <div class="d-grid">${fields}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-company">${escHtml(d['─ Q1 Company'] || row.company)}</div>
+        <div class="detail-contact">
+          <a class="contact-chip" href="mailto:${escHtml(row.email)}">
+            <span class="ci">📧</span><span class="cv">${escHtml(row.email || '—')}</span>
+          </a>
+          ${row.phone ? `<a class="contact-chip" href="tel:${escHtml(row.phone)}"><span class="ci">📱</span><span class="cv">${escHtml(row.phone)}</span></a>` : ''}
+          <span class="contact-chip"><span class="ci">👤</span><span class="cv">${escHtml(d['Client Name'] || '—')}</span></span>
+        </div>
+        <div class="detail-meta">Received ${dateStr}</div>
+      </div>
+      <div class="detail-header-right">
+        <select class="status-select" onchange="updateStatus('${row.id}', this.value)">${statusOptions}</select>
+        <div class="action-row">
+          <button class="act-btn" onclick="copyBrief('${row.id}')">📋 Copy Brief</button>
+          <button class="act-btn danger" onclick="confirmDelete('${row.id}', '${escHtml(row.company)}')">🗑 Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="detail-body">${sections}</div>`;
+}
+
+function renderColors(val) {
+  // val is like "#b8f73a, #0a0a0a, #f0ede8"
+  const colors = val.split(',').map(c => c.trim()).filter(c => /^#[0-9a-f]{6}$/i.test(c));
+  if (!colors.length) return `<div class="d-val">${escHtml(val)}</div>`;
+  const swatches = colors.map(c =>
+    `<div class="color-chip"><div class="color-swatch" style="background:${c}"></div>${c}</div>`
+  ).join('');
+  return `<div class="color-chips">${swatches}</div>`;
+}
+
+// ── Status update ─────────────────────────────────────────────
+
+async function updateStatus(id, status) {
+  try {
+    await api(`/submissions/${id}`, 'PATCH', { status });
+    const local = allSubmissions.find(s => s.id === id);
+    if (local) local.status = status;
+    renderList();
+    toast('Status updated', 'success');
+  } catch (e) {
+    toast('Failed to update status', 'error');
+  }
+}
+
+// ── Delete ────────────────────────────────────────────────────
+
+let pendingDeleteId = null;
+
+function confirmDelete(id, company) {
+  pendingDeleteId = id;
+  document.getElementById('dialogTitle').textContent = 'Delete Brief?';
+  document.getElementById('dialogMsg').textContent =
+    `This will permanently remove the brief from ${company || 'this company'}. This cannot be undone.`;
+  document.getElementById('dialogConfirm').textContent = 'Delete';
+  document.getElementById('dialogConfirm').onclick = doDelete;
+  document.getElementById('overlay').classList.add('show');
+}
+
+async function doDelete() {
+  closeDialog();
+  try {
+    await api(`/submissions/${pendingDeleteId}`, 'DELETE');
+    allSubmissions = allSubmissions.filter(s => s.id !== pendingDeleteId);
+    if (currentId === pendingDeleteId) {
+      currentId = null;
+      document.getElementById('detailContent').style.display = 'none';
+      document.getElementById('detailEmpty').style.display = 'flex';
+    }
+    renderList();
+    // Refresh stats
+    const total  = allSubmissions.length;
+    const unread = allSubmissions.filter(s => s.is_read === 0).length;
+    const newC   = allSubmissions.filter(s => s.status === 'new').length;
+    document.getElementById('statTotal').textContent  = total;
+    document.getElementById('statUnread').textContent = unread;
+    document.getElementById('statNew').textContent    = newC;
+    document.getElementById('newBadge').textContent   = newC;
+    toast('Brief deleted', 'success');
+  } catch (e) {
+    toast('Delete failed: ' + e.message, 'error');
+  }
+}
+
+function closeDialog() {
+  document.getElementById('overlay').classList.remove('show');
+  pendingDeleteId = null;
+}
+
+// ── Copy brief as text ────────────────────────────────────────
+
+function copyBrief(id) {
+  const row = document.getElementById('detailContent');
+  if (!row) return;
+  const d = allSubmissions.find(s => s.id === id);
+  // Build text from rendered content (we'll do a simple DOM text grab)
+  const labels = row.querySelectorAll('.d-label');
+  const vals   = row.querySelectorAll('.d-val');
+  const lines  = ['=== CraftSynk Project Brief ===', ''];
+  for (let i = 0; i < labels.length; i++) {
+    const lbl = labels[i].textContent.trim();
+    const val = vals[i] ? vals[i].textContent.trim() : '';
+    if (val && val !== 'Not provided') lines.push(`${lbl}: ${val}`);
+  }
+  navigator.clipboard.writeText(lines.join('\n')).then(() => toast('Copied to clipboard ✓', 'success'));
+}
+
+// ── Utils ─────────────────────────────────────────────────────
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function toast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  clearTimeout(toastTimer);
+  t.textContent = msg;
+  t.className = 'toast show' + (type !== 'info' ? ' ' + type : '');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Init ──────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem(LS_AUTHED)) {
+    document.getElementById('gatePassword').style.display = 'none';
+    showNextGate();
+  }
+
+  // Close overlay on background click
+  document.getElementById('overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('overlay')) closeDialog();
+  });
+
+  // Password enter key
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+});
+</script>
+</body>
+</html>

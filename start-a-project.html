@@ -1708,6 +1708,9 @@ function fontCardToggle(card) {
   card.classList.toggle('on');
 }
 
+// ── Worker endpoint (update after deploying the Cloudflare Worker) ──
+const SUBMIT_WORKER = 'https://craftsynk-submit.SUBDOMAIN.workers.dev';
+
 // ── Additional Files (Q19) ──
 const additionalFiles = [];
 
@@ -1943,6 +1946,15 @@ async function submitForm() {
   btn.classList.add('loading');
 
   const data = collectData();
+
+  // ── Fire-and-forget JSON POST to Cloudflare Worker (powers the admin dashboard) ──
+  if (SUBMIT_WORKER && !SUBMIT_WORKER.includes('SUBDOMAIN')) {
+    fetch(SUBMIT_WORKER + '/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(() => null); // silent fail — never blocks form submission
+  }
 
   // Build FormData so file attachments are included
   const fd = new FormData();
