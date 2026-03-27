@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Guidelines — CraftSynk Design System</title>
+  <meta name="description" content="The CraftSynk design system — colors, typography, components, and motion principles." />
+  <link rel="stylesheet" href="craftsynk-v2.css?v=3" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    /* ============ PAGE LAYOUT ============ */
+    .brand-hero {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding-top: calc(var(--nav-h) + 60px);
+      padding-bottom: 80px;
+    }
+    .brand-hero h1 { margin-bottom: 20px; max-width: 720px; }
+    .brand-hero p  { font-size: clamp(16px, 2vw, 20px); color: var(--text-2); max-width: 560px; line-height: 1.65; margin-bottom: 40px; }
+    .brand-hero-meta {
+      display: flex; gap: 32px; flex-wrap: wrap;
+      padding-top: 32px; border-top: 1px solid var(--glass-border);
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); }
+    .meta-val   { font-size: 14px; font-weight: 600; color: var(--text-2); }
+
+    /* ============ SECTION WRAPPER ============ */
+    .bg-section { padding: 96px 0; }
+    .bg-section + .bg-section { padding-top: 0; }
+    .gs-title {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime-text);
+      margin-bottom: 8px;
+    }
+    .gs-heading {
+      font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800; letter-spacing: -0.025em; margin-bottom: 12px;
+    }
+    .gs-desc { font-size: 15px; color: var(--text-2); line-height: 1.7; max-width: 560px; margin-bottom: 48px; }
+
+    /* ============ GRID UTILITIES ============ */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+    /* ============ TOKEN CHIP ============ */
+    .token { font-family: monospace; font-size: 11px; color: var(--lime-text); background: var(--lime-dim); border: 1px solid var(--lime-border); border-radius: var(--r-xs); padding: 2px 7px; white-space: nowrap; }
+    .val-chip { font-family: monospace; font-size: 11px; color: var(--text-3); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--r-xs); padding: 2px 7px; }
+
+    /* ============ SECTION 1 — BRAND IDENTITY ============ */
+    .brand-card { padding: 48px; border-radius: var(--r-xl); }
+    .brand-values { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .value-pill {
+      padding: 9px 20px; border-radius: var(--r-pill);
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      font-size: 13px; font-weight: 600; color: var(--text-2);
+      transition: all var(--t-fast) var(--ease);
+    }
+    .value-pill:hover { background: var(--lime-dim); border-color: var(--lime-border); color: var(--lime-text); }
+    .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .logo-swatch {
+      padding: 40px 28px; border-radius: var(--r-lg); border: 1px solid var(--glass-border);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .logo-swatch.dark-bg  { background: #090909; }
+    .logo-swatch.light-bg { background: #eeede9; }
+    .logo-swatch img { height: 32px; width: auto; }
+    .logo-swatch.light-bg img { filter: brightness(0); }
+    .logo-rule { font-size: 11px; color: var(--text-3); margin-top: 8px; line-height: 1.5; }
+    .tagline-block {
+      padding: 32px; background: var(--lime-dim); border: 1px solid var(--lime-border);
+      border-radius: var(--r-lg); text-align: center;
+    }
+    .tagline-block p { font-family: var(--font-display); font-size: clamp(16px, 2.5vw, 24px); font-weight: 700; letter-spacing: -0.02em; color: var(--lime-text); }
+
+    /* ============ SECTION 2 — COLORS ============ */
+    .color-swatch {
+      border-radius: var(--r-lg); overflow: hidden;
+      border: 1px solid var(--glass-border);
+    }
+    .swatch-block { height: 100px; width: 100%; }
+    .swatch-info { padding: 14px 16px; background: var(--bg-2); }
+    .swatch-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .swatch-hex  { font-family: monospace; font-size: 11px; color: var(--text-3); }
+    .swatch-var  { font-family: monospace; font-size: 10px; color: var(--lime-text); margin-top: 2px; }
+
+    .swatch-lime   { background: #b8f73a; }
+    .swatch-bg1    { background: #090909; border: 1px solid rgba(255,255,255,0.06); }
+    .swatch-bg2    { background: #0f0f0f; }
+    .swatch-bg3    { background: #141414; }
+    .swatch-lbg1   { background: #eeede9; }
+    .swatch-lbg2   { background: #e6e5e1; }
+    .swatch-lbg3   { background: #dddbd7; }
+    .swatch-text1  { background: #f0ede8; }
+    .swatch-text2  { background: rgba(240,237,232,0.65); }
+    .swatch-text3  { background: rgba(240,237,232,0.35); }
+    .swatch-error   { background: rgba(255,80,70,0.9); }
+    .swatch-warning { background: rgba(255,180,40,0.9); }
+    .swatch-success { background: rgba(0,220,130,0.9); }
+    .swatch-info    { background: rgba(140,170,255,0.9); }
+    .swatch-fiverr   { background: rgba(29,191,115,0.9); }
+    .swatch-dribbble { background: rgba(234,76,137,0.9); }
+
+    .color-row-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-3); margin: 32px 0 12px;
+    }
+    .color-row-label:first-child { margin-top: 0; }
+
+    /* ============ SECTION 3 — TYPOGRAPHY ============ */
+    .type-specimen {
+      padding: 32px; border-radius: var(--r-lg);
+      background: var(--glass-card); border: 1px solid var(--glass-border);
+      overflow: hidden;
+    }
+    .type-specimen + .type-specimen { margin-top: 4px; }
+    .specimen-meta { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+    .scale-table { width: 100%; border-collapse: collapse; }
+    .scale-table tr { border-bottom: 1px solid var(--glass-border); }
+    .scale-table tr:last-child { border-bottom: none; }
+    .scale-table td { padding: 16px 0; vertical-align: middle; }
+    .scale-table td:nth-child(2) { padding: 16px 24px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
+    .scale-table td:nth-child(3) { font-size: 11px; color: var(--text-3); text-align: right; white-space: nowrap; }
+
+    /* ============ SECTION 4 — SPACING ============ */
+    .space-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 0; border-bottom: 1px solid var(--glass-border);
+    }
+    .space-row:last-child { border-bottom: none; }
+    .space-bar-wrap { flex: 1; display: flex; align-items: center; gap: 12px; }
+    .space-bar { height: 6px; background: var(--lime); border-radius: 3px; flex-shrink: 0; }
+    .space-name { font-family: monospace; font-size: 11px; color: var(--lime-text); width: 90px; flex-shrink: 0; }
+    .space-px   { font-family: monospace; font-size: 12px; font-weight: 600; color: var(--text-2); width: 44px; flex-shrink: 0; text-align: right; }
+    .space-desc { font-size: 12px; color: var(--text-3); }
+
+    /* ============ SECTION 5 — RADIUS ============ */
+    .radius-grid { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; }
+    .radius-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .radius-box {
+      background: var(--glass-bg); border: 1.5px solid var(--glass-border);
+      width: 80px; height: 80px;
+      transition: border-color var(--t-fast), background var(--t-fast);
+    }
+    .radius-box:hover { background: var(--lime-dim); border-color: var(--lime-border); }
+    .radius-label { font-family: monospace; font-size: 11px; color: var(--lime-text); }
+    .radius-val   { font-size: 11px; color: var(--text-3); margin-top: -8px; }
+
+    /* ============ SECTION 6 — BUTTONS ============ */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; }
+    .btn-row-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+    .btn-disabled { opacity: 0.4; pointer-events: none; }
+
+    /* ============ SECTION 7 — GLASS ============ */
+    .glass-demo { padding: 32px; margin-bottom: 4px; }
+    .glass-demo h4 { margin-bottom: 8px; }
+    .glass-demo p  { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
+    /* ============ SECTION 8 — BADGES ============ */
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 20px; }
+    .badge-row-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 8px; }
+    .nav-badge-demo {
+      min-width: 18px; height: 18px; padding: 0 5px;
+      background: rgba(184,247,58,0.18); border-radius: 100px;
+      font-size: 9px; font-weight: 800; color: var(--lime-text);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    /* ============ SECTION 9 — FORMS ============ */
+    .form-demo { padding: 32px; }
+    .form-input-error { border-color: var(--c-error-border) !important; }
+    .form-hint { font-size: 11px; color: var(--text-3); margin-top: var(--space-1); }
+    .form-hint.error { color: var(--c-error); }
+
+    /* ============ SECTION 10 — MOTION ============ */
+    .motion-demo {
+      padding: 28px 32px; border-radius: var(--r-lg);
+      background: var(--glass-card); border: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      cursor: pointer; transition: all var(--t-med) var(--ease);
+      margin-bottom: 8px;
+    }
+    .motion-demo:hover { background: var(--glass-hover); transform: translateY(-4px); border-color: var(--lime-border); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+    .motion-demo-name { font-size: 14px; font-weight: 600; }
+    .motion-demo-desc { font-size: 12px; color: var(--text-3); }
+    .motion-demo-tag  { font-family: monospace; font-size: 11px; color: var(--lime-text); background: var(--lime-dim); border: 1px solid var(--lime-border); border-radius: var(--r-xs); padding: 3px 9px; white-space: nowrap; }
+    .easing-vis {
+      height: 2px; background: var(--glass-border); border-radius: 1px;
+      position: relative; margin: 8px 0; overflow: visible;
+    }
+    .easing-dot {
+      width: 10px; height: 10px; background: var(--lime); border-radius: 50%;
+      position: absolute; top: -4px; left: 0%;
+      animation: easingMove 2.8s var(--ease) infinite;
+    }
+    @keyframes easingMove {
+      0%   { left: 0%; }
+      60%  { left: 92%; }
+      100% { left: 92%; }
+    }
+    .duration-row {
+      display: flex; align-items: center; gap: 12px; padding: 10px 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .duration-row:last-child { border-bottom: none; }
+    .duration-bar-wrap { flex: 1; height: 4px; background: var(--glass-border); border-radius: 2px; overflow: hidden; }
+    .duration-bar { height: 100%; background: var(--lime); border-radius: 2px; }
+    .dur-fast { width: 15%; }
+    .dur-med  { width: 40%; }
+    .dur-slow { width: 80%; }
+    .duration-name { font-family: monospace; font-size: 11px; color: var(--lime-text); width: 80px; }
+    .duration-val  { font-family: monospace; font-size: 12px; color: var(--text-2); font-weight: 600; width: 50px; text-align: right; }
+    .duration-usage { font-size: 12px; color: var(--text-3); }
+
+    /* ============ SECTION 11 — TOKEN REFERENCE ============ */
+    .token-ref {
+      background: #050505; border: 1px solid var(--glass-border);
+      border-radius: var(--r-lg); overflow: hidden;
+    }
+    .token-ref-head {
+      padding: 16px 20px; background: var(--bg-2); border-bottom: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .token-ref-head span { font-size: 12px; font-weight: 600; color: var(--text-3); font-family: monospace; }
+    .token-copy-btn {
+      padding: 6px 14px; font-size: 11px; font-weight: 600;
+      background: var(--lime-dim); border: 1px solid var(--lime-border);
+      border-radius: var(--r-pill); color: var(--lime-text); cursor: pointer;
+      transition: all var(--t-fast) var(--ease); font-family: var(--font-body);
+    }
+    .token-copy-btn:hover { background: var(--lime); color: #0a0a0a; }
+    .token-ref pre {
+      padding: 24px; font-family: monospace; font-size: 12px; line-height: 1.8;
+      color: var(--text-2); overflow-x: auto; margin: 0;
+      white-space: pre;
+    }
+    .tok-comment { color: var(--text-3); }
+    .tok-var  { color: #b8f73a; }
+    .tok-val  { color: #82cfff; }
+
+    /* ============ DIVIDER SECTION ============ */
+    .section-divider {
+      height: 1px; background: var(--glass-border);
+      margin: 0;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 900px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .logo-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .radius-grid { gap: 16px; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <!-- CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+
+  <!-- MESH BG -->
+  <div class="mesh-bg"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo">
+      <img src="images/logo.png" alt="CraftSynk" />
+    </a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="tools.html" class="nav-link">Tools</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="store.html" class="nav-link">Store</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="services.html" class="nav-mobile-link">Services</a>
+      <a href="work.html" class="nav-mobile-link">Work</a>
+      <a href="tools.html" class="nav-mobile-link">Tools</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="store.html" class="nav-mobile-link">Store</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="page-wrap">
+    <div class="brand-hero">
+      <div class="label reveal">Design System v2</div>
+      <h1 class="reveal" style="transition-delay:0.06s">CraftSynk<br><span style="color:var(--lime-text)">Brand Guidelines.</span></h1>
+      <p class="reveal" style="transition-delay:0.12s">A complete visual language reference — colors, typography, components, spacing, and motion principles that define every CraftSynk touchpoint.</p>
+      <div class="brand-hero-meta reveal" style="transition-delay:0.18s">
+        <div class="meta-item"><span class="meta-label">Version</span><span class="meta-val">2.0.0</span></div>
+        <div class="meta-item"><span class="meta-label">Updated</span><span class="meta-val">2026</span></div>
+        <div class="meta-item"><span class="meta-label">Primary Font</span><span class="meta-val">Syne + DM Sans</span></div>
+        <div class="meta-item"><span class="meta-label">Accent</span><span class="meta-val" style="color:var(--lime-text)">#b8f73a — Lime</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 01 BRAND IDENTITY ─────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">01</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Brand Identity</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">CraftSynk is a strategic brand identity studio. Every visual decision carries weight — precision over decoration, system over impulse.</p>
+
+      <!-- Logo usage -->
+      <div class="logo-grid reveal" style="transition-delay:0.12s">
+        <div class="logo-swatch dark-bg">
+          <img src="images/logo.png" alt="CraftSynk logo on dark" />
+          <span class="logo-rule">Primary — white logo on dark background (#090909)</span>
+        </div>
+        <div class="logo-swatch light-bg">
+          <img src="images/logo.png" alt="CraftSynk logo on light" />
+          <span class="logo-rule" style="color:rgba(17,17,16,0.45)">Reversed — logo filtered to black on light background (#eeede9)</span>
+        </div>
+      </div>
+
+      <!-- Tagline -->
+      <div class="tagline-block reveal" style="margin-bottom:28px; transition-delay:0.14s">
+        <p>"Strategic Brand Identity for Ambitious Businesses"</p>
+      </div>
+
+      <!-- Brand values -->
+      <div style="margin-bottom: 6px;" class="reveal" style="transition-delay:0.16s">
+        <span class="form-label">Core Values</span>
+      </div>
+      <div class="brand-values reveal" style="transition-delay:0.18s">
+        <span class="value-pill">Precision</span>
+        <span class="value-pill">Structure</span>
+        <span class="value-pill">Ambition</span>
+        <span class="value-pill">Edge</span>
+        <span class="value-pill">Discipline</span>
+        <span class="value-pill">Intentionality</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 02 COLOR PALETTE ──────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">02</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Color Palette</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Lime is the signal — it marks action, highlights, and interactive elements. All other colors serve as supporting structures for the dark / light canvas.</p>
+
+      <!-- Primary -->
+      <div class="color-row-label reveal">Primary Brand</div>
+      <div class="reveal" style="transition-delay:0.04s">
+        <div class="color-swatch" style="max-width:280px; margin-bottom:28px;">
+          <div class="swatch-block swatch-lime"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Signal Lime</div>
+            <div class="swatch-hex">#b8f73a · rgb(184,247,58)</div>
+            <div class="swatch-var">--lime · --lime-text</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark backgrounds -->
+      <div class="color-row-label reveal">Dark Mode Backgrounds</div>
+      <div class="grid-3 reveal" style="transition-delay:0.04s; margin-bottom: 28px;">
+        <div class="color-swatch">
+          <div class="swatch-block swatch-bg1"></div>
+          <div class="swatch-info"><div class="swatch-name">Canvas</div><div class="swatch-hex">#090909</div><div class="swatch-var">--bg</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-bg2"></div>
+          <div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#0f0f0f</div><div class="swatch-var">--bg-2</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-bg3"></div>
+          <div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#141414</div><div class="swatch-var">--bg-3</div></div>
+        </div>
+      </div>
+
+      <!-- Light backgrounds -->
+      <div class="color-row-label reveal">Light Mode Backgrounds</div>
+      <div class="grid-3 reveal" style="transition-delay:0.04s; margin-bottom:28px;">
+        <div class="color-swatch">
+          <div class="swatch-block swatch-lbg1"></div>
+          <div class="swatch-info"><div class="swatch-name">Canvas Light</div><div class="swatch-hex">#eeede9</div><div class="swatch-var">--bg (light)</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-lbg2"></div>
+          <div class="swatch-info"><div class="swatch-name">Surface Light</div><div class="swatch-hex">#e6e5e1</div><div class="swatch-var">--bg-2 (light)</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-lbg3"></div>
+          <div class="swatch-info"><div class="swatch-name">Elevated Light</div><div class="swatch-hex">#dddbd7</div><div class="swatch-var">--bg-3 (light)</div></div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="color-row-label reveal">Text Scale (Dark Mode)</div>
+      <div class="grid-3 reveal" style="transition-delay:0.04s; margin-bottom:28px;">
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:rgba(240,237,232,1);"></div>
+          <div class="swatch-info"><div class="swatch-name">Primary Text</div><div class="swatch-hex">#f0ede8 · 100%</div><div class="swatch-var">--text</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:rgba(240,237,232,0.65);"></div>
+          <div class="swatch-info"><div class="swatch-name">Secondary Text</div><div class="swatch-hex">65% opacity</div><div class="swatch-var">--text-2</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:rgba(240,237,232,0.35); border-bottom:1px solid rgba(255,255,255,0.05);"></div>
+          <div class="swatch-info"><div class="swatch-name">Muted Text</div><div class="swatch-hex">35% opacity</div><div class="swatch-var">--text-3</div></div>
+        </div>
+      </div>
+
+      <!-- Semantic -->
+      <div class="color-row-label reveal">Semantic Status Colors</div>
+      <div class="grid-4 reveal" style="transition-delay:0.04s; margin-bottom:28px;">
+        <div class="color-swatch">
+          <div class="swatch-block swatch-error"></div>
+          <div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">rgb(255,80,70)</div><div class="swatch-var">--c-error</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-warning"></div>
+          <div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">rgb(255,180,40)</div><div class="swatch-var">--c-warning</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-success"></div>
+          <div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-hex">rgb(0,220,130)</div><div class="swatch-var">--c-success</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-info"></div>
+          <div class="swatch-info"><div class="swatch-name">Info</div><div class="swatch-hex">rgb(140,170,255)</div><div class="swatch-var">--c-info</div></div>
+        </div>
+      </div>
+
+      <!-- Platform -->
+      <div class="color-row-label reveal">Platform Brand Colors</div>
+      <div class="grid-3 reveal" style="transition-delay:0.04s;">
+        <div class="color-swatch">
+          <div class="swatch-block swatch-lime"></div>
+          <div class="swatch-info"><div class="swatch-name">CraftSynk / Website</div><div class="swatch-hex">Used as accent on website orders</div><div class="swatch-var">--lime</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-fiverr"></div>
+          <div class="swatch-info"><div class="swatch-name">Fiverr</div><div class="swatch-hex">rgb(29,191,115)</div><div class="swatch-var">--c-fiverr</div></div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block swatch-dribbble"></div>
+          <div class="swatch-info"><div class="swatch-name">Dribbble</div><div class="swatch-hex">rgb(234,76,137)</div><div class="swatch-var">--c-dribbble</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 03 TYPOGRAPHY ────────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">03</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Typography</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Two complementary typefaces — Syne carries the brand voice in headlines; DM Sans maintains readability in UI and body copy.</p>
+
+      <!-- Syne specimens -->
+      <div class="reveal" style="margin-bottom: 4px; transition-delay:0.10s">
+        <div class="type-specimen">
+          <div class="specimen-meta">Syne — Display / Headings · <span class="token">--font-display</span></div>
+          <div style="font-family:var(--font-display); font-size:clamp(36px,6vw,80px); font-weight:800; letter-spacing:-0.03em; line-height:1.05; margin-bottom:20px; color:var(--text)">Ambition<br><span style="color:var(--lime-text)">Redefined.</span></div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; border-top:1px solid var(--glass-border); padding-top:20px;">
+            <div>
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-2)">Syne Regular</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 400 · tracking: tight</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--text-2)">Syne SemiBold</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 600 · UI headings</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-2)">Syne Bold</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 700 · section titles</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text)">Syne ExtraBold</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 800 · hero / display</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DM Sans specimens -->
+      <div class="reveal" style="margin-bottom: 40px; transition-delay:0.12s">
+        <div class="type-specimen">
+          <div class="specimen-meta">DM Sans — Body / UI · <span class="token">--font-body</span></div>
+          <div style="font-family:var(--font-body); font-size:18px; line-height:1.7; color:var(--text-2); max-width:640px; margin-bottom:20px;">CraftSynk builds complete identity systems — structured, documented, and built to communicate with precision across every platform and touchpoint.</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; border-top:1px solid var(--glass-border); padding-top:20px;">
+            <div>
+              <div style="font-family:var(--font-body);font-size:16px;font-weight:300;color:var(--text-2)">DM Sans Light</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 300 · subtext</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-body);font-size:16px;font-weight:400;color:var(--text-2)">DM Sans Regular</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 400 · body default</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-body);font-size:16px;font-weight:500;color:var(--text-2)">DM Sans Medium</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 500 · UI labels</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-body);font-size:16px;font-weight:600;color:var(--text)">DM Sans SemiBold</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:3px;">weight: 600 · buttons, emphasis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type scale table -->
+      <div class="reveal" style="transition-delay:0.14s">
+        <div class="type-specimen" style="padding:0; overflow:visible;">
+          <table class="scale-table" style="padding:0;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--glass-border);">
+                <td style="padding:14px 24px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-3);">Specimen</td>
+                <td style="padding:14px 24px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-3);">Spec</td>
+                <td style="padding:14px 24px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-3); text-align:right;">Usage</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-display);font-size:clamp(48px,6.5vw,96px);font-weight:800;letter-spacing:-0.025em;line-height:1;">Aa</span></td><td>96px · 800 · Syne · −2.5% tracking</td><td>h1 / Hero</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-display);font-size:clamp(32px,4.5vw,64px);font-weight:700;letter-spacing:-0.025em;line-height:1.08;">Aa</span></td><td>64px · 700 · Syne</td><td>h2 / Section</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-display);font-size:clamp(20px,2.5vw,28px);font-weight:600;letter-spacing:-0.025em;">Aa</span></td><td>28px · 600 · Syne</td><td>h3 / Cards</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-display);font-size:16px;font-weight:600;letter-spacing:-0.01em;">Aa</span></td><td>16px · 600 · Syne</td><td>h4 / Item title</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-body);font-size:16px;font-weight:400;">Aa</span></td><td>16px · 400 · DM Sans</td><td>Body default</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-body);font-size:14px;font-weight:400;">Aa</span></td><td>14px · 400 · DM Sans</td><td>UI / small body</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-body);font-size:13px;font-weight:500;">Aa</span></td><td>13px · 500 · DM Sans</td><td>Nav links / meta</td></tr>
+              <tr><td style="padding-left:24px;"><span style="font-family:var(--font-body);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Aa</span></td><td>11px · 700 · DM Sans · +10% tracking · ALL CAPS</td><td>Labels / overlines</td></tr>
+              <tr><td style="padding-left:24px; padding-bottom:20px;"><span style="font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--lime-text);">Aa</span></td><td>10px · 700 · DM Sans · +12% tracking · ALL CAPS</td><td>Badges / chips</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 04 SPACING ───────────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">04</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Spacing System</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Built on a 4px base unit with a doubling scale. Use <span class="token">--space-*</span> tokens exclusively — no magic numbers.</p>
+      <div class="glass-tab reveal" style="padding:28px 32px; transition-delay:0.12s;">
+        <div class="space-row"><span class="space-name">--space-1</span><span class="space-px">4px</span><div class="space-bar-wrap"><div class="space-bar" style="width:4px;"></div><span class="space-desc">Icon gap, tight chip padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-2</span><span class="space-px">8px</span><div class="space-bar-wrap"><div class="space-bar" style="width:8px;"></div><span class="space-desc">Label bottom margin, inline gap</span></div></div>
+        <div class="space-row"><span class="space-name">--space-3</span><span class="space-px">12px</span><div class="space-bar-wrap"><div class="space-bar" style="width:12px;"></div><span class="space-desc">Form input bottom, compact padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-4</span><span class="space-px">16px</span><div class="space-bar-wrap"><div class="space-bar" style="width:16px;"></div><span class="space-desc">Column gap, card inner padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-5</span><span class="space-px">20px</span><div class="space-bar-wrap"><div class="space-bar" style="width:20px;"></div><span class="space-desc">Group margin, nav padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-6</span><span class="space-px">24px</span><div class="space-bar-wrap"><div class="space-bar" style="width:24px;"></div><span class="space-desc">Section inner, page horizontal pad</span></div></div>
+        <div class="space-row"><span class="space-name">--space-8</span><span class="space-px">32px</span><div class="space-bar-wrap"><div class="space-bar" style="width:32px;"></div><span class="space-desc">Divider margin, modal padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-10</span><span class="space-px">40px</span><div class="space-bar-wrap"><div class="space-bar" style="width:40px;"></div><span class="space-desc">Hero bottom spacing</span></div></div>
+        <div class="space-row"><span class="space-name">--space-12</span><span class="space-px">48px</span><div class="space-bar-wrap"><div class="space-bar" style="width:48px;"></div><span class="space-desc">Footer grid gap, section heading mb</span></div></div>
+        <div class="space-row"><span class="space-name">--space-16</span><span class="space-px">64px</span><div class="space-bar-wrap"><div class="space-bar" style="width:64px;"></div><span class="space-desc">Footer top padding</span></div></div>
+        <div class="space-row"><span class="space-name">--space-20</span><span class="space-px">80px</span><div class="space-bar-wrap"><div class="space-bar" style="width:80px;"></div><span class="space-desc">Section bottom padding (compact)</span></div></div>
+        <div class="space-row"><span class="space-name">--space-24</span><span class="space-px">96px</span><div class="space-bar-wrap"><div class="space-bar" style="width:96px;"></div><span class="space-desc">Full section padding</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 05 BORDER RADIUS ──────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">05</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Border Radius</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Always use radius tokens. Never hardcode pixel values in new components.</p>
+      <div class="radius-grid reveal" style="transition-delay:0.12s">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-xs);"></div>
+          <span class="radius-label">--r-xs</span>
+          <span class="radius-val">6px · micro chips</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-sm);"></div>
+          <span class="radius-label">--r-sm</span>
+          <span class="radius-val">10px · small UI elements</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-md);"></div>
+          <span class="radius-label">--r-md</span>
+          <span class="radius-val">16px · inputs, cards</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-lg);"></div>
+          <span class="radius-label">--r-lg</span>
+          <span class="radius-val">24px · panels, modals</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-xl);"></div>
+          <span class="radius-label">--r-xl</span>
+          <span class="radius-val">32px · nav, hero cards</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:var(--r-pill); width:120px;"></div>
+          <span class="radius-label">--r-pill</span>
+          <span class="radius-val">100px · buttons, badges</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 06 BUTTONS ───────────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">06</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Buttons</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Four variants × three sizes. Always use <span class="token">.btn</span> as the base class paired with a variant modifier.</p>
+
+      <!-- Variants -->
+      <div class="reveal" style="transition-delay:0.10s">
+        <div class="btn-row-label">Primary — <span class="token">.btn.btn-primary</span></div>
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm">Small →</button>
+          <button class="btn btn-primary">Default →</button>
+          <button class="btn btn-primary btn-lg">Large →</button>
+          <button class="btn btn-primary btn-disabled" disabled>Disabled</button>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.12s">
+        <div class="btn-row-label">Ghost — <span class="token">.btn.btn-ghost</span></div>
+        <div class="btn-row">
+          <button class="btn btn-ghost btn-sm">Small</button>
+          <button class="btn btn-ghost">Default</button>
+          <button class="btn btn-ghost btn-lg">Large</button>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.14s">
+        <div class="btn-row-label">Secondary — <span class="token">.btn.btn-secondary</span></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary btn-sm">Small</button>
+          <button class="btn btn-secondary">Default</button>
+          <button class="btn btn-secondary btn-lg">Large</button>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.16s">
+        <div class="btn-row-label">Danger — <span class="token">.btn.btn-danger</span> · destructive actions only</div>
+        <div class="btn-row">
+          <button class="btn btn-danger btn-sm">Delete</button>
+          <button class="btn btn-danger">Delete Project</button>
+        </div>
+      </div>
+
+      <!-- Usage note -->
+      <div class="glass-tab reveal" style="padding:20px 24px; margin-top:20px; transition-delay:0.18s; display:flex; gap:16px; align-items:flex-start;">
+        <span style="font-size:18px; flex-shrink:0;">◎</span>
+        <div>
+          <div style="font-size:13px; font-weight:600; margin-bottom:4px;">Shine Animation</div>
+          <div style="font-size:13px; color:var(--text-2); line-height:1.6;">Primary and ghost buttons run a continuous shimmer sweep (<code>btn-shine</code> keyframe). This reinforces the premium, polished feel. Never suppress it for brand-facing buttons.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 07 GLASS COMPONENTS ──────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">07</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Glass Components</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Glassmorphism is the defining aesthetic. All public-facing surfaces use it. Admin UI uses flat surfaces intentionally — utility over decoration.</p>
+
+      <div class="grid-2 reveal" style="transition-delay:0.10s; margin-bottom:16px;">
+        <div class="glass glass-demo">
+          <div class="label" style="margin-bottom:12px;">glass card</div>
+          <h4 style="margin-bottom:8px;">The Primary Surface</h4>
+          <p>Use <span class="token">.glass</span> for hero elements and prominent content blocks. Hover adds lime border glow. backdrop-filter: blur(24px).</p>
+        </div>
+        <div class="glass-tab glass-demo">
+          <div class="label" style="margin-bottom:12px;">glass tab</div>
+          <h4 style="margin-bottom:8px;">The Supporting Surface</h4>
+          <p>Use <span class="token">.glass-tab</span> for bento cards, process steps, and grid items. Subtle variant — less blur, more structure.</p>
+        </div>
+      </div>
+
+      <div class="grid-2 reveal" style="transition-delay:0.12s; margin-bottom:32px;">
+        <div style="padding:28px; background:var(--glass-card); border:1px solid var(--glass-border); border-radius:var(--r-xl); display:flex; flex-direction:column; gap:12px;">
+          <span class="form-label">Interactive badge</span>
+          <div><div class="avail-badge"><div class="avail-dot"></div>Accepting projects — Q3 2026</div></div>
+          <div style="font-size:12px; color:var(--text-3);">Use <span class="token">.avail-badge</span> + <span class="token">.avail-dot</span>. The dot pulses via the <code>blink</code> keyframe.</div>
+        </div>
+        <div style="padding:28px; background:var(--glass-card); border:1px solid var(--glass-border); border-radius:var(--r-xl); display:flex; flex-direction:column; gap:12px;">
+          <span class="form-label">Section label</span>
+          <div class="label" style="margin-bottom:0">What we do</div>
+          <div style="font-size:12px; color:var(--text-3);">Use <span class="token">.label</span> above all section headings. 11px · 700 · UPPERCASE · +12% tracking. Preceded by an auto-generated 18px lime dash.</div>
+        </div>
+      </div>
+
+      <!-- Glassmorphism rules -->
+      <div class="glass-tab reveal" style="padding:28px 32px; transition-delay:0.14s;">
+        <div class="form-label" style="margin-bottom:16px;">Glassmorphism Principles</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Blur</div>
+            <div style="font-family:monospace;font-size:12px;color:var(--lime-text);">backdrop-filter: blur(24px)</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Never less than 20px on glass surfaces</div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Background</div>
+            <div style="font-family:monospace;font-size:12px;color:var(--lime-text);">rgba(255,255,255,0.048)</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Very low opacity — the blur does the work</div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Border</div>
+            <div style="font-family:monospace;font-size:12px;color:var(--lime-text);">1px solid var(--glass-border)</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Always 1px, never thicker on glass</div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Hover State</div>
+            <div style="font-family:monospace;font-size:12px;color:var(--lime-text);">border-color: var(--lime-border)</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Lime border on hover — consistent across all glass</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 08 BADGES ────────────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">08</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Status &amp; Platform Badges</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">Used in admin UI to communicate order/invoice state. Always render status in a badge — never raw text. Platform badges identify the origin channel.</p>
+
+      <div class="glass-tab reveal" style="padding:28px 32px; transition-delay:0.10s; margin-bottom:16px;">
+        <div class="badge-row-label">Status Badges — <span class="token">.status-badge.sb-*</span></div>
+        <div class="badge-row">
+          <span class="status-badge sb-draft">Draft</span>
+          <span class="status-badge sb-sent">Sent</span>
+          <span class="status-badge sb-active">Active</span>
+          <span class="status-badge sb-review">Review</span>
+          <span class="status-badge sb-revision">Revision</span>
+          <span class="status-badge sb-paid">Paid</span>
+          <span class="status-badge sb-complete">Complete</span>
+          <span class="status-badge sb-overdue">Overdue</span>
+          <span class="status-badge sb-cancelled">Cancelled</span>
+        </div>
+      </div>
+
+      <div class="glass-tab reveal" style="padding:28px 32px; transition-delay:0.12s; margin-bottom:16px;">
+        <div class="badge-row-label">Platform Badges — <span class="token">.platform-badge.pb-*</span></div>
+        <div class="badge-row">
+          <span class="platform-badge pb-fiverr">Fiverr</span>
+          <span class="platform-badge pb-dribbble">Dribbble</span>
+          <span class="platform-badge pb-website">Website</span>
+        </div>
+      </div>
+
+      <div class="glass-tab reveal" style="padding:28px 32px; transition-delay:0.14s;">
+        <div class="badge-row-label">Count Badge — sidebar nav indicator</div>
+        <div class="badge-row">
+          <span class="nav-badge-demo">3</span>
+          <span class="nav-badge-demo">12</span>
+          <span class="nav-badge-demo">99+</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:8px;">Inline in sidebar nav items. Background: <code>rgba(184,247,58,0.18)</code> — does not use the glass system.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 09 FORM ELEMENTS ──────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">09</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Form Elements</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">All form elements use the shared <span class="token">.form-*</span> system. Focus states use lime border. Error states use <span class="token">--c-error-border</span>.</p>
+
+      <div class="glass-tab form-demo reveal" style="transition-delay:0.10s;">
+        <div class="grid-2">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Project Name</label>
+              <input class="form-input" type="text" placeholder="e.g. Fronxit Brand Identity" />
+              <div class="form-hint">Use the client's business name as the project title</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Platform</label>
+              <select class="form-select">
+                <option>Website</option>
+                <option>Fiverr</option>
+                <option>Dribbble</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Error State</label>
+              <input class="form-input form-input-error" type="text" value="invalid@" />
+              <div class="form-hint error">Please enter a valid email address</div>
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label">Project Brief</label>
+              <textarea class="form-textarea" placeholder="Describe the project scope, goals, and deliverables..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Focused State</label>
+              <input class="form-input" type="text" placeholder="Click here to see focus style" id="focusDemo" />
+              <div class="form-hint">Lime border + glass-hover background on focus</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 10 MOTION ────────────────────────────────── -->
+  <section class="bg-section">
+    <div class="page-wrap">
+      <div class="gs-title reveal">10</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">Motion &amp; Interaction</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">A single custom easing curve drives all transitions. Motion is intentional — it reinforces the premium, structured brand voice.</p>
+
+      <!-- Easing curve -->
+      <div class="glass-tab reveal" style="padding:28px 32px; margin-bottom:16px; transition-delay:0.10s;">
+        <div class="form-label" style="margin-bottom:16px;">Easing Curve — <span class="token">--ease</span></div>
+        <div style="font-family:monospace; font-size:18px; font-weight:700; color:var(--text); margin-bottom:8px;">cubic-bezier(0.16, 1, 0.3, 1)</div>
+        <div style="font-size:13px; color:var(--text-2); margin-bottom:20px; line-height:1.6;">Fast start, elastic overshoot, smooth settle. Communicates energy without feeling erratic. Applied to all hover, reveal, and UI transitions.</div>
+        <div class="easing-vis">
+          <div class="easing-dot"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-3); margin-top:6px;">
+          <span>0ms — start</span><span>→ fast acceleration →</span><span>settle</span>
+        </div>
+      </div>
+
+      <!-- Duration scale -->
+      <div class="glass-tab reveal" style="padding:28px 32px; margin-bottom:16px; transition-delay:0.12s;">
+        <div class="form-label" style="margin-bottom:16px;">Duration Tokens</div>
+        <div class="duration-row">
+          <span class="duration-name">--t-fast</span>
+          <span class="duration-val">200ms</span>
+          <div class="duration-bar-wrap"><div class="duration-bar dur-fast"></div></div>
+          <span class="duration-usage">Hover states, color transitions</span>
+        </div>
+        <div class="duration-row">
+          <span class="duration-name">--t-med</span>
+          <span class="duration-val">350ms</span>
+          <div class="duration-bar-wrap"><div class="duration-bar dur-med"></div></div>
+          <span class="duration-usage">Cards, modals, panels</span>
+        </div>
+        <div class="duration-row">
+          <span class="duration-name">--t-slow</span>
+          <span class="duration-val">600ms</span>
+          <div class="duration-bar-wrap"><div class="duration-bar dur-slow"></div></div>
+          <span class="duration-usage">Reveal animations, page transitions</span>
+        </div>
+      </div>
+
+      <!-- Hover interaction demos -->
+      <div class="reveal" style="transition-delay:0.14s;">
+        <div class="form-label" style="margin-bottom:12px;">Hover Interaction Patterns (move your cursor over each)</div>
+        <div class="motion-demo">
+          <div><div class="motion-demo-name">Card Lift</div><div class="motion-demo-desc">translateY(-4px) + border-color → lime-border + box-shadow</div></div>
+          <span class="motion-demo-tag">--t-med + --ease</span>
+        </div>
+        <div class="motion-demo">
+          <div><div class="motion-demo-name">Button Float</div><div class="motion-demo-desc">translateY(-2px) + lime glow box-shadow</div></div>
+          <span class="motion-demo-tag">--t-fast + --ease</span>
+        </div>
+        <div class="motion-demo">
+          <div><div class="motion-demo-name">Text Glow</div><div class="motion-demo-desc" style="color:var(--lime-text);">color → lime-text + text-shadow lime glow on nav links &amp; footer links</div></div>
+          <span class="motion-demo-tag">--t-fast</span>
+        </div>
+      </div>
+
+      <!-- Reveal -->
+      <div class="glass-tab reveal" style="padding:24px 28px; margin-top:8px; transition-delay:0.16s; display:flex; gap:16px; align-items:flex-start;">
+        <span style="font-size:18px; flex-shrink:0; color:var(--lime-text);">◎</span>
+        <div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Scroll Reveal — <span class="token">.reveal</span> → <span class="token">.visible</span></div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Every section block uses <code>.reveal</code>. IntersectionObserver adds <code>.visible</code> on entry. translateY(28px) → 0 over 600ms. Stagger with <code>transition-delay</code> on sibling elements (0.06s increments).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 11 TOKEN REFERENCE ────────────────────────── -->
+  <section class="bg-section" style="padding-bottom: 120px;">
+    <div class="page-wrap">
+      <div class="gs-title reveal">11</div>
+      <div class="gs-heading reveal" style="transition-delay:0.04s">CSS Token Reference</div>
+      <p class="gs-desc reveal" style="transition-delay:0.08s">All design decisions are encoded as CSS custom properties in <code>craftsynk-v2.css</code>. Source of truth — never override these with magic numbers.</p>
+
+      <div class="token-ref reveal" style="transition-delay:0.12s;">
+        <div class="token-ref-head">
+          <span>craftsynk-v2.css · :root</span>
+          <button class="token-copy-btn" id="copyTokensBtn">Copy All</button>
+        </div>
+        <pre id="tokenBlock"><span class="tok-comment">/* ── Brand ── */</span>
+<span class="tok-var">--lime</span>:              <span class="tok-val">#b8f73a</span>;
+<span class="tok-var">--lime-dim</span>:          <span class="tok-val">rgba(184,247,58,0.10)</span>;
+<span class="tok-var">--lime-glow</span>:         <span class="tok-val">rgba(184,247,58,0.22)</span>;
+<span class="tok-var">--lime-border</span>:       <span class="tok-val">rgba(184,247,58,0.28)</span>;
+<span class="tok-var">--lime-text</span>:         <span class="tok-val">#b8f73a</span>;
+
+<span class="tok-comment">/* ── Typography ── */</span>
+<span class="tok-var">--font-display</span>:      <span class="tok-val">'Syne', sans-serif</span>;
+<span class="tok-var">--font-body</span>:         <span class="tok-val">'DM Sans', sans-serif</span>;
+
+<span class="tok-comment">/* ── Radius ── */</span>
+<span class="tok-var">--r-xs</span>:  <span class="tok-val">6px</span>;   <span class="tok-var">--r-sm</span>: <span class="tok-val">10px</span>;  <span class="tok-var">--r-md</span>: <span class="tok-val">16px</span>;
+<span class="tok-var">--r-lg</span>: <span class="tok-val">24px</span>;  <span class="tok-var">--r-xl</span>: <span class="tok-val">32px</span>;  <span class="tok-var">--r-pill</span>: <span class="tok-val">100px</span>;
+
+<span class="tok-comment">/* ── Motion ── */</span>
+<span class="tok-var">--ease</span>:   <span class="tok-val">cubic-bezier(0.16, 1, 0.3, 1)</span>;
+<span class="tok-var">--t-fast</span>: <span class="tok-val">200ms</span>;  <span class="tok-var">--t-med</span>: <span class="tok-val">350ms</span>;  <span class="tok-var">--t-slow</span>: <span class="tok-val">600ms</span>;
+
+<span class="tok-comment">/* ── Layout ── */</span>
+<span class="tok-var">--max-w</span>: <span class="tok-val">1200px</span>;  <span class="tok-var">--nav-h</span>: <span class="tok-val">68px</span>;
+
+<span class="tok-comment">/* ── Spacing ── */</span>
+<span class="tok-var">--space-1</span>: <span class="tok-val">4px</span>;   <span class="tok-var">--space-2</span>: <span class="tok-val">8px</span>;   <span class="tok-var">--space-3</span>: <span class="tok-val">12px</span>;  <span class="tok-var">--space-4</span>: <span class="tok-val">16px</span>;
+<span class="tok-var">--space-5</span>: <span class="tok-val">20px</span>;  <span class="tok-var">--space-6</span>: <span class="tok-val">24px</span>;  <span class="tok-var">--space-8</span>: <span class="tok-val">32px</span>;  <span class="tok-var">--space-10</span>: <span class="tok-val">40px</span>;
+<span class="tok-var">--space-12</span>: <span class="tok-val">48px</span>; <span class="tok-var">--space-16</span>: <span class="tok-val">64px</span>; <span class="tok-var">--space-20</span>: <span class="tok-val">80px</span>; <span class="tok-var">--space-24</span>: <span class="tok-val">96px</span>;
+
+<span class="tok-comment">/* ── Semantic Colors ── */</span>
+<span class="tok-var">--c-error</span>:          <span class="tok-val">rgba(255,80,70,0.9)</span>;
+<span class="tok-var">--c-error-dim</span>:      <span class="tok-val">rgba(255,80,70,0.12)</span>;
+<span class="tok-var">--c-error-border</span>:   <span class="tok-val">rgba(255,80,70,0.25)</span>;
+<span class="tok-var">--c-warning</span>:        <span class="tok-val">rgba(255,180,40,0.9)</span>;
+<span class="tok-var">--c-warning-dim</span>:    <span class="tok-val">rgba(255,180,40,0.12)</span>;
+<span class="tok-var">--c-warning-border</span>: <span class="tok-val">rgba(255,180,40,0.25)</span>;
+<span class="tok-var">--c-success</span>:        <span class="tok-val">rgba(0,220,130,0.9)</span>;
+<span class="tok-var">--c-success-dim</span>:    <span class="tok-val">rgba(0,220,130,0.10)</span>;
+<span class="tok-var">--c-success-border</span>: <span class="tok-val">rgba(0,220,130,0.22)</span>;
+<span class="tok-var">--c-info</span>:           <span class="tok-val">rgba(140,170,255,0.9)</span>;
+<span class="tok-var">--c-info-dim</span>:       <span class="tok-val">rgba(140,170,255,0.10)</span>;
+<span class="tok-var">--c-info-border</span>:    <span class="tok-val">rgba(140,170,255,0.20)</span>;
+
+<span class="tok-comment">/* ── Platform Colors ── */</span>
+<span class="tok-var">--c-fiverr</span>:          <span class="tok-val">rgba(29,191,115,0.9)</span>;
+<span class="tok-var">--c-fiverr-dim</span>:      <span class="tok-val">rgba(29,191,115,0.14)</span>;
+<span class="tok-var">--c-fiverr-border</span>:   <span class="tok-val">rgba(29,191,115,0.25)</span>;
+<span class="tok-var">--c-dribbble</span>:        <span class="tok-val">rgba(234,76,137,0.9)</span>;
+<span class="tok-var">--c-dribbble-dim</span>:    <span class="tok-val">rgba(234,76,137,0.12)</span>;
+<span class="tok-var">--c-dribbble-border</span>: <span class="tok-val">rgba(234,76,137,0.22)</span>;</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="https://www.behance.net/cbjal" class="social-btn" title="Behance" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="https://dribbble.com/CBJ001" class="social-btn" title="Dribbble" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="https://www.instagram.com/chandanbjal/" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="tools.html">All Tools</a></li>
+            <li><a href="logo-lab.html">Logo Lab</a></li>
+            <li><a href="tools/color-palette.html">Color Palette</a></li>
+            <li><a href="tools/font-finder.html">Font Finder</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk © 2026 — Brand Identity Studio</span>
+        <div class="footer-legal">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js?v=2"></script>
+  <script>
+    initPage('brand.html');
+
+    // Copy tokens button
+    document.getElementById('copyTokensBtn').addEventListener('click', function() {
+      const raw = document.getElementById('tokenBlock').innerText;
+      navigator.clipboard.writeText(raw).then(() => {
+        this.textContent = 'Copied!';
+        setTimeout(() => this.textContent = 'Copy All', 2000);
+      });
+    });
+
+    // Auto-focus demo
+    document.getElementById('focusDemo').addEventListener('focus', function() {
+      this.placeholder = 'Lime border active!';
+    });
+    document.getElementById('focusDemo').addEventListener('blur', function() {
+      this.placeholder = 'Click here to see focus style';
+    });
+  </script>
+</body>
+</html>

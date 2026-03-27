@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CraftSynk — Free Brand Design Tools</title>
+  <meta name="description" content="Free design tools to explore, build, and refine your brand identity. Logo Lab, Color Palette Generator, Font Finder and more." />
+  <link rel="stylesheet" href="craftsynk-v2.css?v=2" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    /* ============ HERO ============ */
+    .tools-hero {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding-top: calc(var(--nav-h) + 60px);
+      padding-bottom: 40px;
+    }
+    .tools-hero h1 { margin-bottom: 20px; }
+    .tools-hero h1 .accent { color: var(--lime-text); }
+    .tools-hero-sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+
+    /* ============ TOOLS GRID ============ */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      padding-bottom: 100px;
+    }
+    .tool-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-lg);
+      padding: 32px;
+      display: flex; flex-direction: column;
+      transition: border-color .3s, transform .3s;
+    }
+    .tool-card:hover {
+      border-color: var(--lime);
+      transform: translateY(-4px);
+    }
+    .tool-card-icon {
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-md);
+      background: var(--bg-2);
+      margin-bottom: 24px;
+      transition: box-shadow .3s;
+    }
+    .tool-card:hover .tool-card-icon {
+      box-shadow: 0 0 24px rgba(184, 247, 58, .25);
+    }
+    .tool-card-icon svg {
+      width: 28px; height: 28px;
+      color: var(--lime);
+    }
+    .tool-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .tool-card p {
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+    .tool-card-cta {
+      display: inline-flex; align-items: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--lime-text);
+      text-decoration: none;
+      transition: gap .3s;
+      gap: 6px;
+    }
+    .tool-card-cta:hover { gap: 10px; }
+
+    /* ============ CTA SECTION ============ */
+    .tools-cta {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-lg);
+      padding: 64px 32px;
+      text-align: center;
+      margin-bottom: 100px;
+    }
+    .tools-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 36px);
+      margin-bottom: 16px;
+    }
+    .tools-cta p {
+      color: var(--text-2);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 768px) {
+      .tools-hero { padding-top: calc(var(--nav-h) + 40px); min-height: 40vh; }
+      .tools-grid { grid-template-columns: 1fr; gap: 20px; padding-bottom: 60px; }
+      .tools-cta { padding: 40px 20px; margin-bottom: 60px; }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="mesh-bg"></div>
+
+  <!-- ====== NAV ====== -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo" id="navLogo">
+      <img src="images/logo.png" alt="CraftSynk" />
+    </a>
+    <div class="nav-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="tools.html" class="nav-link active">Tools</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="store.html" class="nav-link">Store</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <a href="contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="services.html" class="nav-mobile-link">Services</a>
+      <a href="work.html" class="nav-mobile-link">Work</a>
+      <a href="tools.html" class="nav-mobile-link active">Tools</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="store.html" class="nav-mobile-link">Store</a>
+      <a href="about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
+
+  <!-- ====== HERO ====== -->
+  <section class="tools-hero reveal">
+    <div class="page-wrap">
+      <div class="section-badge">Free Tools</div>
+      <h1>Design <span class="accent">Tools</span>.</h1>
+      <p class="tools-hero-sub">Free tools to help you explore, build, and refine your brand identity.</p>
+    </div>
+  </section>
+
+  <!-- ====== TOOLS GRID ====== -->
+  <section class="page-wrap">
+    <div class="tools-grid">
+
+      <!-- Logo Lab -->
+      <div class="tool-card reveal">
+        <div class="tool-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <h3>Logo Lab</h3>
+        <p>AI-powered logo concept generator. Enter your brand name and explore wordmark styles instantly.</p>
+        <a href="logo-lab.html" class="tool-card-cta">Try it →</a>
+      </div>
+
+      <!-- Color Palette Generator -->
+      <div class="tool-card reveal">
+        <div class="tool-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="13.5" cy="6.5" r="2.5"/>
+            <circle cx="17.5" cy="10.5" r="2.5"/>
+            <circle cx="8.5" cy="7.5" r="2.5"/>
+            <circle cx="6.5" cy="12.5" r="2.5"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+          </svg>
+        </div>
+        <h3>Color Palette Generator</h3>
+        <p>Build harmonious brand palettes using color theory. Check contrast ratios and export as CSS variables.</p>
+        <a href="tools/color-palette.html" class="tool-card-cta">Try it →</a>
+      </div>
+
+      <!-- Font Finder -->
+      <div class="tool-card reveal">
+        <div class="tool-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 7 4 4 20 4 20 7"/>
+            <line x1="9" y1="20" x2="15" y2="20"/>
+            <line x1="12" y1="4" x2="12" y2="20"/>
+          </svg>
+        </div>
+        <h3>Font Finder</h3>
+        <p>Discover perfect font pairings from Google Fonts. Preview, compare, and export import tags.</p>
+        <a href="tools/font-finder.html" class="tool-card-cta">Try it →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== CTA ====== -->
+  <section class="page-wrap reveal">
+    <div class="tools-cta">
+      <h2>Ready to build your brand?</h2>
+      <p>These tools are just the start. Let's create something extraordinary together.</p>
+      <a href="contact.html" class="btn btn-primary">Start a Project →</a>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="https://www.behance.net/cbjal" class="social-btn" title="Behance" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="https://dribbble.com/CBJ001" class="social-btn" title="Dribbble" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="https://www.instagram.com/chandanbjal/" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.fiverr.com/s/bd6P2Dm" class="social-btn" title="Fiverr" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+            <a href="https://www.linkedin.com/in/chandan-b-jal/" class="social-btn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="tools.html">All Tools</a></li><li><a href="logo-lab.html">Logo Lab</a></li><li><a href="tools/color-palette.html">Color Palette</a></li><li><a href="tools/font-finder.html">Font Finder</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk &copy; 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="craftsynk-v2.js?v=2"></script>
+  <script>initPage('tools.html')</script>
+</body>
+</html>

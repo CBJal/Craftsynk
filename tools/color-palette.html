@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Palette Generator — CraftSynk</title>
+  <meta name="description" content="Build harmonious brand color palettes using color theory. Check WCAG accessibility contrast ratios and export as CSS variables." />
+  <link rel="stylesheet" href="../craftsynk-v2.css?v=2" />
+  <link rel="icon" href="../favicon.png" />
+  <style>
+    .palette-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    .controls-panel {
+      position: sticky;
+      top: 100px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--r-lg);
+      padding: 28px;
+    }
+
+    .controls-panel h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+
+    .color-picker-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .color-picker-wrap input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--glass-border);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      background: none;
+      padding: 0;
+    }
+
+    .color-picker-wrap input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker-wrap input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: calc(var(--r-md) - 2px);
+    }
+
+    .color-picker-wrap input[type="color"]::-moz-color-swatch {
+      border: none;
+      border-radius: calc(var(--r-md) - 2px);
+    }
+
+    .hex-input {
+      flex: 1;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r-sm);
+      padding: 12px 14px;
+      font-size: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hex-input:focus {
+      outline: none;
+      border-color: var(--lime);
+    }
+
+    .harmony-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .harmony-tab {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--glass-border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .harmony-tab:hover {
+      border-color: var(--lime);
+    }
+
+    .harmony-tab.active {
+      background: var(--lime);
+      color: #0a0a0a;
+      border-color: var(--lime);
+    }
+
+    .generate-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Results */
+    .results-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .swatch-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .swatch-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .swatch-fill {
+      height: 140px;
+      position: relative;
+    }
+
+    .swatch-info {
+      padding: 16px;
+    }
+
+    .swatch-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .swatch-rgb {
+      font-size: 13px;
+      opacity: 0.5;
+      margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .contrast-badges {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .contrast-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .contrast-badge.pass {
+      background: rgba(76, 175, 80, 0.15);
+      color: #4caf50;
+    }
+
+    .contrast-badge.fail {
+      background: rgba(244, 67, 54, 0.15);
+      color: #f44336;
+    }
+
+    .swatch-copy {
+      width: 100%;
+      padding: 8px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--glass-border);
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .swatch-copy:hover {
+      background: var(--lime);
+      color: #0a0a0a;
+      border-color: var(--lime);
+    }
+
+    .export-bar {
+      display: flex;
+      gap: 12px;
+      padding: 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--r-lg);
+    }
+
+    .export-bar .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--lime);
+      color: #0a0a0a;
+      padding: 12px 24px;
+      border-radius: var(--r-sm);
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .palette-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .controls-panel {
+        position: static;
+      }
+
+      .swatches-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .export-bar {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .swatches-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="dark">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div class="mesh-bg"></div>
+
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo" id="navLogo"><img src="../images/logo.png" alt="CraftSynk" /></a>
+    <div class="nav-center">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../services.html" class="nav-link">Services</a>
+      <a href="../work.html" class="nav-link">Work</a>
+      <a href="../tools.html" class="nav-link active">Tools</a>
+      <a href="../blog.html" class="nav-link">Blog</a>
+      <a href="../store.html" class="nav-link">Store</a>
+      <a href="../about.html" class="nav-link">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <a href="../contact.html" class="nav-cta">Start Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile-overlay" id="navOverlay"></div>
+  <div class="nav-mobile" id="navMobile">
+    <div class="nav-mobile-head">
+      <a href="../index.html" class="nav-logo"><img src="../images/logo.png" alt="CraftSynk" /></a>
+      <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-mobile-links">
+      <a href="../index.html" class="nav-mobile-link">Home</a>
+      <a href="../services.html" class="nav-mobile-link">Services</a>
+      <a href="../work.html" class="nav-mobile-link">Work</a>
+      <a href="../tools.html" class="nav-mobile-link active">Tools</a>
+      <a href="../blog.html" class="nav-mobile-link">Blog</a>
+      <a href="../store.html" class="nav-mobile-link">Store</a>
+      <a href="../about.html" class="nav-mobile-link">About</a>
+    </nav>
+    <div class="nav-mobile-cta">
+      <a href="../contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Start a Project →</a>
+    </div>
+  </div>
+
+  <main>
+    <section style="padding-top:140px;padding-bottom:80px">
+      <div class="page-wrap">
+        <div style="text-align:center;max-width:640px;margin:0 auto">
+          <span class="section-badge">Color Tool</span>
+          <h1>Color Palette <span class="accent">Generator</span></h1>
+          <p style="opacity:0.6;font-size:17px;margin-top:12px">Build harmonious brand palettes using color theory. Check accessibility contrast ratios and export as CSS variables.</p>
+        </div>
+
+        <div class="palette-layout">
+          <!-- Left Panel: Controls -->
+          <div class="controls-panel">
+            <h3>Base Color</h3>
+            <div class="color-picker-wrap">
+              <input type="color" id="colorPicker" value="#b8f73a" />
+              <input type="text" class="hex-input" id="hexInput" value="#B8F73A" maxlength="7" spellcheck="false" />
+            </div>
+
+            <h3>Harmony Mode</h3>
+            <div class="harmony-tabs" id="harmonyTabs">
+              <button class="harmony-tab active" data-mode="complementary">Complementary</button>
+              <button class="harmony-tab" data-mode="analogous">Analogous</button>
+              <button class="harmony-tab" data-mode="triadic">Triadic</button>
+              <button class="harmony-tab" data-mode="split-complementary">Split-Comp</button>
+              <button class="harmony-tab" data-mode="monochromatic">Monochromatic</button>
+            </div>
+
+            <button class="btn btn-primary generate-btn" id="generateBtn">Generate Palette</button>
+          </div>
+
+          <!-- Right Panel: Results -->
+          <div class="results-area">
+            <div class="swatches-grid" id="swatchesGrid">
+              <!-- Swatches injected by JS -->
+            </div>
+
+            <div class="export-bar">
+              <button class="btn" id="copyAllBtn">Copy All Hex Codes</button>
+              <button class="btn btn-primary" id="exportCssBtn">Export CSS Variables</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="../images/logo.png" alt="CraftSynk" style="height:28px;margin-bottom:16px" />
+          <p>A brand identity studio built on structure, strategy, and disciplined design.</p>
+          <div class="footer-social">
+            <a href="https://www.behance.net/cbjal" class="social-btn" title="Behance" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg></a>
+            <a href="https://dribbble.com/CBJ001" class="social-btn" title="Dribbble" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.628 0-12 5.373-12 12s5.372 12 12 12 12-5.373 12-12-5.372-12-12-12zm9.885 11.441c-2.575-.422-4.943-.445-7.103-.073-.244-.563-.497-1.125-.767-1.68 2.31-1 4.165-2.358 5.548-4.082 1.35 1.594 2.197 3.619 2.322 5.835zm-3.842-7.282c-1.205 1.554-2.868 2.783-4.986 3.68-1.016-1.861-2.178-3.676-3.488-5.438.779-.197 1.591-.314 2.431-.314 2.275 0 4.368.779 6.043 2.072zm-10.516-.993c1.331 1.742 2.511 3.538 3.537 5.381-2.43.715-5.331 1.082-8.684 1.105.692-2.835 2.601-5.193 5.147-6.486zm-5.44 8.834l.013-.256c3.849-.005 7.169-.448 9.95-1.322.233.475.456.952.67 1.432-3.38 1.057-6.165 3.222-8.337 6.48-1.432-1.719-2.296-3.927-2.296-6.334zm3.829 7.81c1.969-3.088 4.482-5.098 7.598-6.027.928 2.42 1.609 4.91 2.043 7.46-3.349 1.291-6.953.666-9.641-1.433zm11.586.43c-.438-2.353-1.08-4.653-1.92-6.897 1.876-.265 3.94-.196 6.199.196-.437 2.786-2.028 5.192-4.279 6.701z"/></svg></a>
+            <a href="https://www.instagram.com/chandanbjal/" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.fiverr.com/s/bd6P2Dm" class="social-btn" title="Fiverr" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M2055 5109 c-446 -58 -856 -338 -1074 -734 -125 -226 -181 -454 -181 -732 l0 -123 -320 0 -320 0 0 -480 0 -480 320 0 320 0 0 -800 0 -800 -320 0 -320 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 800 0 800 805 0 805 0 0 -800 0 -800 -325 0 -325 0 0 -480 0 -480 1120 0 1120 0 0 480 0 480 -320 0 -320 0 0 1280 0 1280 -1280 0 -1280 0 0 108 c0 124 16 198 62 284 36 68 128 158 199 193 96 49 143 55 431 55 l268 0 0 480 0 480 -297 -1 c-164 -1 -329 -6 -368 -10z"/><path d="M3721 5104 c-253 -68 -410 -331 -346 -579 67 -256 329 -415 580 -350 256 67 415 329 350 578 -67 259 -333 419 -584 351z"/></g></svg></a>
+            <a href="https://www.linkedin.com/in/chandan-b-jal/" class="social-btn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Studio</h4><ul><li><a href="../about.html">About</a></li><li><a href="../work.html">Work</a></li><li><a href="../services.html">Services</a></li><li><a href="../blog.html">Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Tools</h4><ul><li><a href="../tools.html">All Tools</a></li><li><a href="../logo-lab.html">Logo Lab</a></li><li><a href="color-palette.html">Color Palette</a></li><li><a href="font-finder.html">Font Finder</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="../privacy.html">Privacy Policy</a></li><li><a href="../terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">CraftSynk &copy; 2026 — Brand Identity Studio</span>
+        <div class="footer-legal"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script src="../craftsynk-v2.js?v=2"></script>
+  <script>
+    initPage('color-palette.html');
+
+    // ── Color Conversion Utilities ──────────────────────────────────
+    function hexToRGB(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      return {
+        r: parseInt(hex.substring(0, 2), 16),
+        g: parseInt(hex.substring(2, 4), 16),
+        b: parseInt(hex.substring(4, 6), 16)
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b].map(v => {
+        const h = Math.max(0, Math.min(255, Math.round(v))).toString(16);
+        return h.length === 1 ? '0' + h : h;
+      }).join('');
+    }
+
+    function hexToHSL(hex) {
+      const { r, g, b } = hexToRGB(hex);
+      const rn = r / 255, gn = g / 255, bn = b / 255;
+      const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case rn: h = ((gn - bn) / d + (gn < bn ? 6 : 0)) / 6; break;
+          case gn: h = ((bn - rn) / d + 2) / 6; break;
+          case bn: h = ((rn - gn) / d + 4) / 6; break;
+        }
+      }
+      return { h: h * 360, s: s * 100, l: l * 100 };
+    }
+
+    function hslToHex(h, s, l) {
+      h = ((h % 360) + 360) % 360;
+      s = Math.max(0, Math.min(100, s)) / 100;
+      l = Math.max(0, Math.min(100, l)) / 100;
+
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+      const m = l - c / 2;
+      let r, g, b;
+
+      if (h < 60)       { r = c; g = x; b = 0; }
+      else if (h < 120) { r = x; g = c; b = 0; }
+      else if (h < 180) { r = 0; g = c; b = x; }
+      else if (h < 240) { r = 0; g = x; b = c; }
+      else if (h < 300) { r = x; g = 0; b = c; }
+      else              { r = c; g = 0; b = x; }
+
+      return rgbToHex((r + m) * 255, (g + m) * 255, (b + m) * 255);
+    }
+
+    // ── WCAG Contrast ───────────────────────────────────────────────
+    function relativeLuminance(r, g, b) {
+      const [rs, gs, bs] = [r, g, b].map(v => {
+        v = v / 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+    }
+
+    function getContrastRatio(hex1, hex2) {
+      const rgb1 = hexToRGB(hex1);
+      const rgb2 = hexToRGB(hex2);
+      const l1 = relativeLuminance(rgb1.r, rgb1.g, rgb1.b);
+      const l2 = relativeLuminance(rgb2.r, rgb2.g, rgb2.b);
+      const lighter = Math.max(l1, l2);
+      const darker = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    // ── Harmony Generators ──────────────────────────────────────────
+    function generateComplementary(hex) {
+      const { h, s, l } = hexToHSL(hex);
+      return [
+        hex,
+        hslToHex(h + 180, s, l),
+        hslToHex(h, s * 0.7, l + 15),
+        hslToHex(h + 180, s * 0.7, l + 15),
+        hslToHex(h + 90, s * 0.5, l + 10)
+      ];
+    }
+
+    function generateAnalogous(hex) {
+      const { h, s, l } = hexToHSL(hex);
+      return [
+        hslToHex(h - 60, s, l),
+        hslToHex(h - 30, s, l),
+        hex,
+        hslToHex(h + 30, s, l),
+        hslToHex(h + 60, s, l)
+      ];
+    }
+
+    function generateTriadic(hex) {
+      const { h, s, l } = hexToHSL(hex);
+      return [
+        hex,
+        hslToHex(h + 120, s, l),
+        hslToHex(h + 240, s, l),
+        hslToHex(h + 120, s * 0.6, l + 20),
+        hslToHex(h + 240, s * 0.6, l + 20)
+      ];
+    }
+
+    function generateSplitComplementary(hex) {
+      const { h, s, l } = hexToHSL(hex);
+      return [
+        hex,
+        hslToHex(h + 150, s, l),
+        hslToHex(h + 210, s, l),
+        hslToHex(h + 150, s * 0.6, l + 20),
+        hslToHex(h + 210, s * 0.6, l + 20)
+      ];
+    }
+
+    function generateMonochromatic(hex) {
+      const { h, s, l } = hexToHSL(hex);
+      return [
+        hslToHex(h, s, 15),
+        hslToHex(h, s, 30),
+        hslToHex(h, s, 50),
+        hslToHex(h, s, 70),
+        hslToHex(h, s, 85)
+      ];
+    }
+
+    // ── Palette Generation ──────────────────────────────────────────
+    var generators = {
+      'complementary': generateComplementary,
+      'analogous': generateAnalogous,
+      'triadic': generateTriadic,
+      'split-complementary': generateSplitComplementary,
+      'monochromatic': generateMonochromatic
+    };
+
+    var currentPalette = [];
+    var currentMode = 'complementary';
+
+    function generatePalette() {
+      const hex = document.getElementById('colorPicker').value;
+      const gen = generators[currentMode];
+      currentPalette = gen(hex).map(c => c.toUpperCase());
+      renderSwatches();
+    }
+
+    function renderSwatches() {
+      const grid = document.getElementById('swatchesGrid');
+      grid.innerHTML = '';
+
+      currentPalette.forEach((hex, i) => {
+        const rgb = hexToRGB(hex);
+        const contrastWhite = getContrastRatio(hex, '#FFFFFF');
+        const contrastBlack = getContrastRatio(hex, '#000000');
+
+        const whiteAA = contrastWhite >= 4.5;
+        const whiteAAA = contrastWhite >= 7;
+        const blackAA = contrastBlack >= 4.5;
+        const blackAAA = contrastBlack >= 7;
+
+        const card = document.createElement('div');
+        card.className = 'swatch-card';
+        card.innerHTML = `
+          <div class="swatch-fill" style="background:${hex}"></div>
+          <div class="swatch-info">
+            <div class="swatch-hex">${hex}</div>
+            <div class="swatch-rgb">rgb(${rgb.r}, ${rgb.g}, ${rgb.b})</div>
+            <div class="contrast-badges">
+              <span class="contrast-badge ${whiteAA ? 'pass' : 'fail'}">W ${contrastWhite.toFixed(1)}:1 ${whiteAAA ? 'AAA' : whiteAA ? 'AA' : 'Fail'}</span>
+              <span class="contrast-badge ${blackAA ? 'pass' : 'fail'}">B ${contrastBlack.toFixed(1)}:1 ${blackAAA ? 'AAA' : blackAA ? 'AA' : 'Fail'}</span>
+            </div>
+            <button class="swatch-copy" onclick="copyHex('${hex}')">Copy Hex</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ── Clipboard & Export ───────────────────────────────────────────
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg || 'Copied!';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex).then(() => showToast('Copied ' + hex));
+    }
+
+    document.getElementById('copyAllBtn').addEventListener('click', () => {
+      const text = currentPalette.join(', ');
+      navigator.clipboard.writeText(text).then(() => showToast('All colors copied!'));
+    });
+
+    document.getElementById('exportCssBtn').addEventListener('click', () => {
+      const vars = currentPalette.map((hex, i) => `  --palette-${i + 1}: ${hex};`).join('\n');
+      const css = `:root {\n${vars}\n}`;
+      navigator.clipboard.writeText(css).then(() => showToast('CSS variables copied!'));
+    });
+
+    // ── Event Wiring ────────────────────────────────────────────────
+    const colorPicker = document.getElementById('colorPicker');
+    const hexInput = document.getElementById('hexInput');
+
+    colorPicker.addEventListener('input', () => {
+      hexInput.value = colorPicker.value.toUpperCase();
+      generatePalette();
+    });
+
+    hexInput.addEventListener('input', () => {
+      let val = hexInput.value.trim();
+      if (!val.startsWith('#')) val = '#' + val;
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        colorPicker.value = val;
+        generatePalette();
+      }
+    });
+
+    hexInput.addEventListener('blur', () => {
+      let val = hexInput.value.trim();
+      if (!val.startsWith('#')) val = '#' + val;
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        hexInput.value = val.toUpperCase();
+      } else {
+        hexInput.value = colorPicker.value.toUpperCase();
+      }
+    });
+
+    // Harmony tabs
+    document.querySelectorAll('.harmony-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.harmony-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentMode = tab.dataset.mode;
+        generatePalette();
+      });
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', generatePalette);
+
+    // Initial generation
+    generatePalette();
+  </script>
+</body>
+</html>

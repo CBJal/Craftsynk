@@ -7,18 +7,54 @@
 
 /* ============ TOKENS ============ */
 :root {
+  /* Brand */
   --lime:           #b8f73a;
   --lime-dim:       rgba(184,247,58,0.10);
   --lime-glow:      rgba(184,247,58,0.22);
   --lime-border:    rgba(184,247,58,0.28);
   --lime-text:      #b8f73a;
+
+  /* Typography */
   --font-display:   'Syne', sans-serif;
   --font-body:      'DM Sans', sans-serif;
-  --r-sm: 10px;  --r-md: 16px;  --r-lg: 24px;
+
+  /* Radius */
+  --r-xs: 6px;  --r-sm: 10px;  --r-md: 16px;  --r-lg: 24px;
   --r-xl: 32px;  --r-pill: 100px;
+
+  /* Motion */
   --ease:   cubic-bezier(0.16, 1, 0.3, 1);
   --t-fast: 200ms; --t-med: 350ms; --t-slow: 600ms;
+
+  /* Layout */
   --max-w: 1200px; --nav-h: 68px;
+
+  /* Spacing scale (8px base unit) */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;  --space-6: 24px;  --space-8: 32px;  --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+
+  /* Semantic status colors */
+  --c-error:          rgba(255,80,70,0.9);
+  --c-error-dim:      rgba(255,80,70,0.12);
+  --c-error-border:   rgba(255,80,70,0.25);
+  --c-warning:        rgba(255,180,40,0.9);
+  --c-warning-dim:    rgba(255,180,40,0.12);
+  --c-warning-border: rgba(255,180,40,0.25);
+  --c-success:        rgba(0,220,130,0.9);
+  --c-success-dim:    rgba(0,220,130,0.10);
+  --c-success-border: rgba(0,220,130,0.22);
+  --c-info:           rgba(140,170,255,0.9);
+  --c-info-dim:       rgba(140,170,255,0.10);
+  --c-info-border:    rgba(140,170,255,0.20);
+
+  /* Platform brand colors */
+  --c-fiverr:          rgba(29,191,115,0.9);
+  --c-fiverr-dim:      rgba(29,191,115,0.14);
+  --c-fiverr-border:   rgba(29,191,115,0.25);
+  --c-dribbble:        rgba(234,76,137,0.9);
+  --c-dribbble-dim:    rgba(234,76,137,0.12);
+  --c-dribbble-border: rgba(234,76,137,0.22);
 }
 
 /* ============ DARK MODE (default) ============ */
@@ -485,3 +521,86 @@ body.light .nav-mobile-link.active { text-shadow: none; }
 .nav-mobile-link:hover,
 .nav-mobile-link.active { color: var(--lime-text); }
 .nav-mobile-cta { margin-top: 32px; }
+
+/* ============ STATUS BADGES ============ */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.sb-draft     { background: var(--glass-bg); color: var(--text-3); border: 1px solid var(--glass-border); }
+.sb-sent      { background: var(--c-info-dim); color: var(--c-info); border: 1px solid var(--c-info-border); }
+.sb-paid,
+.sb-complete  { background: var(--lime-dim); color: var(--lime-text); border: 1px solid var(--lime-border); }
+.sb-overdue,
+.sb-cancelled { background: var(--c-error-dim); color: var(--c-error); border: 1px solid var(--c-error-border); }
+.sb-active    { background: var(--c-success-dim); color: var(--c-success); border: 1px solid var(--c-success-border); }
+.sb-review,
+.sb-revision  { background: var(--c-warning-dim); color: var(--c-warning); border: 1px solid var(--c-warning-border); }
+
+/* ============ PLATFORM BADGES ============ */
+.platform-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.pb-fiverr   { background: var(--c-fiverr-dim);   color: var(--c-fiverr);   border: 1px solid var(--c-fiverr-border); }
+.pb-dribbble { background: var(--c-dribbble-dim); color: var(--c-dribbble); border: 1px solid var(--c-dribbble-border); }
+.pb-website  { background: var(--c-info-dim);     color: var(--c-info);     border: 1px solid var(--c-info-border); }
+
+/* ============ FORM ELEMENTS ============ */
+.form-label {
+  display: block; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-3); margin-bottom: var(--space-2);
+}
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%; padding: 11px 14px;
+  background: var(--glass-bg); backdrop-filter: blur(8px);
+  border: 1.5px solid var(--glass-border); border-radius: var(--r-md);
+  color: var(--text); font-family: var(--font-body); font-size: 14px;
+  outline: none; transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus { border-color: var(--lime-border); background: var(--glass-hover); }
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--text-3); }
+.form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+.form-select { appearance: none; cursor: pointer; }
+.form-input.error,
+.form-select.error,
+.form-textarea.error { border-color: var(--c-error-border); }
+.form-row { display: flex; gap: var(--space-4); }
+.form-group { display: flex; flex-direction: column; flex: 1; margin-bottom: var(--space-5); }
+
+/* ============ DIVIDER ============ */
+.divider { height: 1px; background: var(--glass-border); margin: var(--space-8) 0; }
+
+/* ============ BTN SIZE VARIANTS ============ */
+.btn-sm { padding: 9px 20px; font-size: 13px; }
+.btn-lg { padding: 18px 38px; font-size: 16px; }
+
+/* ============ BTN DANGER ============ */
+.btn-danger {
+  background: var(--c-error-dim); color: var(--c-error);
+  border: 1px solid var(--c-error-border);
+}
+.btn-danger:hover {
+  background: rgba(255,80,70,0.18); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,80,70,0.2);
+}
+
+/* ============ BTN SECONDARY ============ */
+.btn-secondary {
+  background: var(--glass-bg); color: var(--text-2);
+  border: 1px solid var(--glass-border);
+}
+.btn-secondary:hover {
+  background: var(--glass-hover); color: var(--text);
+  transform: translateY(-2px); border-color: var(--glass-border);
+}
