@@ -79,6 +79,26 @@ craftsynk/
 
 ---
 
+## Vercel Speed Insights
+
+This project includes Vercel Speed Insights for performance monitoring. The tracking script has been integrated into all HTML pages.
+
+**How it works:**
+- All HTML pages include the Speed Insights initialization script in the `<head>` section
+- The script automatically loads from `/_vercel/speed-insights/script.js` when deployed to Vercel
+- No build process or additional configuration required
+
+**To enable Speed Insights:**
+1. Deploy your site to Vercel
+2. Enable Speed Insights in your Vercel project dashboard
+3. The tracking will automatically begin collecting performance data
+
+**Package:** `@vercel/speed-insights` v2.0.0 is listed as a dependency in `package.json` for reference.
+
+For more information, see the [Vercel Speed Insights documentation](https://vercel.com/docs/speed-insights).
+
+---
+
 ## Setup Instructions
 
 ### 1. Link the shared files

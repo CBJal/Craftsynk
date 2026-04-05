@@ -1,0 +1,29 @@
+{
+  "name": "craftsynk",
+  "version": "1.0.0",
+  "description": "A complete, production-ready multi-page portfolio website for Craftsynk — the brand identity studio of Chandan B. Jal. Built with a refined glassmorphism aesthetic, dark/light mode, cursor effects, and premium interactions.",
+  "main": "craftsynk-v2.js",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CBJal/Craftsynk.git"
+  },
+  "keywords": [
+    "portfolio",
+    "brand-identity",
+    "static-site",
+    "glassmorphism"
+  ],
+  "author": "Chandan B. Jal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CBJal/Craftsynk/issues"
+  },
+  "homepage": "https://github.com/CBJal/Craftsynk#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
